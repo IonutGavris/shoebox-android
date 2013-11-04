@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LayoutFillFill" >
+
+    <LinearLayout
+        style="@style/LayoutFillFill"
+        android:background="@android:color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="20dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="20dip" >
+
+        <ImageButton
+            style="@style/LayoutWrapWrap"
+            android:background="@drawable/shoebox"
+            android:onClick="btnShoeBox_onClick" />
+
+        <LinearLayout
+            style="@style/LayoutFillFill"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/round_corners_content"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <TextView
+                style="@style/LayoutFillWrap"
+                android:text="@string/str_despre"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" >
+            </TextView>
+
+            <RelativeLayout style="@style/LayoutFillWrap" >
+
+                <TextView
+                    style="@style/LayoutWrapWrap"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="20dip"
+                    android:text="Galerie imagini:"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" >
+                </TextView>
+
+                <Button
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="20dip"
+                    android:background="@drawable/image_icon"
+                    android:onClick="btnImagini_onClick" />
+            </RelativeLayout>
+
+            <RelativeLayout style="@style/LayoutFillWrap" >
+
+                <TextView
+                    style="@style/LayoutWrapWrap"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="20dip"
+                    android:text="Filmuletul campaniei:"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" >
+                </TextView>
+
+                <Button
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="20dip"
+                    android:background="@drawable/movie_icon"
+                    android:onClick="btnVideo_onClick" />
+            </RelativeLayout>
+
+            <Button
+                style="@style/ButtonStyle"
+                android:onClick="btnMaImplic_onClick"
+                android:text="Vreau sa ma implic!" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

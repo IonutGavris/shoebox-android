@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LayoutFillFill"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        style="@style/LayoutFillFill"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:padding="20dip" >
+
+        <Button
+            android:id="@+id/txtTitle"
+            style="@style/LayoutFillWrap"
+            android:background="@drawable/round_corners_header"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:text="Titlu"
+            android:onClick="btnTitlu_onClick"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" >
+        </Button>
+
+        <LinearLayout
+            style="@style/LayoutFillFill"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/round_corners_content"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <TextView
+                style="@style/LayoutFillWrap"
+                android:text="o cutie goala de pantofi (corpul si capacul)"
+                android:id="@+id/txtDescriere"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" >
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

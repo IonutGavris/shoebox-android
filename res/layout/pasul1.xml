@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LayoutFillFill"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        style="@style/LayoutFillFill"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:padding="20dip" >
+
+        <TextView
+            style="@style/LayoutFillWrap"
+            android:background="@drawable/round_corners_header"
+            android:padding="10dip"
+            android:text="Pasul 1"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" >
+        </TextView>
+
+        <LinearLayout
+            style="@style/LayoutFillWrap"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/round_corners_content"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <TextView
+                style="@style/LayoutFillWrap"
+                android:text="Ai nevoie de:"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" >
+            </TextView>
+
+            <RelativeLayout
+                style="@style/LayoutFillWrap"
+                android:layout_marginTop="20dip" >
+
+                <ImageView
+                    style="@style/LayoutWrapWrap"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/checkmark" />
+
+                <TextView
+                    style="@style/LayoutFillWrap"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dip"
+                    android:text="o cutie goala de pantofi (corpul si capacul)"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" >
+                </TextView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/LayoutFillWrap"
+                android:layout_marginTop="20dip" >
+
+                <ImageView
+                    style="@style/LayoutWrapWrap"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/checkmark" />
+
+                <TextView
+                    style="@style/LayoutFillWrap"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dip"
+                    android:text="hartie de impachetat cadouri. Gasesti o multime de modele de Craciun/Sarbatori de Iarna"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" >
+                </TextView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/LayoutFillWrap"
+                android:layout_marginTop="20dip" >
+
+                <ImageView
+                    style="@style/LayoutWrapWrap"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/checkmark" />
+
+                <TextView
+                    style="@style/LayoutFillWrap"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dip"
+                    android:text="foarfeca/cutter"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" >
+                </TextView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/LayoutFillWrap"
+                android:layout_marginTop="20dip" >
+
+                <ImageView
+                    style="@style/LayoutWrapWrap"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/checkmark" />
+
+                <TextView
+                    style="@style/LayoutFillWrap"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dip"
+                    android:text="timp si bani pentru shopping sau sortarea lucrurilor din casa pe care vrei sa le daruiesti"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" >
+                </TextView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/LayoutFillWrap"
+                android:layout_marginTop="20dip" >
+
+                <ImageView
+                    style="@style/LayoutWrapWrap"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/checkmark" />
+
+                <TextView
+                    style="@style/LayoutFillWrap"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dip"
+                    android:text="rabdare"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" >
+                </TextView>
+            </RelativeLayout>
+
+            <Button
+                style="@style/ButtonStyle"
+                android:onClick="btnPasul2_onClick"
+                android:text="Pasul 2 >>" >
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

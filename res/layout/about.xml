@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LayoutFillFill" 
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:padding="10dip" >
+ 
+        <Button
+            android:id="@+id/btnPlata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dip"
+            android:background="@drawable/shoebox"
+            android:onClick="btnShoeBox_onClick" >
+        </Button>
+
+        <TextView  android:layout_margin="20dip"
+            android:id="@+id/txtAbout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text = "Un proiect inceput in 2007 in familie. Restul e o poveste frumoasa, la care mai adauga o pagina fiecare voluntar."
+            android:textSize="17dip" />
+        
+        <TextView  android:layout_margin="20dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text = "Versiunea aplicatiei Android este realizata de Maria Magdalena Badita. Website: http://magdabadita.wordpress.com/ ;Adresa email de contact: badita.magda@gmail.com"
+        android:textSize="17dip" />
+
+    </LinearLayout>
+    
+</ScrollView>

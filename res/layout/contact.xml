@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LayoutFillFill"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        style="@style/LayoutFillFill"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:padding="20dip" >
+
+        <TextView
+            style="@style/LayoutFillWrap"
+            android:background="@drawable/round_corners_header"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:text="Contact"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" >
+        </TextView>
+
+        <LinearLayout
+            style="@style/LayoutFillWrap"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/round_corners_content"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <TextView
+                style="@style/LayoutFillWrap"
+                android:text="Nume"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/eTxtNume"
+                style="@style/LayoutFillWrap"
+                android:layout_marginBottom="10dip"
+                android:layout_marginTop="5dip"
+                android:background="@drawable/round_corners_edit_text"
+                android:inputType="text"
+                android:padding="7dip" />
+
+            <TextView
+                style="@style/LayoutFillWrap"
+                android:text="Email"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/eTxtEmail"
+                style="@style/LayoutFillWrap"
+                android:layout_marginBottom="10dip"
+                android:layout_marginTop="5dip"
+                android:background="@drawable/round_corners_edit_text"
+                android:inputType="textEmailAddress"
+                android:padding="7dip" />
+
+            <TextView
+                style="@style/LayoutFillWrap"
+                android:text="Telefon"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/eTxtTelefon"
+                style="@style/LayoutFillWrap"
+                android:layout_marginBottom="10dip"
+                android:layout_marginTop="5dip"
+                android:background="@drawable/round_corners_edit_text"
+                android:inputType="number"
+                android:padding="7dip" />
+
+            <TextView
+                style="@style/LayoutFillWrap"
+                android:text="Mesaj"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/eTxtMesaj"
+                style="@style/LayoutFillWrap"
+                android:layout_marginBottom="10dip"
+                android:layout_marginTop="5dip"
+                android:background="@drawable/round_corners_edit_text"
+                android:inputType="textMultiLine"
+                android:padding="7dip" />
+
+            <Button
+                style="@style/ButtonStyle"
+                android:onClick="btnTrimite_onClick"
+                android:text="Trimite" >
+            </Button>
+        </LinearLayout>
+
+        
+    </LinearLayout>
+
+</ScrollView>

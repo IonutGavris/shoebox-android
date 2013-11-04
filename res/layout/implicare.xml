@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LayoutFillFill"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        style="@style/LayoutFillFill"
+        android:orientation="vertical"
+        android:padding="20dip" >
+
+        <TextView
+            style="@style/LayoutFillWrap"
+            android:gravity="center_horizontal"
+            android:text="Eu cum ajut?"
+            android:textColor="@android:color/black"
+            android:textSize="22sp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <RelativeLayout
+            style="@style/LayoutFillWrap"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/round_corners"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <LinearLayout
+                style="@style/LayoutWrapWrap"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/LayoutWrapWrap"
+                    android:text="Pasul 1"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold" >
+                </TextView>
+
+                <Button
+                    style="@style/LayoutWrapWrap"
+                    android:background="@android:color/transparent"
+                    android:gravity="left"
+                    android:onClick="btnPasul1_onClick"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip"
+                    android:text="Ce ne trebuie?" />
+            </LinearLayout>
+
+            <ImageButton
+                style="@style/LayoutWrapWrap"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/arrow"
+                android:onClick="btnPasul1_onClick" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/LayoutFillWrap"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/round_corners_pas"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <LinearLayout
+                style="@style/LayoutWrapWrap"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/LayoutWrapWrap"
+                    android:text="Pasul 2"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold" >
+                </TextView>
+
+                <Button
+                    style="@style/LayoutWrapWrap"
+                    android:background="@android:color/transparent"
+                    android:gravity="left"
+                    android:onClick="btnPasul2_onClick"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip"
+                    android:text="Ce punem in cutii?" />
+            </LinearLayout>
+
+            <ImageButton
+                style="@style/LayoutWrapWrap"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/arrow"
+                android:onClick="btnPasul2_onClick" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/LayoutFillWrap"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/round_corners"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <LinearLayout
+                style="@style/LayoutWrapWrap"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/LayoutWrapWrap"
+                    android:text="Pasul 3"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold" >
+                </TextView>
+
+                <Button
+                    style="@style/LayoutWrapWrap"
+                    android:background="@android:color/transparent"
+                    android:gravity="left"
+                    android:onClick="btnPasul3_onClick"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip"
+                    android:text="Termen limita" />
+            </LinearLayout>
+
+            <ImageButton
+                style="@style/LayoutWrapWrap"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/arrow"
+                android:onClick="btnPasul3_onClick" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/LayoutFillWrap"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/round_corners_pas"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <LinearLayout
+                style="@style/LayoutWrapWrap"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/LayoutWrapWrap"
+                    android:text="Pasul 4"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold" >
+                </TextView>
+
+                <Button
+                    style="@style/LayoutWrapWrap"
+                    android:background="@android:color/transparent"
+                    android:gravity="left"
+                    android:onClick="btnPasul4_onClick"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip"
+                    android:text="Fii partener ShoeBox" />
+            </LinearLayout>
+
+            <ImageButton
+                style="@style/LayoutWrapWrap"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/arrow"
+                android:onClick="btnPasul4_onClick" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

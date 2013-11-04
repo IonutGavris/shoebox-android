@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.shoebox.android"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="7"  android:targetSdkVersion="14" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
+    <application
+        android:icon="@drawable/icon_shoe_box"
+        android:label="@string/app_name" >
+        <activity
+            android:name=".ShoeBoxAppActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".TabsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".AboutActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".SocialMediaActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.home.HomeGroup"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name="com.shoebox.android.home.VideoPlayerController"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.shoebox.android.home.Pasul1Activity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.home.Pasul2Activity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.home.Pasul3Activity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.home.Pasul4Activity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.home.ImageGallery"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".news.NewsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".news.DetailsNewsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.home.ImplicareActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.news.NewsGroup"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.locatii.LocatiiGroup"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.locatii.DetailsLocatie"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.locatii.ShowMapActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.contact.ContactsGroup"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.home.HomeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.locatii.LocatiiActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.android.contact.ContactsListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".MenuActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shoebox.androcom.shoebox.android.MyTabActivitydroid" android:screenOrientation="portrait" >
+        </activity>
+    </application>
+
+</manifest>
