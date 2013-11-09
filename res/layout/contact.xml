@@ -42,7 +42,8 @@
                 android:layout_marginTop="5dip"
                 android:background="@drawable/round_corners_edit_text"
                 android:inputType="text"
-                android:padding="7dip" />
+                android:padding="7dip"
+                android:textColor="@android:color/black" />
 
             <TextView
                 style="@style/LayoutFillWrap"
@@ -59,7 +60,8 @@
                 android:layout_marginTop="5dip"
                 android:background="@drawable/round_corners_edit_text"
                 android:inputType="textEmailAddress"
-                android:padding="7dip" />
+                android:padding="7dip"
+                android:textColor="@android:color/black" />
 
             <TextView
                 style="@style/LayoutFillWrap"
@@ -76,7 +78,8 @@
                 android:layout_marginTop="5dip"
                 android:background="@drawable/round_corners_edit_text"
                 android:inputType="number"
-                android:padding="7dip" />
+                android:padding="7dip"
+                android:textColor="@android:color/black" />
 
             <TextView
                 style="@style/LayoutFillWrap"
@@ -93,7 +96,8 @@
                 android:layout_marginTop="5dip"
                 android:background="@drawable/round_corners_edit_text"
                 android:inputType="textMultiLine"
-                android:padding="7dip" />
+                android:padding="7dip"
+                android:textColor="@android:color/black" />
 
             <Button
                 style="@style/ButtonStyle"
@@ -101,8 +105,6 @@
                 android:text="Trimite" >
             </Button>
         </LinearLayout>
-
-        
     </LinearLayout>
 
 </ScrollView>

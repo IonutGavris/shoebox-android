@@ -3,12 +3,14 @@ package com.shoebox.android.util;
 
 
 
-import com.shoebox.android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
+import com.shoebox.android.R;
 
 public class AlertDialogs 
 {
@@ -26,17 +28,15 @@ public class AlertDialogs
 	}
 
 
-	public static boolean checkNetworkStatus(Context ctx)
-	{
-		ConnectivityManager con=(ConnectivityManager)ctx.getSystemService(Activity.CONNECTIVITY_SERVICE);
-		boolean wifi=con.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
-		boolean internet=con.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnectedOrConnecting();
-		if(wifi || internet)
-		{
-			return true;  
-		}
-		else
-		{ 
+	public static boolean checkNetworkStatus(Context ctx) {
+		ConnectivityManager con = (ConnectivityManager) ctx.getSystemService(Activity.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = con.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		boolean wifi = networkInfo != null ? networkInfo.isConnectedOrConnecting() : false;
+		networkInfo = con.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		boolean internet = networkInfo != null ? networkInfo.isConnectedOrConnecting() : false;
+		if (wifi || internet) {
+			return true;
+		} else {
 			return false;
 		}
 	}
