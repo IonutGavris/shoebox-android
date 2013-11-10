@@ -1,17 +1,16 @@
 package com.shoebox.android;
 
-import com.shoebox.android.contact.ContactsGroup;
-import com.shoebox.android.home.HomeGroup;
-import com.shoebox.android.locatii.LocatiiGroup;
-import com.shoebox.android.news.NewsActivity;
-import com.shoebox.android.news.NewsGroup;
-
-import com.shoebox.android.R;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TabHost;
+
+import com.crashlytics.android.Crashlytics;
+import com.shoebox.android.contact.ContactsGroup;
+import com.shoebox.android.home.HomeGroup;
+import com.shoebox.android.locatii.LocatiiGroup;
+import com.shoebox.android.news.NewsActivity;
 
 public class TabsActivity extends TabActivity 
 {
@@ -27,6 +26,8 @@ public class TabsActivity extends TabActivity
 		path=this.getPackageResourcePath();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tabs_layout);
+
+		Crashlytics.start(this);
 
 		Resources res = getResources();  
 		tabHost = getTabHost(); 

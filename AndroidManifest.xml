@@ -112,6 +112,11 @@
         <activity
             android:name="com.shoebox.androcom.shoebox.android.MyTabActivitydroid" android:screenOrientation="portrait" >
         </activity>
+
+
+    
+
+    <meta-data android:name="com.crashlytics.ApiKey" android:value="3b24327bf13dc6258f579bf4303b6eb98aabd810"/>
     </application>
 
 </manifest>

@@ -1,6 +1,5 @@
 package com.shoebox.android;
 
-import com.shoebox.android.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
