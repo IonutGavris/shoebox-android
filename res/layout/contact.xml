@@ -2,13 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/LayoutFillFill"
     android:background="@android:color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         style="@style/LayoutFillFill"
         android:background="@android:color/white"
         android:orientation="vertical"
-        android:padding="20dip" >
+        android:padding="20dip">
 
         <TextView
             style="@style/LayoutFillWrap"
@@ -17,23 +17,14 @@
             android:padding="10dip"
             android:text="Contact"
             android:textColor="@android:color/white"
-            android:textSize="22sp" >
-        </TextView>
+            android:textSize="22sp"></TextView>
 
         <LinearLayout
             style="@style/LayoutFillWrap"
             android:layout_marginTop="20dip"
             android:background="@drawable/round_corners_content"
             android:orientation="vertical"
-            android:padding="10dip" >
-
-            <TextView
-                style="@style/LayoutFillWrap"
-                android:text="Nume"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" >
-            </TextView>
+            android:padding="10dip">
 
             <EditText
                 android:id="@+id/eTxtNume"
@@ -43,15 +34,8 @@
                 android:background="@drawable/round_corners_edit_text"
                 android:inputType="text"
                 android:padding="7dip"
+                android:hint="Nume"
                 android:textColor="@android:color/black" />
-
-            <TextView
-                style="@style/LayoutFillWrap"
-                android:text="Email"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" >
-            </TextView>
 
             <EditText
                 android:id="@+id/eTxtEmail"
@@ -60,16 +44,9 @@
                 android:layout_marginTop="5dip"
                 android:background="@drawable/round_corners_edit_text"
                 android:inputType="textEmailAddress"
+                android:hint="Email"
                 android:padding="7dip"
                 android:textColor="@android:color/black" />
-
-            <TextView
-                style="@style/LayoutFillWrap"
-                android:text="Telefon"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" >
-            </TextView>
 
             <EditText
                 android:id="@+id/eTxtTelefon"
@@ -78,16 +55,9 @@
                 android:layout_marginTop="5dip"
                 android:background="@drawable/round_corners_edit_text"
                 android:inputType="number"
+                android:hint="Telefon"
                 android:padding="7dip"
                 android:textColor="@android:color/black" />
-
-            <TextView
-                style="@style/LayoutFillWrap"
-                android:text="Mesaj"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" >
-            </TextView>
 
             <EditText
                 android:id="@+id/eTxtMesaj"
@@ -96,14 +66,16 @@
                 android:layout_marginTop="5dip"
                 android:background="@drawable/round_corners_edit_text"
                 android:inputType="textMultiLine"
+                android:gravity="top"
+                android:lines="3"
+                android:hint="Mesajul tau"
                 android:padding="7dip"
                 android:textColor="@android:color/black" />
 
             <Button
                 style="@style/ButtonStyle"
                 android:onClick="btnTrimite_onClick"
-                android:text="Trimite" >
-            </Button>
+                android:text="Trimite" />
         </LinearLayout>
     </LinearLayout>
 

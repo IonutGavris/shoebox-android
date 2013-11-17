@@ -176,7 +176,7 @@ public class LocatiiActivity extends MenuActivity {
 
     Locatii locatie10 = new Locatii();
     locatie10.setAdresa("str Dr Iosif Bulbuca, nr 15");
-    locatie10.setDetaliiAdresa("Centrul Crestin Aletheia, zona calea Buziasului – noul Lidl");
+    locatie10.setDetaliiAdresa("Centrul Crestin Aletheia, zona calea Buziasului noul Lidl");
     locatie10.setNrTelefonPersoanaContact1("0730582793");
     locatie10.setNrTelefonPersoanaContact2("0726100993");
     locatie10.setOrar("Luni-Vineri intre 08:00 - 20:00");

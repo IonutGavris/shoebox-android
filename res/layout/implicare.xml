@@ -2,12 +2,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/LayoutFillFill"
     android:background="@android:color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         style="@style/LayoutFillFill"
         android:orientation="vertical"
-        android:padding="20dip" >
+        android:padding="20dip">
 
         <TextView
             style="@style/LayoutFillWrap"
@@ -15,46 +15,43 @@
             android:text="Eu cum ajut?"
             android:textColor="@android:color/black"
             android:textSize="22sp"
-            android:textStyle="bold" >
-        </TextView>
+            android:textStyle="bold" />
 
         <RelativeLayout
             style="@style/LayoutFillWrap"
             android:layout_marginTop="20dip"
             android:background="@drawable/round_corners"
             android:orientation="vertical"
-            android:padding="10dip" >
+            android:onClick="btnPasul1_onClick"
+            android:padding="10dip">
 
             <LinearLayout
                 style="@style/LayoutWrapWrap"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/LayoutWrapWrap"
                     android:text="Pasul 1"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    android:textStyle="bold" >
-                </TextView>
+                    android:textStyle="bold" />
 
-                <Button
+                <TextView
                     style="@style/LayoutWrapWrap"
                     android:background="@android:color/transparent"
                     android:gravity="left"
-                    android:onClick="btnPasul1_onClick"
                     android:paddingBottom="10dip"
                     android:paddingTop="10dip"
                     android:text="Ce ne trebuie?" />
             </LinearLayout>
 
-            <ImageButton
+            <ImageView
                 style="@style/LayoutWrapWrap"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/arrow"
-                android:onClick="btnPasul1_onClick" />
+                android:background="@drawable/arrow" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -62,38 +59,36 @@
             android:layout_marginTop="20dip"
             android:background="@drawable/round_corners_pas"
             android:orientation="vertical"
-            android:padding="10dip" >
+            android:onClick="btnPasul2_onClick"
+            android:padding="10dip">
 
             <LinearLayout
                 style="@style/LayoutWrapWrap"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/LayoutWrapWrap"
                     android:text="Pasul 2"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    android:textStyle="bold" >
-                </TextView>
+                    android:textStyle="bold" />
 
-                <Button
+                <TextView
                     style="@style/LayoutWrapWrap"
                     android:background="@android:color/transparent"
                     android:gravity="left"
-                    android:onClick="btnPasul2_onClick"
                     android:paddingBottom="10dip"
                     android:paddingTop="10dip"
                     android:text="Ce punem in cutii?" />
             </LinearLayout>
 
-            <ImageButton
+            <ImageView
                 style="@style/LayoutWrapWrap"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/arrow"
-                android:onClick="btnPasul2_onClick" />
+                android:background="@drawable/arrow" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -101,38 +96,36 @@
             android:layout_marginTop="20dip"
             android:background="@drawable/round_corners"
             android:orientation="vertical"
-            android:padding="10dip" >
+            android:onClick="btnPasul3_onClick"
+            android:padding="10dip">
 
             <LinearLayout
                 style="@style/LayoutWrapWrap"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/LayoutWrapWrap"
                     android:text="Pasul 3"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    android:textStyle="bold" >
-                </TextView>
+                    android:textStyle="bold" />
 
-                <Button
+                <TextView
                     style="@style/LayoutWrapWrap"
                     android:background="@android:color/transparent"
                     android:gravity="left"
-                    android:onClick="btnPasul3_onClick"
                     android:paddingBottom="10dip"
                     android:paddingTop="10dip"
                     android:text="Termen limita" />
             </LinearLayout>
 
-            <ImageButton
+            <ImageView
                 style="@style/LayoutWrapWrap"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/arrow"
-                android:onClick="btnPasul3_onClick" />
+                android:background="@drawable/arrow" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -140,38 +133,36 @@
             android:layout_marginTop="20dip"
             android:background="@drawable/round_corners_pas"
             android:orientation="vertical"
-            android:padding="10dip" >
+            android:onClick="btnPasul4_onClick"
+            android:padding="10dip">
 
             <LinearLayout
                 style="@style/LayoutWrapWrap"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/LayoutWrapWrap"
                     android:text="Pasul 4"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    android:textStyle="bold" >
-                </TextView>
+                    android:textStyle="bold" />
 
-                <Button
+                <TextView
                     style="@style/LayoutWrapWrap"
                     android:background="@android:color/transparent"
                     android:gravity="left"
-                    android:onClick="btnPasul4_onClick"
                     android:paddingBottom="10dip"
                     android:paddingTop="10dip"
                     android:text="Fii partener ShoeBox" />
             </LinearLayout>
 
-            <ImageButton
+            <ImageView
                 style="@style/LayoutWrapWrap"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/arrow"
-                android:onClick="btnPasul4_onClick" />
+                android:background="@drawable/arrow" />
         </RelativeLayout>
     </LinearLayout>
 
