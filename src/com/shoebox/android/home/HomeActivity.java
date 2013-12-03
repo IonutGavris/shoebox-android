@@ -54,16 +54,17 @@ public class HomeActivity extends MenuActivity {
 
     public void btnVideo_onClick(View v) {
         if (AlertDialogs.checkNetworkStatus(HomeActivity.this)) {
-//            Uri CONTENT_URI = Uri.parse(urlVideo);
-//            Intent myIntent = new Intent(Intent.ACTION_VIEW, CONTENT_URI);
-//            Intent intent = new Intent(this, VideoPlayerController.class);
-//            startActivity(intent);
-
-
-            String videoId = "3YH3m3o5AkM";
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + videoId));
-            intent.putExtra("VIDEO_ID", videoId);
-            startActivity(intent);
+            try {
+                String videoId = "3YH3m3o5AkM";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + videoId));
+                intent.putExtra("VIDEO_ID", videoId);
+                startActivity(intent);
+            } catch (Exception ex) {
+                //Uri CONTENT_URI = Uri.parse(urlVideo);
+                //Intent myIntent = new Intent(Intent.ACTION_VIEW, CONTENT_URI);
+                Intent intent = new Intent(this, VideoPlayerController.class);
+                startActivity(intent);
+            }
 
         } else {
             AlertDialogs.createAlertDialogNoInternetConn(getParent());
