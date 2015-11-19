@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="app_name">ShoeBoxAndroid</string>
 
-    <string name="hello">Hello World, ShoeBoxAppActivity!</string>
-    <string name="app_name">ShoeBox</string>
-    <string name="str_despre">Este o initiativa de ajutorare a copiilor orfani, proveniti din familii dezorganizate sau prea sarace ca sa le poate face viata usoara.\n\nMacar de Craciun, cand toti copiii primesc cadouri, vrem sa aduceam zambetul si pe fetele lor.\n\nSuntem la a 6-a editie si va invitam sa aducem bucurie in jurul nostru!</string>
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
 
-
+	<string name="action_settings">Settings</string>
+	<string name="title_activity_gender_picker">GenderPickerActivity</string>
 </resources>
