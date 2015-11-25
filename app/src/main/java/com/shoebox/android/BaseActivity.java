@@ -20,7 +20,7 @@ import butterknife.InjectView;
 public class BaseActivity extends AppCompatActivity {
 
 	protected Firebase firebase;
-	private String firebaseUrl;
+	private final String firebaseUrl = "https://totmedic.firebaseio.com";
 
 	@InjectView(R.id.toolbar)
 	protected Toolbar toolbar;
@@ -28,7 +28,6 @@ public class BaseActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		firebaseUrl = getResources().getString(R.string.firebase_url);
 		firebase = new Firebase(firebaseUrl);
 	}
 
