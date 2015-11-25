@@ -11,6 +11,8 @@ import android.view.View;
 
 public class LocationsActivity extends AppCompatActivity {
 
+	private final String GOOGLE_MAPS_API_KEY = "AIzaSyBvCOl6KtFD3xUhJyo7S5uNUCIxdPAKl6M";
+
 	public static Intent getLaunchingIntent(Context context) {
 		return new Intent(context, LocationsActivity.class);
 	}
