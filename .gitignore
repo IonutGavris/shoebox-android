@@ -1,4 +1,11 @@
 bin/
 gen/
-ShoeBoxApp.iml
+out/
+build/
+.idea/
+.gradle/
 local.properties
+*.class
+*.dex
+*.iml
+*.iws
