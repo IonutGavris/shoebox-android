@@ -6,4 +6,10 @@
 
 	<string name="action_settings">Settings</string>
 	<string name="title_activity_gender_picker">GenderPickerActivity</string>
+
+	<string name="title_shoebox">ShoeBox</string>
+	<string name="btn_box_content">What should I put in the box?</string>
+	<string name="btn_drop_location">Where can I leave the box?</string>
+	<string name="title_activity_locations">Locations</string>
+
 </resources>

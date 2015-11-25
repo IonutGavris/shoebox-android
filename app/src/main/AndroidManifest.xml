@@ -9,7 +9,6 @@
 	<!-- The following two permissions are not required to use Google Maps Android API v2, but are recommended. -->
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
 	<uses-permission android:name="android.permission.CALL_PHONE"/>
 
 	<uses-feature
@@ -25,7 +24,7 @@
 		android:theme="@style/AppTheme">
 		<activity
 			android:name=".MainActivity"
-			android:label="@string/app_name"
+			android:label="@string/title_shoebox"
 			android:theme="@style/AppTheme.NoActionBar">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -42,7 +41,6 @@
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value=".MainActivity"/>
 		</activity>
-
 		<activity
 			android:name=".ContentSuggestionActivity"
 			android:parentActivityName=".GenderAgePickerActivity"
@@ -50,6 +48,15 @@
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value=".GenderAgePickerActivity"/>
+		</activity>
+		<activity
+			android:name=".LocationsActivity"
+			android:label="@string/title_activity_locations"
+			android:parentActivityName=".MainActivity"
+			android:theme="@style/AppTheme.NoActionBar">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="com.shoebox.android.MainActivity"/>
 		</activity>
 	</application>
 

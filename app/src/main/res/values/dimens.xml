@@ -12,4 +12,7 @@
 	<dimen name="keyline_2">72dp</dimen>
 	<dimen name="keyline_2_minus_16dp">56dp</dimen>
 	<dimen name="keyline_2_session_detail">@dimen/keyline_2</dimen>
+
+	<dimen name="element_spacing">8dp</dimen>
+	<dimen name="text_size_large">18dp</dimen>
 </resources>
