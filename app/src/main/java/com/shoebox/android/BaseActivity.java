@@ -2,6 +2,7 @@ package com.shoebox.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,18 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.client.Firebase;
+import com.shoebox.android.util.UIUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.Optional;
 
 /**
  * Created by vasile.mihalca on 24/11/15.
  */
 public class BaseActivity extends AppCompatActivity {
 
+	private final String firebaseUrl = "https://shoebox.firebaseio.com/";
+	@Optional
+	@InjectView(R.id.coordinatorLayout)
+	public CoordinatorLayout coordinatorLayout;
 	protected Firebase firebase;
-	private final String firebaseUrl = "https://totmedic.firebaseio.com";
-
 	@InjectView(R.id.toolbar)
 	protected Toolbar toolbar;
 
@@ -91,5 +96,14 @@ public class BaseActivity extends AppCompatActivity {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	/**
+	 * Gets the base view of this activity.
+	 *
+	 * @return Returns a CoordinatorLayout or the base content view.
+	 */
+	protected View getBaseView() {
+		return coordinatorLayout != null ? coordinatorLayout : getWindow().getDecorView().findViewById(android.R.id.content);
 	}
 }

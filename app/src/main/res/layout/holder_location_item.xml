@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:minHeight="@dimen/list_item_height"
+                android:paddingBottom="@dimen/element_spacing"
+                android:paddingRight="@dimen/keyline_1"
+                android:paddingTop="@dimen/element_spacing">
+
+	<ImageView
+		android:id="@+id/locationPin"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:paddingLeft="@dimen/keyline_1"
+		android:src="@mipmap/ic_location_pin"/>
+
+	<TextView
+		android:id="@+id/streetAddressView"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/element_spacing"
+		android:paddingLeft="@dimen/keyline_2"
+		android:textAppearance="?attr/textAppearanceListItem"
+		tools:text="strada Jocului, bl. UJ 22"/>
+
+	<TextView
+		android:id="@+id/cityView"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/streetAddressView"
+		android:paddingLeft="@dimen/keyline_2"
+		android:textAppearance="?attr/textAppearanceListItem"
+		tools:text="SATU MARE"/>
+</RelativeLayout>

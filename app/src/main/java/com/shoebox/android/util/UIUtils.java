@@ -1,4 +1,4 @@
-package com.shoebox.android;
+package com.shoebox.android.util;
 
 import android.app.Activity;
 import android.content.Context;
