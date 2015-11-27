@@ -11,7 +11,7 @@ public class Location {
 	public String city;
 	public String state;
 	public String country;
-	public String postal_code;
+	public String postalCode;
 	public String messages;
 	public String latitude;
 	public String longitude;
@@ -25,7 +25,7 @@ public class Location {
 				", city='" + city + '\'' +
 				", state='" + state + '\'' +
 				", country='" + country + '\'' +
-				", postal_code='" + postal_code + '\'' +
+				", postalCode='" + postalCode + '\'' +
 				", latitude=" + latitude +
 				", longitude=" + longitude +
 				'}';
