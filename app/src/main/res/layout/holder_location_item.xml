@@ -15,23 +15,25 @@
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
 		android:paddingLeft="@dimen/keyline_1"
-		android:src="@mipmap/ic_location_pin"/>
+		android:src="@mipmap/ic_location_pin"
+		android:tint="@color/location_gray"/>
 
 	<TextView
-		android:id="@+id/streetAddressView"
+		android:id="@+id/locationTitleView"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/element_spacing"
 		android:paddingLeft="@dimen/keyline_2"
 		android:textAppearance="?attr/textAppearanceListItem"
-		tools:text="strada Jocului, bl. UJ 22"/>
+		tools:text="Clinica Q Med"/>
 
 	<TextView
-		android:id="@+id/cityView"
+		android:id="@+id/cityCountryView"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/streetAddressView"
+		android:layout_below="@+id/locationTitleView"
 		android:paddingLeft="@dimen/keyline_2"
 		android:textAppearance="?attr/textAppearanceListItem"
-		tools:text="SATU MARE"/>
+		android:textSize="12sp"
+		tools:text="Bucuresti, Romania"/>
 </RelativeLayout>

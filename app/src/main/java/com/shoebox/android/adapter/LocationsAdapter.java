@@ -47,10 +47,10 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.Loca
 	}
 
 	public class LocationViewHolder extends RecyclerView.ViewHolder {
-		@InjectView(R.id.streetAddressView)
-		TextView streetTextView;
-		@InjectView(R.id.cityView)
-		TextView cityTextView;
+		@InjectView(R.id.locationTitleView)
+		TextView locationTitleView;
+		@InjectView(R.id.cityCountryView)
+		TextView cityCountryView;
 
 		public LocationViewHolder(View itemView) {
 			super(itemView);
@@ -58,8 +58,9 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.Loca
 		}
 
 		public void setData(final Location location) {
-			streetTextView.setText(location.address);
-			cityTextView.setText(location.city);
+			locationTitleView.setText(location.title);
+			cityCountryView.setText(cityCountryView.getResources().getString(R.string.label_city_country, location
+					.city, location.country));
 		}
 	}
 }

@@ -14,4 +14,6 @@
 	<color name="divider_gray">#D7D7D7</color>
 	<color name="text_blue">#014e91</color>
 	<color name="text_white">#ffffff</color>
+
+	<color name="location_gray">#aaaaaa</color>
 </resources>

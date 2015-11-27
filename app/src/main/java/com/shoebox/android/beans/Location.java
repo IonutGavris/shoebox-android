@@ -13,8 +13,8 @@ public class Location {
 	public String country;
 	public String postalCode;
 	public String messages;
-	public String latitude;
-	public String longitude;
+	public double latitude;
+	public double longitude;
 
 	@Override
 	public String toString() {
