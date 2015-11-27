@@ -3,7 +3,9 @@ package com.shoebox.android;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,7 +23,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class LocationsActivity extends BaseActivity {
+public class LocationsActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
 	private static final String BUNDLE_CURRENT_VIEW_MODE = "current_view_mode";
 
@@ -94,6 +96,12 @@ public class LocationsActivity extends BaseActivity {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(BUNDLE_CURRENT_VIEW_MODE, currentViewMode.ordinal());
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
+			grantResults) {
+		((LocationsMapFragment) mapFragment).onRequestPermissionsEnded(requestCode, permissions, grantResults);
 	}
 
 	private void initFragments(ViewMode viewMode) {
