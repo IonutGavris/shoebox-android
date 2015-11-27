@@ -16,9 +16,10 @@ import com.shoebox.android.util.UIUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
+import timber.log.Timber;
 
 /**
- * Created by vasile.mihalca on 24/11/15.
+ * All activities should extend from this one
  */
 public class BaseActivity extends AppCompatActivity {
 
@@ -26,9 +27,11 @@ public class BaseActivity extends AppCompatActivity {
 	@Optional
 	@InjectView(R.id.coordinatorLayout)
 	public CoordinatorLayout coordinatorLayout;
-	protected Firebase firebase;
+
 	@InjectView(R.id.toolbar)
 	protected Toolbar toolbar;
+
+	protected Firebase firebase;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,29 +49,28 @@ public class BaseActivity extends AppCompatActivity {
 	public void setContentView(int layoutResID) {
 		super.setContentView(layoutResID);
 		ButterKnife.inject(this);
-
-		setSupportActionBar(toolbar);
-		if (getSupportActionBar() != null) {
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		}
+		configureActionBar();
 	}
 
 	@Override
 	public void setContentView(View view) {
 		super.setContentView(view);
 		ButterKnife.inject(this);
+		configureActionBar();
 	}
 
 	@Override
 	public void setContentView(View view, ViewGroup.LayoutParams params) {
 		super.setContentView(view, params);
 		ButterKnife.inject(this);
+		configureActionBar();
 	}
 
 	@Override
 	public void addContentView(View view, ViewGroup.LayoutParams params) {
 		super.addContentView(view, params);
 		ButterKnife.inject(this);
+		configureActionBar();
 	}
 
 	public void setTitle(String title) {
@@ -98,12 +100,22 @@ public class BaseActivity extends AppCompatActivity {
 		}
 	}
 
+	private void configureActionBar() {
+		setSupportActionBar(toolbar);
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		} else {
+			Timber.w("getSupportActionBar() is NULL");
+		}
+	}
+
 	/**
 	 * Gets the base view of this activity.
 	 *
 	 * @return Returns a CoordinatorLayout or the base content view.
 	 */
 	protected View getBaseView() {
-		return coordinatorLayout != null ? coordinatorLayout : getWindow().getDecorView().findViewById(android.R.id.content);
+		return coordinatorLayout != null ? coordinatorLayout : getWindow().getDecorView().findViewById(android.R.id
+				.content);
 	}
 }

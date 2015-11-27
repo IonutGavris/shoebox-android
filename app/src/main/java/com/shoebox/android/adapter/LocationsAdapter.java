@@ -18,11 +18,11 @@ import butterknife.InjectView;
 /**
  * {@link RecyclerView.Adapter} that can display a list of {@link Location} items
  */
-public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<LocationsRecyclerViewAdapter.LocationViewHolder> {
+public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.LocationViewHolder> {
 
 	private List<Location> locations = new ArrayList<>();
 
-	public LocationsRecyclerViewAdapter() {
+	public LocationsAdapter() {
 	}
 
 	@Override
@@ -58,8 +58,8 @@ public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<Locations
 		}
 
 		public void setData(final Location location) {
-			streetTextView.setText(location.locationStreetAddress);
-			cityTextView.setText(location.locationCity);
+			streetTextView.setText(location.address);
+			cityTextView.setText(location.city);
 		}
 	}
 }

@@ -1,12 +1,12 @@
-package com.shoebox.android;
+package com.shoebox.android.adapter;
 
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.shoebox.android.R;
 import com.shoebox.android.beans.Suggestion;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 		}
 
 		public void setData(Suggestion suggestion) {
-			suggestionTitle.setText(suggestion.getProduct());
+			suggestionTitle.setText(suggestion.name);
 		}
 	}
 }

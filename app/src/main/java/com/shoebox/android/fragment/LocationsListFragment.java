@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.shoebox.android.LocationsActivity;
 import com.shoebox.android.R;
-import com.shoebox.android.adapter.LocationsRecyclerViewAdapter;
+import com.shoebox.android.adapter.LocationsAdapter;
 import com.shoebox.android.beans.Location;
 import com.shoebox.android.util.DividerItemDecoration;
 
@@ -26,7 +26,7 @@ public class LocationsListFragment extends BaseFragment implements LocationsActi
 	@InjectView(R.id.locationsRecycler)
 	RecyclerView locationsRecycler;
 
-	LocationsRecyclerViewAdapter recyclerViewAdapter;
+	LocationsAdapter recyclerViewAdapter;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -48,7 +48,7 @@ public class LocationsListFragment extends BaseFragment implements LocationsActi
 
 		locationsRecycler.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
 		locationsRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-		recyclerViewAdapter = new LocationsRecyclerViewAdapter();
+		recyclerViewAdapter = new LocationsAdapter();
 		locationsRecycler.setAdapter(recyclerViewAdapter);
 
 		return fragmentView;

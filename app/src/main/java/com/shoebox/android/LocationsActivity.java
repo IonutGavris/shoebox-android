@@ -19,6 +19,8 @@ import com.shoebox.android.fragment.LocationsMapFragment;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class LocationsActivity extends BaseActivity {
 
 	private static final String BUNDLE_CURRENT_VIEW_MODE = "current_view_mode";
@@ -67,14 +69,14 @@ public class LocationsActivity extends BaseActivity {
 			// TODO try to use orderByChild for sorting
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
-				System.out.println("The locations read succeeded");
+				Timber.d("The %s read was successful :)", dataPath);
 
 				GenericTypeIndicator<List<Location>> t = new GenericTypeIndicator<List<Location>>() {
 				};
 				List<Location> locations = dataSnapshot.getValue(t);
 				if (locations != null && locations.size() > 1 && locations.get(0) == null) {
 					locations.remove(0);
-					System.out.println("The locations count = " + locations.size());
+					Timber.d("The %s count = %s", dataPath, locations.size());
 				}
 				LocationsActivity.this.locations = locations;
 				setLocationsToFragments(locations);
@@ -82,7 +84,7 @@ public class LocationsActivity extends BaseActivity {
 
 			@Override
 			public void onCancelled(FirebaseError firebaseError) {
-				System.out.println("The locations read failed: " + firebaseError.getMessage());
+				Timber.e("The %s read failed: %s ", dataPath, firebaseError.getMessage());
 				setStatusToFragments(firebaseError.getMessage());
 			}
 		});
@@ -138,6 +140,7 @@ public class LocationsActivity extends BaseActivity {
 	}
 
 	private void setLocationsToFragments(List<Location> locations) {
+		Timber.d("setLocationsToFragments currentViewMode = %s", currentViewMode);
 		((LocationsListener) listFragment).setLocationsResult(currentViewMode == ViewMode.LIST && locations != null
 				? locations : null);
 		((LocationsListener) mapFragment).setLocationsResult(currentViewMode == ViewMode.MAP && locations != null
@@ -145,6 +148,7 @@ public class LocationsActivity extends BaseActivity {
 	}
 
 	private void setStatusToFragments(String status) {
+		Timber.d("setStatusToFragments currentViewMode = %s  &  status = %s", currentViewMode, status);
 		((LocationsListener) listFragment).setStatus(status);
 		((LocationsListener) mapFragment).setStatus(status);
 	}
