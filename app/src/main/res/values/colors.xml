@@ -7,6 +7,11 @@
 	<color name="colorAccentGirl">#ff5500</color>
 	<color name="colorAccentBoy">#0d32cc</color>
 
+	<color name="transparentGreen">#c805ce39</color>
+	<color name="transparentOrange">#c8ff5500</color>
+	<color name="transparentBlue">#c80d32cc</color>
+
 	<color name="divider_gray">#D7D7D7</color>
 	<color name="text_blue">#014e91</color>
+	<color name="text_white">#ffffff</color>
 </resources>

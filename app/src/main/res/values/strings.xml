@@ -12,4 +12,7 @@
 	<string name="btn_drop_location">Where can I leave the box?</string>
 	<string name="title_activity_locations">Locations</string>
 
+	<string name="btn_boy">Boy</string>
+	<string name="btn_girl">Girl</string>
+
 </resources>
