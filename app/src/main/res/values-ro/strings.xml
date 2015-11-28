@@ -4,7 +4,11 @@
 	<string name="btn_drop_location">Unde las cutia?</string>
 	<string name="title_activity_locations">Locatii</string>
 
+    <!-- intro screen -->
+    <string name="btn_skip">Sari peste</string>
 
 	<string name="btn_boy">Baietel</string>
 	<string name="btn_girl">Fetita</string>
+
+
 </resources>
