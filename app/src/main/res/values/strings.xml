@@ -26,6 +26,7 @@
     <string name="permission_required_toast">Location permission is required for this app.</string>
 
     <string name="label_city_country">%1$s, %2$s</string>
-    <string name="title_activity_intro">IntroActivity</string>
+    <string name="title_activity_intro">Intro</string>
+    <string name="title_activity_slider_images">ShoeBox</string>
 
 </resources>

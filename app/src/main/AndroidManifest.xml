@@ -40,8 +40,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_shoebox"
-            android:parentActivityName=".IntroActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:parentActivityName=".SliderImagesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".GenderAgePickerActivity"
             android:label="@string/title_activity_gender_picker"
@@ -77,6 +77,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".SliderImagesActivity"
+            android:label="@string/title_activity_slider_images"
+            android:parentActivityName=".IntroActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shoebox.android.IntroActivity" />
         </activity>
     </application>
 

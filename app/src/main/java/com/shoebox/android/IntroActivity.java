@@ -25,7 +25,7 @@ public class IntroActivity extends Activity {
 
     public void btnSkip_onClick(View v)
     {
-        Intent main = new Intent(IntroActivity.this, MainActivity.class);
+        Intent main = new Intent(IntroActivity.this, SliderImagesActivity.class);
         startActivity(main);
     }
 }
