@@ -1,5 +1,6 @@
 package com.shoebox.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -7,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.shoebox.android.util.HelperClass;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -31,6 +34,14 @@ public class MainActivity extends BaseActivity
 		toggle.syncState();
 
 		navigationView.setNavigationItemSelectedListener(this);
+
+		boolean isFirstTime = HelperClass.getBooleanValueInSharedPreference(MainActivity.this, HelperClass.keyIsFirstTime, true);
+		if (isFirstTime == true)//is first time in app
+		{
+			HelperClass.addBooleanValueInSharedPreference(MainActivity.this, HelperClass.keyIsFirstTime, false);
+			Intent intro = new Intent(MainActivity.this, IntroActivity.class);
+			startActivity(intro);
+		}
 	}
 
 	@Override
@@ -97,4 +108,6 @@ public class MainActivity extends BaseActivity
 	public void doDropLocations() {
 		startActivity(LocationsActivity.getLaunchingIntent(this));
 	}
+
+
 }
