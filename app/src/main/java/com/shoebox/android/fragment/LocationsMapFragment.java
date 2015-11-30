@@ -2,6 +2,7 @@ package com.shoebox.android.fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -15,22 +16,27 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.shoebox.android.LocationsActivity;
 import com.shoebox.android.beans.Location;
 import com.shoebox.android.util.PermissionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
 
 public class LocationsMapFragment extends com.google.android.gms.maps.SupportMapFragment implements
-		GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationChangeListener, GoogleMap
-		.OnMarkerClickListener, GoogleMap.OnMapClickListener,
-		OnMapReadyCallback, LocationsActivity.LocationsListener {
+		GoogleMap.OnMyLocationButtonClickListener, ClusterManager.OnClusterItemInfoWindowClickListener<Location>,
+		ClusterManager.OnClusterClickListener<Location>, OnMapReadyCallback, LocationsActivity.LocationsListener {
 
 	private static final double ROMANIA_CENTER_LATITUDE = 45.867063;
 	private static final double ROMANIA_CENTER_LONGITUDE = 24.91699199999993;
+
+	private static final String BUNDLE_MAP_CENTERED = "map_centered";
 
 	/**
 	 * Request code for location permission request.
@@ -38,15 +44,17 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	 * @see #onRequestPermissionsResult(int, String[], int[])
 	 */
 	private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
+	boolean mapCentered = false;
 	/**
 	 * Flag indicating whether a requested permission has been denied after returning in
 	 * {@link #onRequestPermissionsResult(int, String[], int[])}.
 	 */
 	private boolean mPermissionDenied = false;
-
 	private View fragmentView;
 	private GoogleMap map;
+	private List<Location> locations;
+	private ClusterManager<Location> clusterManager;
+	private SetLocationMarkersTask setMarkersTask;
 
 	public LocationsMapFragment() {
 		// Required empty public constructor
@@ -66,6 +74,21 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		Timber.d("onSaveInstanceState zoom=%s", mapCentered);
+		outState.putBoolean(BUNDLE_MAP_CENTERED, mapCentered);
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onViewStateRestored(Bundle savedInstanceState) {
+		super.onViewStateRestored(savedInstanceState);
+		if (savedInstanceState != null) {
+			mapCentered = savedInstanceState.getBoolean(BUNDLE_MAP_CENTERED);
+		}
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		if (mPermissionDenied) {
@@ -75,6 +98,7 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 					.newInstance(false).show(getActivity().getSupportFragmentManager(), "dialog");
 			mPermissionDenied = false;
 		}
+		setUpMapIfNeeded();
 	}
 
 	@Override
@@ -82,8 +106,6 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 		map = googleMap;
 		map.setOnMyLocationButtonClickListener(this);
 		enableMyLocation();
-		map.setOnMarkerClickListener(this);
-		map.setOnMapClickListener(this);
 		UiSettings mapUiSettings = map.getUiSettings();
 		mapUiSettings.setZoomControlsEnabled(false);
 		mapUiSettings.setMapToolbarEnabled(false);
@@ -100,21 +122,9 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 			Timber.d("onRequestPermissionsResult: Enable the my location layer <- the permission has been granted.");
 			enableMyLocation();
 		} else {
-			Timber.d("onRequestPermissionsResult: Display the missing permission error dialog when the fragment " +
-					"resumes");
+			Timber.d("onRequestPermissionsResult: Display the missing permission error dialog when the fragment resumes");
 			mPermissionDenied = true;
 		}
-	}
-
-	@Override
-	public void onMapClick(LatLng latLng) {
-		// TODO
-	}
-
-	@Override
-	public boolean onMarkerClick(Marker marker) {
-		// TODO
-		return true;
 	}
 
 	@Override
@@ -124,7 +134,26 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 
 	@Override
 	public void setLocationsResult(List<Location> locations) {
-		// TODO
+		Timber.d("setLocationsResult map=%s  &  locations=%s", map, locations);
+		if (map == null)
+			return;
+		if (this.locations != null && locations != null && this.locations.containsAll(locations))
+			return;
+
+		this.locations = locations;
+		// Attempt to cancel the in-flight request.
+		if (setMarkersTask != null) {
+			setMarkersTask.cancel(true);
+		}
+
+		if (locations == null || locations.isEmpty()) {
+			// clear the map when we don't have locations
+			map.clear();
+			clusterManager.clearItems();
+		} else {
+			setMarkersTask = new SetLocationMarkersTask();
+			setMarkersTask.execute(locations);
+		}
 	}
 
 	@Override
@@ -136,9 +165,37 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	}
 
 	@Override
-	public void onMyLocationChange(android.location.Location myLocation) {
-		Timber.d("onMyLocationChange");
-		map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(myLocation.getLatitude(), myLocation.getLongitude())));
+	public boolean onClusterClick(Cluster<Location> cluster) {
+		Timber.d("onClusterClick: cluster count = %s ", cluster.getSize());
+		// TODO case when 2 or more locations have same position
+		return true;
+	}
+
+	@Override
+	public void onClusterItemInfoWindowClick(Location item) {
+		// go to location details
+		// TODO
+	}
+
+	private void setUpMapIfNeeded() {
+		Timber.i("setUpMapIfNeeded: map = %s ", map);
+		// Do a null check to confirm that we have not already instantiated the map.
+		if (map == null) {
+			// Try to obtain the map from the SupportMapFragment.
+			map = getMap();
+			// Check if we were successful in obtaining the map.
+			if (map != null) {
+				// setup cluster manager and needed listeners
+				clusterManager = new ClusterManager<>(getActivity(), map);
+				clusterManager.setRenderer(new LocationRenderer());
+				map.setOnCameraChangeListener(clusterManager);
+				map.setOnMarkerClickListener(clusterManager);
+				map.setOnInfoWindowClickListener(clusterManager);
+				clusterManager.setOnClusterItemInfoWindowClickListener(this);
+				clusterManager.setOnClusterClickListener(this);
+				setLocationsResult(((LocationsActivity) getActivity()).getLocations());
+			}
+		}
 	}
 
 	/**
@@ -153,6 +210,8 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 		} else if (map != null) {
 			Timber.d("enableMyLocation: Access to the location has been granted to the app");
 			map.setMyLocationEnabled(true);
+			if (mapCentered) // try to center map only once
+				return;
 			// need to delay in order for the map to have the "my location" set
 			fragmentView.postDelayed(new Runnable() {
 				@Override
@@ -170,10 +229,70 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 							.target(new LatLng(location.getLatitude(), location.getLongitude()))
 							.zoom(zoom).build();
 					map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+					mapCentered = true;
 				}
 			}, 500);
 		}
 	}
 
+	private class SetLocationMarkersTask extends AsyncTask<List<Location>, Void, Void> {
 
+		public SetLocationMarkersTask() {
+			super();
+		}
+
+		@Override
+		protected Void doInBackground(List<Location>... locationsList) {
+			List<Location> locations = locationsList[0];
+			if (locations != null && locations.size() > 0) {
+				List<Location> locationsWitGeoPosition = new ArrayList<>();
+				for (Location location : locations) {
+					// don't show locations which don't have geo position
+					if (location.hasGeoLocation()) {
+						locationsWitGeoPosition.add(location);
+					}
+				}
+
+				if (!isCancelled()) {
+					clusterManager.addItems(locationsWitGeoPosition);
+				}
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			Timber.d("SetLocationMarkersTask - onPostExecute");
+			// force a re-cluster after adding new markers
+			clusterManager.cluster();
+		}
+	}
+
+	/**
+	 * Show location title and address when the marker is tapped
+	 */
+	private class LocationRenderer extends DefaultClusterRenderer<Location> {
+
+		public LocationRenderer() {
+			super(getActivity().getApplicationContext(), getMap(), clusterManager);
+		}
+
+		@Override
+		protected void onBeforeClusterItemRendered(Location shop, MarkerOptions markerOptions) {
+			// Set the info window to show the shop name and address
+			markerOptions.title(shop.title).snippet(shop.address);
+			super.onBeforeClusterItemRendered(shop, markerOptions);
+		}
+
+		@Override
+		protected void onBeforeClusterRendered(Cluster<Location> cluster, MarkerOptions markerOptions) {
+			super.onBeforeClusterRendered(cluster, markerOptions);
+		}
+
+		@Override
+		protected boolean shouldRenderAsCluster(Cluster<Location> cluster) {
+			// Always render clusters.
+			return cluster.getSize() > 1;
+		}
+	}
 }

@@ -104,6 +104,10 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		((LocationsMapFragment) mapFragment).onRequestPermissionsEnded(requestCode, permissions, grantResults);
 	}
 
+	public List<Location> getLocations() {
+		return locations;
+	}
+
 	private void initFragments(ViewMode viewMode) {
 		FragmentManager fm = getSupportFragmentManager();
 		mapFragment = fm.findFragmentByTag(FRAGMENT_TAG_MAP);
