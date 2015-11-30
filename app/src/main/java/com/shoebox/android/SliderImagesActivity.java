@@ -29,26 +29,17 @@ public class SliderImagesActivity extends AppCompatActivity implements BaseSlide
         setSupportActionBar(toolbar);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         HashMap<String, String> url_maps = new HashMap<String, String>();
-        url_maps.put("Termen limita si grija la continut\n" +
-                "Puteti pune in cutie tot ce intra, ce vreti si ce credeti ca ii trebuie unui copil de varsta si genul pentru care aveti pe inima sa cumparati ceva.\n", "http://www.shoebox.ro/wp-content/uploads/2014/06/Slide-2-shoebox.ro-top-header.jpg");
-        url_maps.put("Ce punem in cutii?\n\n" +
-                "Se inveleste frumos in hartie cutia si capacul ei, fiecare separat, apoi pui in cutie tot ce ai pe suflet sa cumperi sau ai prin casa si poti darui.\n", "http://www.shoebox.ro/wp-content/uploads/2014/06/Slide-3-shoebox.ro-top-header.jpg");
-        url_maps.put("Unde se strang cutiile?\n\n" +
-                "Pentru ca numarul locatiilor si pozitia acestora difera de la an la an, le puteti vedea in ecranul cu LOCATII, unde incercam sa le pastram actualizate.\n", "http://www.shoebox.ro/wp-content/uploads/2014/06/Slide-4-shoebox.ro-top-header-740x360.jpg");
-        url_maps.put("Fii partener ShoeBox!\n\n" +
-                "Vrem sa lucram impreuna si s-o facem organizat, de aceea o sa avem nevoie de 3 tipuri de parteneri operationali.\n", "http://www.shoebox.ro/wp-content/uploads/2014/06/Slide-5-shoebox.ro-top-header.jpg");
-        url_maps.put("Ce este ShoeBox?\n\n" +
-                "ShoeBox reprezinta o incercare minuscula de a face lumea un loc mai frumos. In fiecare an, in preajma sarbatorilor de Craciun, vrem sa punem un zambet pe chipurile a zeci de mii de copii sarmani din orasele in care locuim si nu numai.\n", "http://www.shoebox.ro/wp-content/uploads/2014/06/Slide-1-shoebox.ro-top-header-740x360.jpg");
+        url_maps.put(getResources().getString(R.string.deadline_slide), "http://www.shoebox.ro/wp-content/uploads/2014/06/Slide-2-shoebox.ro-top-header.jpg");
+        url_maps.put(getResources().getString(R.string.boxcontent_slide), "http://www.shoebox.ro/wp-content/uploads/2014/06/Slide-3-shoebox.ro-top-header.jpg");
+        url_maps.put(getResources().getString(R.string.location_slider), "http://www.shoebox.ro/wp-content/uploads/2014/06/Slide-4-shoebox.ro-top-header-740x360.jpg");
+        url_maps.put(getResources().getString(R.string.partner_slide), "http://www.shoebox.ro/wp-content/uploads/2014/06/Slide-5-shoebox.ro-top-header.jpg");
+        url_maps.put(getResources().getString(R.string.shoebox_slide), "http://www.shoebox.ro/wp-content/uploads/2014/06/Slide-1-shoebox.ro-top-header-740x360.jpg");
 
         HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Termen limita si grija la continut\n\n" +
-                "Puteti pune in cutie tot ce intra, ce vreti si ce credeti ca ii trebuie unui copil de varsta si genul pentru care aveti pe inima sa cumparati ceva.", R.drawable.slide2);
-        file_maps.put("Ce punem in cutii?\n\n" +
-                "Se inveleste frumos in hartie cutia si capacul ei, fiecare separat, apoi pui in cutie tot ce ai pe suflet sa cumperi sau ai prin casa si poti darui.", R.drawable.slide3);
-        file_maps.put("Unde se strang cutiile?\n\n" +
-                "Pentru ca numarul locatiilor si pozitia acestora difera de la an la an, le puteti vedea in ecranul cu LOCATII, unde incercam sa le pastram actualizate", R.drawable.slide4);
-        file_maps.put("Fii partener ShoeBox!\n\n" +
-                "Vrem sa lucram impreuna si s-o facem organizat, de aceea o sa avem nevoie de 3 tipuri de parteneri operationali.", R.drawable.slide5);
+        file_maps.put(getResources().getString(R.string.deadline_slide), R.drawable.slide2);
+        file_maps.put(getResources().getString(R.string.boxcontent_slide), R.drawable.slide3);
+        file_maps.put(getResources().getString(R.string.location_slider), R.drawable.slide4);
+        file_maps.put(getResources().getString(R.string.partner_slide), R.drawable.slide5);
         file_maps.put("Ce este ShoeBox?\n\n" +
                 "ShoeBox reprezinta o incercare minuscula de a face lumea un loc mai frumos. In fiecare an, in preajma sarbatorilor de Craciun, vrem sa punem un zambet pe chipurile a zeci de mii de copii sarmani din orasele in care locuim si nu numai."
                 , R.drawable.slide1);
