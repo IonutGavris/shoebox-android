@@ -21,10 +21,15 @@
 	<string name="btn_boy">Baietel</string>
 	<string name="btn_girl">Fetita</string>
 
+
+
 	<string name="agePreset">%1$d–%2$d ani</string>
 	<string name="ageOther">Alta varsta</string>
 
 	<string name="age_dialog_title">Alta varsta: %1$d ani</string>
+
+	<string name="header_age_picker">Alege Varsta</string>
+	<string name="header_suggestions">Sugestii</string>
 
 
 </resources>

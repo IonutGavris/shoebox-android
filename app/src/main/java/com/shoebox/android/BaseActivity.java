@@ -1,6 +1,7 @@
 package com.shoebox.android;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.NavUtils;
@@ -47,6 +48,7 @@ public class BaseActivity extends AppCompatActivity {
 
 	@Override
 	public void setContentView(int layoutResID) {
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.setContentView(layoutResID);
 		ButterKnife.inject(this);
 		configureActionBar();
@@ -54,6 +56,7 @@ public class BaseActivity extends AppCompatActivity {
 
 	@Override
 	public void setContentView(View view) {
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.setContentView(view);
 		ButterKnife.inject(this);
 		configureActionBar();
@@ -61,6 +64,7 @@ public class BaseActivity extends AppCompatActivity {
 
 	@Override
 	public void setContentView(View view, ViewGroup.LayoutParams params) {
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.setContentView(view, params);
 		ButterKnife.inject(this);
 		configureActionBar();

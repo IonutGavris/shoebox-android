@@ -18,28 +18,47 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
-public class AgePickerAdapter extends RecyclerView.Adapter<AgePickerAdapter.AgeHolder> {
-	private List<AgeInterval> ageIntevals = new ArrayList<>();
+public class AgePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+	private List<AgeInterval> ageIntervals = new ArrayList<>();
+	private static final int LIST_HEADER = 0;
+	private static final int LIST_ITEM = 1;
 
-	public void setAgeIntevals(List<AgeInterval> ageIntevals) {
-		this.ageIntevals.clear();
-		this.ageIntevals.addAll(ageIntevals);
+	public void setAgeIntervals(List<AgeInterval> ageIntervals) {
+		this.ageIntervals.clear();
+		this.ageIntervals.addAll(ageIntervals);
 	}
 
 	@Override
-	public AgeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.age_item, parent, false);
-		return new AgeHolder(v);
+	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		switch (viewType) {
+			case LIST_HEADER:
+				return new DefaultViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.age_header, parent, false));
+			case LIST_ITEM:
+				return new AgeHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.age_item, parent, false));
+		}
+		return null;
 	}
 
 	@Override
-	public void onBindViewHolder(AgeHolder holder, int position) {
-		holder.setData(ageIntevals.get(position));
+	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+		if (getItemViewType(position) == LIST_ITEM) {
+			((AgeHolder) holder).setData(ageIntervals.get(position - 1));
+		}
 	}
 
 	@Override
 	public int getItemCount() {
-		return ageIntevals.size();
+		return ageIntervals.size() + 1;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		switch (position) {
+			case 0:
+				return LIST_HEADER;
+			default:
+				return LIST_ITEM;
+		}
 	}
 
 	public static class AgeHolder extends RecyclerView.ViewHolder {
@@ -71,6 +90,12 @@ public class AgePickerAdapter extends RecyclerView.Adapter<AgePickerAdapter.AgeH
 
 		public void setChecked(AgeInterval interval) {
 			txtAgeInterval.setChecked(ageInterval.equals(interval));
+		}
+	}
+
+	public static class DefaultViewHolder extends RecyclerView.ViewHolder {
+		public DefaultViewHolder(View itemView) {
+			super(itemView);
 		}
 	}
 }

@@ -51,7 +51,7 @@ public class GenderAgePickerActivity extends BaseActivity {
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 		adapter = new AgePickerAdapter();
-		adapter.setAgeIntevals(getAgeIntevals());
+		adapter.setAgeIntervals(getAgeIntevals());
 		recyclerView.setAdapter(adapter);
 	}
 
@@ -94,7 +94,10 @@ public class GenderAgePickerActivity extends BaseActivity {
 			dialog.show(getSupportFragmentManager(), "");
 		}
 		for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
-			((AgePickerAdapter.AgeHolder) recyclerView.findViewHolderForAdapterPosition(i)).setChecked(event.ageInterval);
+			RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
+			if (holder instanceof AgePickerAdapter.AgeHolder) {
+				((AgePickerAdapter.AgeHolder) holder).setChecked(event.ageInterval);
+			}
 		}
 	}
 

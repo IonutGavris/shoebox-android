@@ -16,7 +16,7 @@
 		android:layout_centerVertical="true"
 		android:paddingLeft="@dimen/keyline_1"
 		android:src="@mipmap/ic_location_pin"
-		android:tint="@color/location_gray"/>
+		android:tint="@color/app_gray"/>
 
 	<TextView
 		android:id="@+id/locationTitleView"

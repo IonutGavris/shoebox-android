@@ -15,8 +15,12 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.SuggestionHolder> {
+public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+	private static final int ITEM_HEADER_IMAGE = 0;
+	private static final int ITEM_HEADER_TEXT = 1;
+	private static final int ITEM_SUGGESTION = 2;
 	private List<Suggestion> suggestions = new ArrayList<>();
+
 
 	public void setSuggestions(List<Suggestion> offers) {
 		this.suggestions.clear();
@@ -25,19 +29,42 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 	}
 
 	@Override
-	public SuggestionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.suggestion_item, parent, false);
-		return new SuggestionHolder(v);
+	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+		switch (viewType) {
+			case ITEM_HEADER_IMAGE:
+				return new DefaultViewHolder(inflater.inflate(R.layout.suggestion_header_image, parent, false));
+			case ITEM_HEADER_TEXT:
+				return new DefaultViewHolder(inflater.inflate(R.layout.suggestion_header_text, parent, false));
+			case ITEM_SUGGESTION:
+				return new SuggestionHolder(inflater.inflate(R.layout.suggestion_item, parent, false));
+		}
+		return null;
 	}
 
 	@Override
-	public void onBindViewHolder(SuggestionHolder holder, int position) {
-		holder.setData(suggestions.get(position));
+	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+		if (getItemViewType(position) == ITEM_SUGGESTION) {
+			((SuggestionHolder) holder).setData(suggestions.get(position - 2));
+		}
 	}
 
 	@Override
 	public int getItemCount() {
-		return suggestions.size();
+		// add the first two items
+		return suggestions.size() + 2;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		switch (position) {
+			case 0:
+				return ITEM_HEADER_IMAGE;
+			case 1:
+				return ITEM_HEADER_TEXT;
+			default:
+				return ITEM_SUGGESTION;
+		}
 	}
 
 	public static class SuggestionHolder extends RecyclerView.ViewHolder {
@@ -52,6 +79,13 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 
 		public void setData(Suggestion suggestion) {
 			suggestionTitle.setText(suggestion.name);
+		}
+	}
+
+	public static class DefaultViewHolder extends RecyclerView.ViewHolder {
+
+		public DefaultViewHolder(View itemView) {
+			super(itemView);
 		}
 	}
 }

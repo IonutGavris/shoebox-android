@@ -15,5 +15,5 @@
 	<color name="text_blue">#014e91</color>
 	<color name="text_white">#ffffff</color>
 
-	<color name="location_gray">#aaaaaa</color>
+	<color name="app_gray">#aaaaaa</color>
 </resources>

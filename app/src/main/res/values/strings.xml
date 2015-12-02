@@ -45,4 +45,7 @@
 
 	<string name="age_dialog_title">Other age: %1$d years</string>
 
+	<string name="header_age_picker">Select Age</string>
+	<string name="header_suggestions">Suggestions</string>
+
 </resources>
