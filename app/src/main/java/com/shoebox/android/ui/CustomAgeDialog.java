@@ -38,6 +38,8 @@ public class CustomAgeDialog extends DialogFragment {
 
 			}
 		});
+		ageSelection.setProgress(14);
+		dialogTitle.setText(String.format(getResources().getString(R.string.age_dialog_title), 15));
 
 		return view;
 	}
