@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_gravity="center"
+	android:padding="@dimen/keyline_1">
+
+	<TextView
+		android:id="@+id/dialogTitle"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/keyline_1"
+		android:text="Alta varsta: 15 Ani"
+		android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+	<SeekBar
+		android:id="@+id/ageSelection"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/dialogTitle"
+		android:layout_marginBottom="@dimen/keyline_1"
+		android:max="19"
+		android:progress="15"
+		/>
+
+	<Button
+		android:id="@+id/ok"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_below="@id/ageSelection"
+		android:text="OK"/>
+</RelativeLayout>

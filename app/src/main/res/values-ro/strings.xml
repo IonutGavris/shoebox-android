@@ -4,8 +4,8 @@
 	<string name="btn_drop_location">Unde las cutia?</string>
 	<string name="title_activity_locations">Locatii</string>
 
-    <!-- intro screen -->
-    <string name="btn_skip">Sari peste</string>
+	<!-- intro screen -->
+	<string name="btn_skip">Sari peste</string>
 
 	<!-- slider screen -->
 	<string name="deadline_slide">Termen limita si grija la continut \n\n Puteti pune in cutie tot ce intra, ce vreti si ce credeti ca ii trebuie unui copil de varsta si genul pentru care aveti pe inima sa cumparati ceva.</string>
@@ -20,6 +20,11 @@
 
 	<string name="btn_boy">Baietel</string>
 	<string name="btn_girl">Fetita</string>
+
+	<string name="agePreset">%1$d–%2$d ani</string>
+	<string name="ageOther">Alta varsta</string>
+
+	<string name="age_dialog_title">Alta varsta: %1$d ani</string>
 
 
 </resources>

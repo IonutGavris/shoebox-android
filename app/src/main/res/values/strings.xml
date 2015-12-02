@@ -1,43 +1,48 @@
 <resources>
-    <string name="app_name">ShoeBoxAndroid</string>
+	<string name="app_name">ShoeBoxAndroid</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_gender_picker">GenderPickerActivity</string>
+	<string name="action_settings">Settings</string>
+	<string name="title_activity_gender_picker">GenderPickerActivity</string>
 
-    <string name="title_shoebox">ShoeBox</string>
-    <string name="btn_box_content">What should I put in the box?</string>
-    <string name="btn_drop_location">Where can I leave the box?</string>
-    <string name="title_activity_locations">Locations</string>
+	<string name="title_shoebox">ShoeBox</string>
+	<string name="btn_box_content">What should I put in the box?</string>
+	<string name="btn_drop_location">Where can I leave the box?</string>
+	<string name="title_activity_locations">Locations</string>
 
-    <string name="btn_boy">Boy</string>
-    <string name="btn_girl">Girl</string>
+	<string name="btn_boy">Boy</string>
+	<string name="btn_girl">Girl</string>
 
-    <!-- intro screen -->
-    <string name="btn_skip">Skip</string>
+	<!-- intro screen -->
+	<string name="btn_skip">Skip</string>
 
-    <string name="deadline_slide">Watch the due date and be careful with the context of the box \n\n You can put in the box what ever can fit in, what ever you think a child would need.</string>
-    <string name="boxcontent_slide">What we put in the boxes ? \n\n We wrap up nicely the box and the cover and then we put in the box what you what to send as a gift or what you have in the house and can give.</string>
-    <string name="location_slider">Where do we collect boxes ? \n\n Because the number of the locations and their position change from year to year, you can see them in the LOCATIONS screen, where we try to keep them updated.</string>
-    <string name="partner_slide">Be a ShoeBox partner ! \n\n We want to work together and to be organized, that is why we need 3 types of operational partners.</string>
-    <string name="shoebox_slide">What is ShoeBox ? \n\n ShoeBox represents our tries to make the world a better place. Each year, around Christmas, we wish to put a smile on the faces of thousands of children that are in needs, from the cities we live in and around them.</string>
+	<string name="deadline_slide">Watch the due date and be careful with the context of the box \n\n You can put in the box what ever can fit in, what ever you think a child would need.</string>
+	<string name="boxcontent_slide">What we put in the boxes ? \n\n We wrap up nicely the box and the cover and then we put in the box what you what to send as a gift or what you have in the house and can give.</string>
+	<string name="location_slider">Where do we collect boxes ? \n\n Because the number of the locations and their position change from year to year, you can see them in the LOCATIONS screen, where we try to keep them updated.</string>
+	<string name="partner_slide">Be a ShoeBox partner ! \n\n We want to work together and to be organized, that is why we need 3 types of operational partners.</string>
+	<string name="shoebox_slide">What is ShoeBox ? \n\n ShoeBox represents our tries to make the world a better place. Each year, around Christmas, we wish to put a smile on the faces of thousands of children that are in needs, from the cities we live in and around them.</string>
 
-    <!-- about screen -->
-    <string name="about_txt">A family project started in 2007. The rest is a nice story, in which each volunteer adds new page. \n\n2006-2015 shoebox. | The gift from the shoebox. Trademark.</string>
-    <string name="subject_mail">Message ShoeBox Android App</string>
+	<!-- about screen -->
+	<string name="about_txt">A family project started in 2007. The rest is a nice story, in which each volunteer adds new page. \n\n2006-2015 shoebox. | The gift from the shoebox. Trademark.</string>
+	<string name="subject_mail">Message ShoeBox Android App</string>
 
 	<string name="permission_rationale_location">Access to the location service is required to demonstrate the \'My
 		location\' feature, which shows your current location on the map.</string>
 	<string name="location_permission_denied">This app requires location permission to enable the \'My location\'
 		layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied,
 		it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
-    <string name="permission_required_toast">Location permission is required for this app.</string>
+	<string name="permission_required_toast">Location permission is required for this app.</string>
 
-    <string name="label_city_country">%1$s, %2$s</string>
-    <string name="title_activity_intro">Intro</string>
-    <string name="title_activity_slider_images">ShoeBox</string>
-    <string name="title_activity_about">AboutActivity</string>
+	<string name="label_city_country">%1$s, %2$s</string>
+	<string name="title_activity_intro">Intro</string>
+	<string name="title_activity_slider_images">ShoeBox</string>
+	<string name="title_activity_about">AboutActivity</string>
+
+	<string name="agePreset">%1$d–%2$d years</string>
+	<string name="ageOther">Other age</string>
+
+	<string name="age_dialog_title">Other age: %1$d years</string>
 
 </resources>
