@@ -48,4 +48,12 @@
 	<string name="header_age_picker">Select Age</string>
 	<string name="header_suggestions">Suggestions</string>
 
+	<string name="msg_no_navigation">No navigation software was found on your device.</string>
+
+	<string name="label_distance_calculating">Distance: calculating&#8230;</string>
+	<string name="label_distance_na">Distance: NA</string>
+	<string name="label_distance">Distance: %1$f km</string>
+
+	<string name="msg_no_dial">There are no dial applications installed.</string>
+
 </resources>

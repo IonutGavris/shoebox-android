@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import com.shoebox.android.R;
 import com.shoebox.android.beans.Location;
+import com.shoebox.android.event.LocationClickedEvent;
+import com.shoebox.android.util.BusProvider;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,17 +50,29 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.Loca
 	}
 
 	public class LocationViewHolder extends RecyclerView.ViewHolder {
+		private final Bus bus = BusProvider.get();
+
 		@InjectView(R.id.locationTitleView)
 		TextView locationTitleView;
 		@InjectView(R.id.cityCountryView)
 		TextView cityCountryView;
 
+		private Location location;
+
 		public LocationViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.inject(this, itemView);
+
+			itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					bus.post(new LocationClickedEvent(location));
+				}
+			});
 		}
 
 		public void setData(final Location location) {
+			this.location = location;
 			locationTitleView.setText(location.title);
 			cityCountryView.setText(cityCountryView.getResources().getString(R.string.label_city_country, location
 					.city, location.country));

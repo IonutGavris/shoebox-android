@@ -16,8 +16,12 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 import com.shoebox.android.beans.Location;
+import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.fragment.LocationsListFragment;
 import com.shoebox.android.fragment.LocationsMapFragment;
+import com.shoebox.android.util.BusProvider;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -27,10 +31,12 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 
 	private static final String BUNDLE_CURRENT_VIEW_MODE = "current_view_mode";
 
-	private static final String FRAGMENT_TAG_MAP = "map_shops";
-	private static final String FRAGMENT_TAG_LIST = "list_shops";
+	private static final String FRAGMENT_TAG_MAP = "map_locations";
+	private static final String FRAGMENT_TAG_LIST = "list_locations";
 
-	private static final String dataPath = "/locations/";
+	private static final String dataPath = "/temp/";
+
+	private final Bus bus = BusProvider.get();
 
 	private Fragment mapFragment;
 	private Fragment listFragment;
@@ -93,6 +99,18 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		bus.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		bus.unregister(this);
+		super.onPause();
+	}
+
+	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(BUNDLE_CURRENT_VIEW_MODE, currentViewMode.ordinal());
@@ -106,6 +124,11 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 
 	public List<Location> getLocations() {
 		return locations;
+	}
+
+	@Subscribe
+	public void onLocationClicked(LocationClickedEvent event) {
+		startActivity(LocationDetailsActivity.getLaunchingIntent(this, event.location));
 	}
 
 	private void initFragments(ViewMode viewMode) {

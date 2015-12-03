@@ -22,7 +22,10 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.shoebox.android.LocationsActivity;
 import com.shoebox.android.beans.Location;
+import com.shoebox.android.event.LocationClickedEvent;
+import com.shoebox.android.util.BusProvider;
 import com.shoebox.android.util.PermissionUtils;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +40,13 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	private static final double ROMANIA_CENTER_LONGITUDE = 24.91699199999993;
 
 	private static final String BUNDLE_MAP_CENTERED = "map_centered";
-
 	/**
 	 * Request code for location permission request.
 	 *
 	 * @see #onRequestPermissionsResult(int, String[], int[])
 	 */
 	private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+	private final Bus bus = BusProvider.get();
 	boolean mapCentered = false;
 	/**
 	 * Flag indicating whether a requested permission has been denied after returning in
@@ -174,7 +177,7 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	@Override
 	public void onClusterItemInfoWindowClick(Location item) {
 		// go to location details
-		// TODO
+		bus.post(new LocationClickedEvent(item));
 	}
 
 	private void setUpMapIfNeeded() {
