@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.shoebox.android.adapter.LocationDetailsRecyclerAdapter;
 import com.shoebox.android.beans.Location;
@@ -79,6 +80,17 @@ public class LocationDetailsActivity extends BaseActivity {
 	public void onPause() {
 		bus.unregister(this);
 		super.onPause();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 	private void initMapFragment() {
