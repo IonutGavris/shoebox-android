@@ -2,7 +2,6 @@ package com.shoebox.android;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.MediaController;
@@ -19,8 +18,9 @@ public class IntroActivity extends Activity {
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
-        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.shoeboxvideo));
-        videoView.start();
+	    // TODO remove this screen
+	    //videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.shoeboxvideo));
+	    videoView.start();
     }
 
     public void btnSkip_onClick(View v)
