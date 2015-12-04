@@ -32,6 +32,9 @@ public class GenderAgePickerActivity extends BaseActivity {
 	@InjectView(R.id.recyclerView)
 	RecyclerView recyclerView;
 
+	@InjectView(R.id.disableView)
+	View disableView;
+
 	private AgePickerAdapter adapter;
 
 	public static Intent getLaunchingIntent(Context context) {
@@ -42,7 +45,7 @@ public class GenderAgePickerActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gender_age_picker);
-		setTitle("Cui daruiesti cadoul");
+		setTitle(R.string.title_activity_picker);
 		bus.register(this);
 
 		recyclerView.setHasFixedSize(true);
@@ -74,12 +77,14 @@ public class GenderAgePickerActivity extends BaseActivity {
 	public void onGirlClicked() {
 		girlCheck.setVisibility(View.VISIBLE);
 		boyCheck.setVisibility(View.INVISIBLE);
+		disableView.setVisibility(View.GONE);
 	}
 
 	@OnClick(R.id.boy)
 	public void onBoyClicked() {
 		boyCheck.setVisibility(View.VISIBLE);
 		girlCheck.setVisibility(View.INVISIBLE);
+		disableView.setVisibility(View.GONE);
 	}
 
 	@Override

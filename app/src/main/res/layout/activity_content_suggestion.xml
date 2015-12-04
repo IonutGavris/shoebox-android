@@ -19,20 +19,15 @@
 			android:id="@+id/recyclerView"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:layout_above="@+id/nextStep"
 			android:scrollbars="vertical"/>
 
-		<TextView
-			android:id="@+id/nextStep"
+		<Button
+			android:id="@id/nextStep"
 			android:layout_width="match_parent"
-			android:layout_height="?actionBarSize"
+			android:layout_height="wrap_content"
 			android:layout_alignParentBottom="true"
-			android:background="?selectableItemBackground"
-			android:clickable="true"
-			android:gravity="center_vertical"
-			android:paddingBottom="16dp"
-			android:text="Next"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:textStyle="bold"/>
+			android:text="@string/btn_box_packing_guide"/>
 
 
 	</RelativeLayout>

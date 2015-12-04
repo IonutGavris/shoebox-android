@@ -18,4 +18,5 @@
 	<color name="text_light_gray">#aaaaaa</color>
 
 	<color name="app_gray">#aaaaaa</color>
+	<color name="disable_layer">#94ffffff</color>
 </resources>

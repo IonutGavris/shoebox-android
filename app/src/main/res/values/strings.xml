@@ -8,8 +8,13 @@
 	<string name="title_activity_gender_picker">GenderPickerActivity</string>
 
 	<string name="title_shoebox">ShoeBox</string>
-	<string name="btn_box_content">What should I put in the box?</string>
-	<string name="btn_drop_location">Where can I leave the box?</string>
+	<string name="btn_box_content">How do I prepare a box?</string>
+	<string name="btn_drop_location">Where do I take the box?</string>
+	<string name="btn_box_content_suggestions">What to put in the box?</string>
+	<string name="btn_box_packing_guide">How to pack the box?</string>
+
+	<string name="title_activity_picker">For who the box is?</string>
+	<string name="title_activity_suggestions">Box content suggestions</string>
 	<string name="title_activity_locations">Locations</string>
 
 	<string name="btn_boy">Boy</string>
@@ -46,7 +51,7 @@
 	<string name="age_dialog_title">Other age: %1$d years</string>
 
 	<string name="header_age_picker">Select Age</string>
-	<string name="header_suggestions">Suggestions</string>
+	<string name="header_suggestions">Suggestions for a %1$d yrs old %2$s</string>
 
 	<string name="msg_no_navigation">No navigation software was found on your device.</string>
 

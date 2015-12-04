@@ -49,7 +49,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_content_suggestion);
 //		bus.register(this);
-		setTitle("Sugestii continut");
+		setTitle(R.string.title_activity_suggestions);
 
 		recyclerView.setHasFixedSize(true);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -57,6 +57,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 		adapter = new SuggestionsAdapter();
+		adapter.setSuggestionsTarget(isMale, age);
 		recyclerView.setAdapter(adapter);
 
 		firebase.child(dataPath).addValueEventListener(new ValueEventListener() {
