@@ -161,6 +161,8 @@ class LocationDetailHolder extends RecyclerView.ViewHolder {
 class LocationContactHolder extends RecyclerView.ViewHolder {
 	private final Bus bus = BusProvider.get();
 
+	@InjectView(R.id.contactIcon)
+	ImageView contactIcon;
 	@InjectView(R.id.contactName)
 	TextView contactName;
 	@InjectView(R.id.contactDetail)
@@ -182,12 +184,15 @@ class LocationContactHolder extends RecyclerView.ViewHolder {
 		contactDetail.setVisibility(locationContact.hasPhoneNumber() ? View.VISIBLE : View.GONE);
 
 		if (locationContact.hasPhoneNumber()) {
+			contactIcon.setImageResource(R.drawable.ic_contact_phone_black_24dp);
 			itemView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					bus.post(new ContactCallClickedEvent(locationContact.phoneNumber));
 				}
 			});
+		} else {
+			contactIcon.setImageResource(R.drawable.ic_face_black_24dp);
 		}
 	}
 }
