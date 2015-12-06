@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:layout_gravity="center"
@@ -11,8 +12,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/keyline_1"
-		android:text="Alta varsta: 15 Ani"
-		android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+		android:textAppearance="@style/TextAppearance.AppCompat.Title"
+		tools:text="Alta varsta: 15 Ani"/>
 
 	<SeekBar
 		android:id="@+id/ageSelection"
@@ -20,15 +21,15 @@
 		android:layout_height="wrap_content"
 		android:layout_below="@id/dialogTitle"
 		android:layout_marginBottom="@dimen/keyline_1"
-		android:max="19"
-		android:progress="15"
+		tools:progress="15"
 		/>
 
 	<Button
-		android:id="@+id/ok"
+		android:id="@+id/okBtn"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_below="@id/ageSelection"
-		android:text="OK"/>
+		android:text="OK"
+		android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
 </RelativeLayout>

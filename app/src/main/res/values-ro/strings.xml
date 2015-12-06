@@ -26,9 +26,9 @@
 	<string name="btn_boy">Baietel</string>
 	<string name="btn_girl">Fetita</string>
 
-
-	<string name="agePreset">%1$d–%2$d ani</string>
-	<string name="ageOther">Alta varsta</string>
+	<string name="age_preset">%1$d–%2$d ani</string>
+	<string name="age_other_undefined">Alta varsta</string>
+	<string name="age_other_defined">Alta varsta: %1$d ani</string>
 
 	<string name="age_dialog_title">Alta varsta: %1$d ani</string>
 

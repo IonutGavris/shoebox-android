@@ -45,8 +45,9 @@
 	<string name="title_activity_slider_images">ShoeBox</string>
 	<string name="title_activity_about">AboutActivity</string>
 
-	<string name="agePreset">%1$d–%2$d years</string>
-	<string name="ageOther">Other age</string>
+	<string name="age_preset">%1$d–%2$d years</string>
+	<string name="age_other_undefined">Other age</string>
+	<string name="age_other_defined">Other age: %1$d years</string>
 
 	<string name="age_dialog_title">Other age: %1$d years</string>
 

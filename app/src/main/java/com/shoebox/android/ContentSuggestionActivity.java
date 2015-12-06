@@ -13,6 +13,7 @@ import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 import com.shoebox.android.adapter.SuggestionsAdapter;
 import com.shoebox.android.beans.Suggestion;
+import com.shoebox.android.util.DividerItemDecoration;
 
 import java.util.List;
 
@@ -56,6 +57,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
+		recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 		adapter = new SuggestionsAdapter();
 		adapter.setSuggestionsTarget(isMale, age);
 		recyclerView.setAdapter(adapter);
@@ -68,10 +70,13 @@ public class ContentSuggestionActivity extends BaseActivity {
 				GenericTypeIndicator<List<Suggestion>> t = new GenericTypeIndicator<List<Suggestion>>() {
 				};
 				List<Suggestion> suggestions = dataSnapshot.getValue(t);
-				if (suggestions != null && suggestions.size() > 1 && suggestions.get(0) == null) {
-					suggestions.remove(0);
-					Timber.d("The %s count = %s", dataPath, suggestions.size());
+				for (int i = 0; i < suggestions.size(); i++) {
+					if (suggestions.get(i) == null) {
+						suggestions.remove(i);
+					}
 				}
+
+				Timber.d("The %s count = %s", dataPath, suggestions.size());
 				adapter.setSuggestions(suggestions);
 			}
 
@@ -86,6 +91,6 @@ public class ContentSuggestionActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-	//	bus.unregister(this);
+		//	bus.unregister(this);
 	}
 }

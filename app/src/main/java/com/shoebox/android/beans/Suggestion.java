@@ -7,6 +7,7 @@ package com.shoebox.android.beans;
 public class Suggestion {
 	public String name;
 	public String description;
+	public int category;
 	public String sex;
 	public int minAge;
 	public int maxAge;
@@ -14,8 +15,9 @@ public class Suggestion {
 	@Override
 	public String toString() {
 		return "Suggestion{" +
-				"description='" + description + '\'' +
-				", name='" + name + '\'' +
+				"name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", category=" + category +
 				", sex='" + sex + '\'' +
 				", minAge=" + minAge +
 				", maxAge=" + maxAge +

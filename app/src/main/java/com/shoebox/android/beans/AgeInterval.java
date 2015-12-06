@@ -13,13 +13,9 @@ public class AgeInterval {
 		this.maxAge = maxAge;
 	}
 
-	public AgeInterval(int maxAge, boolean custom) {
-		this.minAge = maxAge;
-		this.maxAge = maxAge;
-		this.custom = custom;
-	}
-
-	public AgeInterval(boolean custom) {
-		this.custom = custom;
+	public AgeInterval(int customAge) {
+		this.minAge = customAge;
+		this.maxAge = customAge;
+		this.custom = true;
 	}
 }

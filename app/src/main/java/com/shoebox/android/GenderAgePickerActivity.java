@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.shoebox.android.adapter.AgePickerAdapter;
 import com.shoebox.android.beans.AgeInterval;
+import com.shoebox.android.event.CustomAgePickedEvent;
 import com.shoebox.android.events.AgeSelectedEvent;
 import com.shoebox.android.ui.CustomAgeDialog;
 
@@ -22,6 +23,8 @@ import de.greenrobot.event.EventBus;
 
 public class GenderAgePickerActivity extends BaseActivity {
 	private EventBus bus = EventBus.getDefault();
+	private static final int INITIAL_CUSTOM_AGE = 0;
+	private static final int DEFAULT_CUSTOM_AGE = 15;
 
 	@InjectView(R.id.boyCheck)
 	View boyCheck;
@@ -54,18 +57,20 @@ public class GenderAgePickerActivity extends BaseActivity {
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 		adapter = new AgePickerAdapter();
-		adapter.setAgeIntervals(getAgeIntevals());
 		recyclerView.setAdapter(adapter);
+
+		// no custom age set by default
+		fillAdapter(INITIAL_CUSTOM_AGE);
 	}
 
-	private List<AgeInterval> getAgeIntevals() {
-		List<AgeInterval> results = new ArrayList<>();
-		results.add(new AgeInterval(4, 6));
-		results.add(new AgeInterval(6, 8));
-		results.add(new AgeInterval(8, 10));
-		results.add(new AgeInterval(10, 12));
-		results.add(new AgeInterval(true));
-		return results;
+	private void fillAdapter(int customValue) {
+		List<AgeInterval> values = new ArrayList<>();
+		values.add(new AgeInterval(4, 6));
+		values.add(new AgeInterval(6, 8));
+		values.add(new AgeInterval(8, 10));
+		values.add(new AgeInterval(10, 12));
+		values.add(new AgeInterval(customValue));
+		adapter.setAgeIntervals(values);
 	}
 
 	@OnClick(R.id.nextStep)
@@ -96,6 +101,9 @@ public class GenderAgePickerActivity extends BaseActivity {
 	public void onEvent(AgeSelectedEvent event) {
 		if (event.ageInterval.custom) {
 			CustomAgeDialog dialog = new CustomAgeDialog();
+			Bundle bundle = new Bundle();
+			bundle.putInt(CustomAgeDialog.DEFAULT_AGE, event.ageInterval.maxAge == INITIAL_CUSTOM_AGE ? DEFAULT_CUSTOM_AGE : event.ageInterval.maxAge);
+			dialog.setArguments(bundle);
 			dialog.show(getSupportFragmentManager(), "");
 		}
 		for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
@@ -104,6 +112,10 @@ public class GenderAgePickerActivity extends BaseActivity {
 				((AgePickerAdapter.AgeHolder) holder).setChecked(event.ageInterval);
 			}
 		}
+	}
+
+	public void onEvent(CustomAgePickedEvent event) {
+		fillAdapter(event.age);
 	}
 
 }

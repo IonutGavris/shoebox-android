@@ -85,6 +85,9 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 		@InjectView(R.id.suggestionTitle)
 		TextView suggestionTitle;
 
+		@InjectView(R.id.suggestionDescription)
+		TextView suggestionDescription;
+
 		public SuggestionItemHolder(View itemView) {
 			super(itemView);
 			ButterKnife.inject(this, itemView);
@@ -92,6 +95,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 		public void setData(Suggestion suggestion) {
 			suggestionTitle.setText(suggestion.name);
+			suggestionDescription.setText(suggestion.description);
 		}
 	}
 
