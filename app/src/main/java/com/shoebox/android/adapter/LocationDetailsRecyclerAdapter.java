@@ -21,11 +21,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class LocationDetailsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-	protected static final int TYPE_DISTANCE = 0;
-	protected static final int TYPE_FULL_ADDRESS = 1;
-	protected static final int TYPE_HOURS = 2;
-	protected static final int TYPE_MESSAGE = 3;
-	protected static final int TYPE_CONTACT = 4;
+	protected static final int TYPE_TITLE = 0;
+	protected static final int TYPE_DISTANCE = 1;
+	protected static final int TYPE_FULL_ADDRESS = 2;
+	protected static final int TYPE_HOURS = 3;
+	protected static final int TYPE_MESSAGE = 4;
+	protected static final int TYPE_CONTACT = 5;
 
 	private ArrayList<Integer> nonContactItems = new ArrayList<>();
 
@@ -55,7 +56,8 @@ public class LocationDetailsRecyclerAdapter extends RecyclerView.Adapter<Recycle
 	 */
 	public void setLocation(Location location) {
 		this.location = location;
-		boolean shouldSort = manageDetailItem(TYPE_DISTANCE, true);
+		boolean shouldSort = manageDetailItem(TYPE_TITLE, true);
+		shouldSort |= manageDetailItem(TYPE_DISTANCE, true);
 		shouldSort |= manageDetailItem(TYPE_FULL_ADDRESS, true);
 		shouldSort |= manageDetailItem(TYPE_HOURS, location.hasHours());
 		shouldSort |= manageDetailItem(TYPE_MESSAGE, location.hasMessage());
@@ -74,6 +76,7 @@ public class LocationDetailsRecyclerAdapter extends RecyclerView.Adapter<Recycle
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 		switch (viewType) {
+			case TYPE_TITLE:
 			case TYPE_DISTANCE:
 			case TYPE_FULL_ADDRESS:
 			case TYPE_HOURS:
@@ -92,6 +95,7 @@ public class LocationDetailsRecyclerAdapter extends RecyclerView.Adapter<Recycle
 				case TYPE_DISTANCE:
 					((LocationDetailHolder) holder).setData(distance);
 					break;
+				case TYPE_TITLE:
 				case TYPE_FULL_ADDRESS:
 				case TYPE_HOURS:
 				case TYPE_MESSAGE:
@@ -132,9 +136,13 @@ class LocationDetailHolder extends RecyclerView.ViewHolder {
 		String detailDescr = null;
 		int actionIcon = 0;
 		switch (detailType) {
+			case LocationDetailsRecyclerAdapter.TYPE_TITLE:
+				detailDescr = location.title;
+				actionIcon = R.drawable.ic_location_on_black_24dp;
+				break;
 			case LocationDetailsRecyclerAdapter.TYPE_FULL_ADDRESS:
 				detailDescr = location.addressFull;
-				actionIcon = R.drawable.ic_location_on_black_24dp;
+				actionIcon = R.drawable.ic_location_city_black_24dp;
 				break;
 			case LocationDetailsRecyclerAdapter.TYPE_HOURS:
 				detailDescr = location.hours;
