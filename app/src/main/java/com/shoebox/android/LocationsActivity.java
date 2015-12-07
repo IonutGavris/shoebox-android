@@ -59,10 +59,10 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 			public void onClick(View view) {
 				if (currentViewMode == ViewMode.MAP) {
 					switchFragmentsVisibility(mapFragment, listFragment);
-					fab.setImageResource(R.mipmap.ic_action_map);
+					fab.setImageResource(R.drawable.ic_action_map);
 				} else {
 					switchFragmentsVisibility(listFragment, mapFragment);
-					fab.setImageResource(R.mipmap.ic_action_view_as_list);
+					fab.setImageResource(R.drawable.ic_action_view_as_list);
 				}
 			}
 		});

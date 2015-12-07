@@ -37,6 +37,6 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end"
 		android:layout_margin="@dimen/fab_margin"
-		android:src="@mipmap/ic_action_view_as_list"/>
+		android:src="@drawable/ic_action_view_as_list"/>
 
 </android.support.design.widget.CoordinatorLayout>
