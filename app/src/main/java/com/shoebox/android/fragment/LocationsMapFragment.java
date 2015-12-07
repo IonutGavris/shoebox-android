@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,7 +35,8 @@ import timber.log.Timber;
 
 public class LocationsMapFragment extends com.google.android.gms.maps.SupportMapFragment implements
 		GoogleMap.OnMyLocationButtonClickListener, ClusterManager.OnClusterItemInfoWindowClickListener<Location>,
-		ClusterManager.OnClusterClickListener<Location>, OnMapReadyCallback, LocationsActivity.LocationsListener {
+		ClusterManager.OnClusterClickListener<Location>, OnMapReadyCallback, LocationsActivity.LocationsListener,
+		GoogleMap.OnMyLocationChangeListener {
 
 	private static final double ROMANIA_CENTER_LATITUDE = 45.867063;
 	private static final double ROMANIA_CENTER_LONGITUDE = 24.91699199999993;
@@ -194,6 +196,7 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 				map.setOnCameraChangeListener(clusterManager);
 				map.setOnMarkerClickListener(clusterManager);
 				map.setOnInfoWindowClickListener(clusterManager);
+				map.setOnMyLocationChangeListener(this);
 				clusterManager.setOnClusterItemInfoWindowClickListener(this);
 				clusterManager.setOnClusterClickListener(this);
 				setLocationsResult(((LocationsActivity) getActivity()).getLocations());
@@ -209,33 +212,32 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 				!= PackageManager.PERMISSION_GRANTED) {
 			Timber.d("enableMyLocation: Permission to access the location is missing");
 			PermissionUtils.requestPermission(getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
-					Manifest.permission.ACCESS_FINE_LOCATION, true);
+					Manifest.permission.ACCESS_FINE_LOCATION, false);
 		} else if (map != null) {
 			Timber.d("enableMyLocation: Access to the location has been granted to the app");
 			map.setMyLocationEnabled(true);
-			if (mapCentered) // try to center map only once
-				return;
-			// need to delay in order for the map to have the "my location" set
-			fragmentView.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					android.location.Location location = map.getMyLocation();
-					Timber.d("enableMyLocation: myLocation=%s", location);
-					float zoom = 15;
-					if (location == null) { // if we don't have my location yet, then go to the center of Romania
-						location = new android.location.Location("");
-						location.setLatitude(ROMANIA_CENTER_LATITUDE);
-						location.setLongitude(ROMANIA_CENTER_LONGITUDE);
-						zoom = 7;
-					}
-					CameraPosition position = new CameraPosition.Builder()
-							.target(new LatLng(location.getLatitude(), location.getLongitude()))
-							.zoom(zoom).build();
-					map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
-					mapCentered = true;
-				}
-			}, 500);
 		}
+	}
+
+	@Override
+	public void onMyLocationChange(android.location.Location location) {
+		if (mapCentered) // try to center map only once
+			return;
+		Timber.d("onMyLocationChange: myLocation=%s", location);
+		float zoom = 15;
+		if (location == null) { // if we don't have my location yet, then go to the center of Romania
+			location = new android.location.Location("");
+			location.setLatitude(ROMANIA_CENTER_LATITUDE);
+			location.setLongitude(ROMANIA_CENTER_LONGITUDE);
+			zoom = 7;
+		}
+		CameraPosition position = new CameraPosition.Builder()
+				.target(new LatLng(location.getLatitude(), location.getLongitude()))
+				.zoom(zoom).build();
+		map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+		mapCentered = true;
+		// we need the my location found callback only once
+		map.setOnMyLocationChangeListener(null);
 	}
 
 	private class SetLocationMarkersTask extends AsyncTask<List<Location>, Void, Void> {
@@ -281,10 +283,11 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 		}
 
 		@Override
-		protected void onBeforeClusterItemRendered(Location shop, MarkerOptions markerOptions) {
-			// Set the info window to show the shop name and address
-			markerOptions.title(shop.title).snippet(shop.address);
-			super.onBeforeClusterItemRendered(shop, markerOptions);
+		protected void onBeforeClusterItemRendered(Location location, MarkerOptions markerOptions) {
+			markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+			// Set the info window to show the location title and address
+			markerOptions.title(location.title).snippet(location.address);
+			super.onBeforeClusterItemRendered(location, markerOptions);
 		}
 
 		@Override

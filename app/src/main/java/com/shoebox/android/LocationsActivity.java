@@ -34,7 +34,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	private static final String FRAGMENT_TAG_MAP = "map_locations";
 	private static final String FRAGMENT_TAG_LIST = "list_locations";
 
-	private static final String dataPath = "/temp/";
+	private static final String dataPath = "/locations/";
 
 	private final Bus bus = BusProvider.get();
 
@@ -166,8 +166,6 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 
 		// set cursor to the new fragment so it can show the data
 		((LocationsListener) newFragment).setLocationsResult(locations);
-		// set null cursor to the old fragment to avoid using the old cursor
-		((LocationsListener) oldFragment).setLocationsResult(null);
 
 		// after fragment is switch the search view will take focus.
 		// execute now and clear focus
@@ -176,10 +174,8 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 
 	private void setLocationsToFragments(List<Location> locations) {
 		Timber.d("setLocationsToFragments currentViewMode = %s", currentViewMode);
-		((LocationsListener) listFragment).setLocationsResult(currentViewMode == ViewMode.LIST && locations != null
-				? locations : null);
-		((LocationsListener) mapFragment).setLocationsResult(currentViewMode == ViewMode.MAP && locations != null
-				? locations : null);
+		((LocationsListener) listFragment).setLocationsResult(locations);
+		((LocationsListener) mapFragment).setLocationsResult(locations);
 	}
 
 	private void setStatusToFragments(String status) {

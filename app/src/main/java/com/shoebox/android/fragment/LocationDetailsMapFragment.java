@@ -12,6 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.shoebox.android.beans.Location;
@@ -22,7 +23,7 @@ import com.squareup.otto.Bus;
 import timber.log.Timber;
 
 public class LocationDetailsMapFragment extends com.google.android.gms.maps.SupportMapFragment implements
-		OnMapReadyCallback {
+		OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener {
 
 	private static final String LOCATION = "location";
 	private static final String BUNDLE_MAP_CENTERED = "map_centered";
@@ -81,8 +82,10 @@ public class LocationDetailsMapFragment extends com.google.android.gms.maps.Supp
 		UiSettings mapUiSettings = map.getUiSettings();
 		mapUiSettings.setZoomControlsEnabled(false);
 		mapUiSettings.setMapToolbarEnabled(false);
+		map.setOnMyLocationChangeListener(this);
 		LatLng latLng = new LatLng(location.latitude, location.longitude);
-		map.addMarker(new MarkerOptions().position(latLng));
+		map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory
+				.HUE_AZURE)).position(latLng));
 		if (!mapCentered) { // center map only once
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 		}
@@ -96,23 +99,23 @@ public class LocationDetailsMapFragment extends com.google.android.gms.maps.Supp
 				== PackageManager.PERMISSION_GRANTED && map != null) {
 			Timber.d("enableMyLocation: Access to the location has been granted to the app");
 			map.setMyLocationEnabled(true);
-			// need to delay in order for the map to have the "my location" set
-			fragmentView.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					double distance = -1;
-					android.location.Location myLocation = map.getMyLocation();
-					Timber.d("enableMyLocation: myLocation=%s", location);
-					if (myLocation != null) { // if we have my location than calculate distance to selected location
-						android.location.Location selectedLocation = new android.location.Location("");
-						selectedLocation.setLatitude(location.latitude);
-						selectedLocation.setLongitude(location.longitude);
-						distance = myLocation.distanceTo(selectedLocation) * 0.001; // in km
-					}
-					bus.post(new DistanceCalculatedEvent(distance));
-				}
-			}, 500);
+		} else {
+			bus.post(new DistanceCalculatedEvent(-1));
 		}
 	}
 
+	@Override
+	public void onMyLocationChange(android.location.Location myLocation) {
+		Timber.d("onMyLocationChange: myLocation=%s", myLocation);
+		double distance = -1;
+		if (myLocation != null) { // if we have my location than calculate distance to selected location
+			android.location.Location selectedLocation = new android.location.Location("");
+			selectedLocation.setLatitude(location.latitude);
+			selectedLocation.setLongitude(location.longitude);
+			distance = myLocation.distanceTo(selectedLocation) * 0.001; // in km
+		}
+		bus.post(new DistanceCalculatedEvent(distance));
+		// we need the my location found callback only once
+		map.setOnMyLocationChangeListener(null);
+	}
 }
