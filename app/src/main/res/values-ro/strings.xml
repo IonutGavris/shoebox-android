@@ -35,5 +35,18 @@
 	<string name="header_age_picker">Alege Varsta</string>
 	<string name="header_suggestions">Sugestii pentru un %2$s de %1$d ani</string>
 
+	<string name="permission_rationale_location">Accesul la serviciul de locatii este necesar pentru a arata
+		locatia dumneavoastra pe harta.</string>
+	<string name="location_permission_denied">Aceasta aplicatie necesita permisiuna la locatii pentru a putea
+		afisa locatia dumneavoastra. Va rugam sa incercati din nou a acorda accesul la locatie. Daca permisiunea a
+		fost revocata permanent, se poate activa din Setari Sistem &gt; Aplicatii &gt; \'ShoeBox\'.</string>
+	<string name="permission_required_toast">Permisiunea pentru locatii este necesara pentru aceasta aplicatie.</string>
+
+	<string name="label_distance_calculating">Distanta: calculare&#8230;</string>
+	<string name="label_distance_na">Distanta: N/A</string>
+	<string name="label_distance">Distanta: %1$f km</string>
+
+	<string name="msg_no_dial">Nu exista aplicatii instalate pentru a suna.</string>
+
 
 </resources>
