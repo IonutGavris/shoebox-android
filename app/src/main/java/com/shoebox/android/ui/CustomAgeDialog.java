@@ -19,7 +19,7 @@ import de.greenrobot.event.EventBus;
  */
 public class CustomAgeDialog extends DialogFragment {
 	public static final String DEFAULT_AGE = "default_age";
-	public static final int MIN_AGE = 2;
+	public static final int MIN_AGE = 1;
 	public static final int MAX_AGE = 18;
 	private EventBus bus = EventBus.getDefault();
 	private TextView dialogTitle;

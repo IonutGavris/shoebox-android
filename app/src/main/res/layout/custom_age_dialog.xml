@@ -11,7 +11,7 @@
 		android:id="@+id/dialogTitle"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/keyline_1"
+		android:layout_marginBottom="@dimen/keyline_1_minus_8dp"
 		android:textAppearance="@style/TextAppearance.AppCompat.Title"
 		tools:text="Alta varsta: 15 Ani"/>
 
@@ -20,7 +20,9 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/dialogTitle"
-		android:layout_marginBottom="@dimen/keyline_1"
+		android:layout_marginBottom="@dimen/keyline_1_minus_8dp"
+		android:paddingBottom="@dimen/keyline_1_minus_8dp"
+		android:paddingTop="@dimen/keyline_1_minus_8dp"
 		tools:progress="15"
 		/>
 
