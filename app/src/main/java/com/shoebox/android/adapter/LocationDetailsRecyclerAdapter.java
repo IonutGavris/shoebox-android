@@ -161,7 +161,7 @@ class LocationDetailHolder extends RecyclerView.ViewHolder {
 		detailIcon.setImageResource(R.drawable.ic_ruler_black_24dp);
 		detailDescription.setText(
 				distance == -1 ? detailDescription.getResources().getString(R.string.label_distance_na) :
-						(distance > 0 ? detailDescription.getResources().getString(R.string.label_distance, distance)
+						(distance > 0 ? detailDescription.getResources().getString(R.string.label_distance, String.format("%.1f", distance))
 								: detailDescription.getResources().getString(R.string.label_distance_calculating)));
 	}
 }

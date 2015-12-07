@@ -58,7 +58,7 @@
 
 	<string name="label_distance_calculating">Distance: calculating&#8230;</string>
 	<string name="label_distance_na">Distance: NA</string>
-	<string name="label_distance">Distance: %1$f km</string>
+	<string name="label_distance">Distance: %1$s km</string>
 
 	<string name="msg_no_dial">There are no dial applications installed.</string>
 
