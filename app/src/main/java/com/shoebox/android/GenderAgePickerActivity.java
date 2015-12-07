@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
 import com.shoebox.android.adapter.AgePickerAdapter;
 import com.shoebox.android.beans.AgeInterval;
@@ -38,6 +39,11 @@ public class GenderAgePickerActivity extends BaseActivity {
 	@InjectView(R.id.disableView)
 	View disableView;
 
+	@InjectView(R.id.nextStep)
+	Button nextStep;
+
+	private AgeInterval selectedAgeInterval;
+
 	private AgePickerAdapter adapter;
 
 	public static Intent getLaunchingIntent(Context context) {
@@ -58,6 +64,7 @@ public class GenderAgePickerActivity extends BaseActivity {
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 		adapter = new AgePickerAdapter();
 		recyclerView.setAdapter(adapter);
+		nextStep.setEnabled(false);
 
 		// no custom age set by default
 		fillAdapter(INITIAL_CUSTOM_AGE);
@@ -75,7 +82,7 @@ public class GenderAgePickerActivity extends BaseActivity {
 
 	@OnClick(R.id.nextStep)
 	public void onNextStep() {
-		startActivity(ContentSuggestionActivity.getLaunchingIntent(this, true, 4));
+		startActivity(ContentSuggestionActivity.getLaunchingIntent(this, boyCheck.getVisibility() == View.VISIBLE, selectedAgeInterval));
 	}
 
 	@OnClick(R.id.girl)
@@ -109,13 +116,17 @@ public class GenderAgePickerActivity extends BaseActivity {
 		for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
 			RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
 			if (holder instanceof AgePickerAdapter.AgeHolder) {
-				((AgePickerAdapter.AgeHolder) holder).setChecked(event.ageInterval);
+				if (((AgePickerAdapter.AgeHolder) holder).setChecked(event.ageInterval)) {
+					selectedAgeInterval = event.ageInterval;
+				}
 			}
 		}
+		nextStep.setEnabled(true);
 	}
 
 	public void onEvent(CustomAgePickedEvent event) {
 		fillAdapter(event.age);
+		selectedAgeInterval = new AgeInterval(event.age);
 	}
 
 }

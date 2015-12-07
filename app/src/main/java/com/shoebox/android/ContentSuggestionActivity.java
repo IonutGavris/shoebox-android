@@ -12,6 +12,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 import com.shoebox.android.adapter.SuggestionsAdapter;
+import com.shoebox.android.beans.AgeInterval;
 import com.shoebox.android.beans.Suggestion;
 import com.shoebox.android.util.DividerItemDecoration;
 
@@ -28,15 +29,15 @@ public class ContentSuggestionActivity extends BaseActivity {
 	private static final String dataPath = "/suggestions/";
 	@InjectView(R.id.recyclerView)
 	RecyclerView recyclerView;
-	private int age;
+	private AgeInterval ageInterval;
 	private boolean isMale;
 	private EventBus bus = EventBus.getDefault();
 	private SuggestionsAdapter adapter;
 
-	public static Intent getLaunchingIntent(Context context, boolean isMale, int age) {
+	public static Intent getLaunchingIntent(Context context, boolean isMale, AgeInterval interval) {
 		Intent intent = new Intent(context, ContentSuggestionActivity.class);
 		intent.putExtra(IS_MALE, isMale);
-		intent.putExtra(AGE, age);
+		intent.putExtra(AGE, interval);
 		return intent;
 	}
 
@@ -44,9 +45,9 @@ public class ContentSuggestionActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		age = getIntent().getIntExtra(AGE, -1);
+		ageInterval = (AgeInterval) getIntent().getSerializableExtra(AGE);
 		isMale = getIntent().getBooleanExtra(IS_MALE, false);
-		Timber.d("onCreate age=%s  &  isMale=%b", age, isMale);
+		//Timber.d("onCreate age=%s  &  isMale=%b", age, isMale);
 
 		setContentView(R.layout.activity_content_suggestion);
 //		bus.register(this);
@@ -59,8 +60,9 @@ public class ContentSuggestionActivity extends BaseActivity {
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 		recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 		adapter = new SuggestionsAdapter();
-		adapter.setSuggestionsTarget(isMale, age);
+		adapter.setSuggestionsTarget(isMale, 4);
 		recyclerView.setAdapter(adapter);
+
 
 		firebase.child(dataPath).addValueEventListener(new ValueEventListener() {
 			@Override
@@ -70,6 +72,9 @@ public class ContentSuggestionActivity extends BaseActivity {
 				GenericTypeIndicator<List<Suggestion>> t = new GenericTypeIndicator<List<Suggestion>>() {
 				};
 				List<Suggestion> suggestions = dataSnapshot.getValue(t);
+
+				//Observable.from(suggestions).filter(suggestion -> suggestion != null && suggestion.minAge >= ageInterval.minAge);
+
 				for (int i = 0; i < suggestions.size(); i++) {
 					if (suggestions.get(i) == null) {
 						suggestions.remove(i);

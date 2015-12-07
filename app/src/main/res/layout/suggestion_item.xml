@@ -17,20 +17,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="62dp"
+              android:layout_height="wrap_content"
               android:background="?android:selectableItemBackground"
               android:gravity="start|center_vertical"
               android:orientation="vertical"
+              android:paddingBottom="@dimen/keyline_1_minus_8dp"
               android:paddingLeft="@dimen/keyline_1"
-              android:paddingRight="@dimen/keyline_1">
+              android:paddingRight="@dimen/keyline_1"
+              android:paddingTop="@dimen/keyline_1_minus_8dp">
 
 	<TextView
 		android:id="@+id/suggestionTitle"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_gravity="start|center_vertical"
+		android:layout_marginBottom="@dimen/keyline_1_minus_8dp"
 		android:gravity="start|center_vertical"
 		android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+		android:textColor="@color/text_black"
 		tools:text="Suggestion Title"/>
 
 	<TextView
@@ -39,9 +42,8 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="start|top"
 		android:ellipsize="end"
-		android:gravity="start|center_vertical"
-		android:lines="2"
-		android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		android:textColor="@color/text_gray"
 		tools:text="Suggestion Description"/>
 
 </LinearLayout>

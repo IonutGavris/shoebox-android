@@ -91,8 +91,10 @@ public class AgePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 					String.format(context.getString(R.string.age_preset), interval.minAge, interval.maxAge));
 		}
 
-		public void setChecked(AgeInterval interval) {
-			txtAgeInterval.setChecked(ageInterval.equals(interval));
+		public boolean setChecked(AgeInterval interval) {
+			boolean checked = ageInterval.equals(interval);
+			txtAgeInterval.setChecked(checked);
+			return checked;
 		}
 	}
 
