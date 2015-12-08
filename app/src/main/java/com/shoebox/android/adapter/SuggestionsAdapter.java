@@ -22,18 +22,25 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 	private static final int ITEM_SUGGESTION = 2;
 	private List<Suggestion> suggestions = new ArrayList<>();
 	private boolean isMale;
-	private int age;
+	private int minAge;
+	private int maxAge;
 
 
-	public void setSuggestions(List<Suggestion> offers) {
+	public void setSuggestions(List<Suggestion> list) {
 		this.suggestions.clear();
-		this.suggestions.addAll(offers);
+		for (Suggestion s : list) {
+			if (s != null) {
+				this.suggestions.add(s);
+			}
+		}
+
 		notifyDataSetChanged();
 	}
 
-	public void setSuggestionsTarget(boolean isMale, int age) {
+	public void setSuggestionsTarget(boolean isMale, int minAge, int maxAge) {
 		this.isMale = isMale;
-		this.age = age;
+		this.minAge = minAge;
+		this.maxAge = maxAge;
 	}
 
 	@Override
@@ -54,7 +61,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		switch (getItemViewType(position)) {
 			case ITEM_HEADER_TEXT:
-				((SuggestionHeaderHolder) holder).setData(isMale, age);
+				((SuggestionHeaderHolder) holder).setData(isMale, minAge, maxAge);
 				break;
 			case ITEM_SUGGESTION:
 				((SuggestionItemHolder) holder).setData(suggestions.get(position - 2));
@@ -111,8 +118,9 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 			ButterKnife.inject(this, itemView);
 		}
 
-		public void setData(boolean isMale, int age) {
+		public void setData(boolean isMale, int minAge, int maxAge) {
 			String sex = context.getString(isMale ? R.string.btn_boy : R.string.btn_girl);
+			String age = minAge == maxAge ? String.valueOf(maxAge) : minAge + "-" + maxAge;
 			suggestionTitle.setText(String.format(context.getString(R.string.header_suggestions), age, sex));
 		}
 	}

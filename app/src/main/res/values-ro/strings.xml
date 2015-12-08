@@ -33,7 +33,7 @@
 	<string name="age_dialog_title">Alta varsta: %1$d ani</string>
 
 	<string name="header_age_picker">Alege Varsta</string>
-	<string name="header_suggestions">Sugestii pentru un %2$s de %1$d ani</string>
+	<string name="header_suggestions">Sugestii pentru un %2$s de %1$s ani</string>
 
 	<string name="permission_rationale_location">Accesul la serviciul de locatii este necesar pentru a arata
 		locatia dumneavoastra pe harta.</string>
@@ -44,7 +44,7 @@
 
 	<string name="label_distance_calculating">Distanta: calculare&#8230;</string>
 	<string name="label_distance_na">Distanta: N/A</string>
-	<string name="label_distance">Distanta: %1$f km</string>
+	<string name="label_distance">Distanta: %1$s km</string>
 
 	<string name="msg_no_dial">Nu exista aplicatii instalate pentru a suna.</string>
 

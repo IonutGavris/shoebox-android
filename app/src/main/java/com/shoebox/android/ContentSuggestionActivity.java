@@ -26,6 +26,10 @@ public class ContentSuggestionActivity extends BaseActivity {
 	private static final String IS_MALE = "isMale";
 	private static final String AGE = "age";
 
+	private static final String MALE = "male";
+	private static final String FEMALE = "female";
+	private static final String BOTH = "both";
+
 	private static final String dataPath = "/suggestions/";
 	@InjectView(R.id.recyclerView)
 	RecyclerView recyclerView;
@@ -60,7 +64,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 		recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 		adapter = new SuggestionsAdapter();
-		adapter.setSuggestionsTarget(isMale, 4);
+		adapter.setSuggestionsTarget(isMale, ageInterval.minAge, ageInterval.maxAge);
 		recyclerView.setAdapter(adapter);
 
 
@@ -78,6 +82,22 @@ public class ContentSuggestionActivity extends BaseActivity {
 				for (int i = 0; i < suggestions.size(); i++) {
 					if (suggestions.get(i) == null) {
 						suggestions.remove(i);
+						continue;
+					}
+
+					// picked up 8-10 and interval is 11-100
+					if (ageInterval.maxAge < suggestions.get(i).minAge) {
+						suggestions.remove(i);
+						continue;
+					}
+
+					//TODO
+					// picked up 1, and interval is 0-1 (de ex suzeta, care-i pana pe la 1 an)
+
+					if (isMale && suggestions.get(i).sex.equals(FEMALE)) {
+						suggestions.remove(i);
+					} else if (!isMale && suggestions.get(i).sex.equals(MALE)) {
+						suggestions.remove(i);
 					}
 				}
 
@@ -90,7 +110,6 @@ public class ContentSuggestionActivity extends BaseActivity {
 				Timber.e("The %s read failed: %s ", dataPath, firebaseError.getMessage());
 			}
 		});
-
 	}
 
 	@Override
