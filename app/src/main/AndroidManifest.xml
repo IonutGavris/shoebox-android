@@ -40,7 +40,6 @@
 
 		<activity
 			android:name=".MainActivity"
-			android:label="@string/title_shoebox"
 			android:theme="@style/AppTheme.NoActionBar">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -55,7 +54,6 @@
 			android:windowSoftInputMode="stateHidden" />
 		<activity
 			android:name=".GenderAgePickerActivity"
-			android:label="@string/title_activity_gender_picker"
 			android:parentActivityName=".MainActivity"
 			android:theme="@style/AppTheme.NoActionBar">
 			<meta-data
@@ -79,9 +77,6 @@
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.shoebox.android.MainActivity"/>
 		</activity>
-		<activity
-			android:name=".AboutActivity"
-			android:theme="@style/AppTheme.NoActionBar"/>
 		<activity
 			android:name=".LocationDetailsActivity"
 			android:parentActivityName=".LocationsActivity"

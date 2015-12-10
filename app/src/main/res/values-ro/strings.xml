@@ -1,40 +1,24 @@
 <resources>
-	<string name="action_settings">Setari</string>
+	<string name="app_name">ShoeBox</string>
 
-	<string name="btn_box_content">Cum pregatesc o cutie?</string>
-	<string name="btn_drop_location">Unde las cutia?</string>
-	<string name="btn_box_content_suggestions">Ce sa pun in cutie?</string>
-	<string name="btn_box_packing_guide">Cum sa impachetez cutia?</string>
+	<string name="navigation_drawer_open">Deschide meniu</string>
+	<string name="navigation_drawer_close">Inchide meniu</string>
+
+	<string name="btn_box_content">Ce sa pun in cutie?</string>
+	<string name="btn_drop_location">Unde sa las cutia?</string>
+	<string name="btn_box_content_suggestions">Urmatorul pas</string>
 
 	<string name="title_activity_picker">Cui daruiesti cadoul?</string>
-	<string name="title_activity_locations">Locatii</string>
+	<string name="title_activity_suggestions">Box content suggestions</string>
+	<string name="title_activity_locations">Locatii ShoeBox</string>
+
+	<string name="btn_boy">Baiat</string>
+	<string name="btn_girl">Fata</string>
 
 	<!-- intro screen -->
 	<string name="btn_skip">Sari peste</string>
 
-	<!-- slider screen -->
-	<string name="deadline_slide">Termen limita si grija la continut \n\n Puteti pune in cutie tot ce intra, ce vreti si ce credeti ca ii trebuie unui copil de varsta si genul pentru care aveti pe inima sa cumparati ceva.</string>
-	<string name="boxcontent_slide">Ce punem in cutii? \n\n Se inveleste frumos in hartie cutia si capacul ei, fiecare separat, apoi pui in cutie tot ce ai pe suflet sa cumperi sau ai prin casa si poti darui.</string>
-	<string name="location_slider">Unde se strang cutiile? \n\n Pentru ca numarul locatiilor si pozitia acestora difera de la an la an, le puteti vedea in ecranul cu LOCATII, unde incercam sa le pastram actualizate.</string>
-	<string name="partner_slide">Fii partener ShoeBox! \n\n Vrem sa lucram impreuna si s-o facem organizat, de aceea o sa avem nevoie de 3 tipuri de parteneri operationali.</string>
-	<string name="shoebox_slide">Ce este ShoeBox? \n\n ShoeBox reprezinta o incercare minuscula de a face lumea un loc mai frumos. In fiecare an, in preajma sarbatorilor de Craciun, vrem sa punem un zambet pe chipurile a zeci de mii de copii sarmani din orasele in care locuim si nu numai.</string>
-
-	<!-- about screen -->
-	<string name="about_txt">Un proiect inceput in 2007 in familie. Restul este o poveste frumoasa, la care mai adauga o pagina fiecare voluntar.\n\n2006-2015 shoebox.ro | Cadoul din cutia de pantofi. Marca inregistrata</string>
-	<string name="subject_mail">Mesaj aplicatie ShoeBox Android</string>
-
-	<string name="btn_boy">Baietel</string>
-	<string name="btn_girl">Fetita</string>
-
-	<string name="age_preset">%1$d–%2$d ani</string>
-	<string name="age_other_undefined">Alta varsta</string>
-	<string name="age_other_defined">Alta varsta: %1$d ani</string>
-
-	<string name="age_dialog_title">Alta varsta: %1$d ani</string>
-
-	<string name="header_age_picker">Alege Varsta</string>
-	<string name="header_suggestions">Sugestii pentru un %2$s de %1$s ani</string>
-
+	<!-- permission screen -->
 	<string name="permission_rationale_location">Accesul la serviciul de locatii este necesar pentru a arata
 		locatia dumneavoastra pe harta.</string>
 	<string name="location_permission_denied">Aceasta aplicatie necesita permisiuna la locatii pentru a putea
@@ -42,12 +26,25 @@
 		fost revocata permanent, se poate activa din Setari Sistem &gt; Aplicatii &gt; \'ShoeBox\'.</string>
 	<string name="permission_required_toast">Permisiunea pentru locatii este necesara pentru aceasta aplicatie.</string>
 
+	<!-- age screen -->
+	<string name="age_preset">%1$d–%2$d ani</string>
+	<string name="age_other_undefined">Alta varsta</string>
+	<string name="age_other_defined">Alta varsta: %1$d ani</string>
+	<string name="age_dialog_title">Alta varsta: %1$d ani</string>
+	<string name="header_age_picker">Alege Varsta</string>
+	<string name="header_suggestions">Sugestii pentru un %2$s de %1$s ani</string>
+
+	<!-- map screen -->
+	<string name="msg_no_navigation">Nu s-a gasit nici o aplicate de navigare.</string>
 	<string name="label_distance_calculating">Distanta: calculare&#8230;</string>
 	<string name="label_distance_na">Distanta: N/A</string>
 	<string name="label_distance">Distanta: %1$s km</string>
 
+	<!-- location screen -->
+	<string name="label_city_country">%1$s, %2$s</string>
 	<string name="msg_no_dial">Nu exista aplicatii instalate pentru a suna.</string>
 
+	<!-- intro screen -->
 	<string name="slide1_msg1">Proiectul ShoeBox este o mica incercare de a face lumea in care traim un loc mai frumos..</string>
 	<string name="slide1_msg2">Incercam in fiecare an sa aducem zambetul pe buzele copiilor defavorizati din Romania.</string>
 
@@ -59,9 +56,9 @@
 
 	<string name="get_involved">Vreau sa ma implic!</string>
 
+	<!-- menu screen -->
 	<string name="nav_shoebox">ShoeBox</string>
 	<string name="nav_contact">Contact</string>
 	<string name="nav_about">Despre</string>
-
-
+	<string name="send_email">Trimite Email</string>
 </resources>
