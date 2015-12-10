@@ -1,6 +1,5 @@
 package com.shoebox.android;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -35,12 +34,12 @@ public class MainActivity extends BaseActivity
 
 		navigationView.setNavigationItemSelectedListener(this);
 
-		boolean isFirstTime = HelperClass.getBooleanValueInSharedPreference(MainActivity.this, HelperClass.keyIsFirstTime, true);
-		if (isFirstTime == true)//is first time in app
-		{
-			HelperClass.addBooleanValueInSharedPreference(MainActivity.this, HelperClass.keyIsFirstTime, false);
+		if (savedInstanceState == null) {
+			boolean isFirstTime = HelperClass.getBooleanValueInSharedPreference(getApplicationContext(), HelperClass.keyIsFirstTime, true);
+			if (isFirstTime) {
+				startActivity(GettingStartedActivity.getLaunchingIntent(this));
+			}
 		}
-		startActivity(GettingStartedActivity.getLaunchingIntent(this));
 	}
 
 	@Override
@@ -78,8 +77,6 @@ public class MainActivity extends BaseActivity
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Handle navigation view item clicks here.
-		int id = item.getItemId();
-
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
 	}

@@ -116,7 +116,7 @@
 			android:id="@+id/recyclerView"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_above="@+id/nextStep"
+			android:layout_above="@+id/frameBackground"
 			android:layout_below="@id/genreSelection"
 			android:scrollbars="vertical"/>
 
@@ -124,17 +124,27 @@
 			android:id="@+id/disableView"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_above="@+id/nextStep"
+			android:layout_above="@+id/frameBackground"
 			android:layout_below="@id/genreSelection"
 			android:background="@color/disable_layer"
 			android:clickable="true"/>
 
-		<Button
-			android:id="@id/nextStep"
+		<FrameLayout
+			android:id="@+id/frameBackground"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="60dp"
 			android:layout_alignParentBottom="true"
-			android:text="@string/btn_box_content_suggestions"/>
+			android:background="@drawable/frame_background">
+
+			<Button
+				android:id="@+id/nextStep"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:background="?selectableItemBackground"
+				android:text="@string/btn_box_content_suggestions"
+				android:textColor="@color/text_white"
+				android:textSize="@dimen/text_size_large" />
+		</FrameLayout>
 	</RelativeLayout>
 
 

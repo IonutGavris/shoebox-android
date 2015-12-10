@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
@@ -19,7 +20,7 @@ import com.shoebox.android.util.DividerItemDecoration;
 import java.util.List;
 
 import butterknife.InjectView;
-import de.greenrobot.event.EventBus;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class ContentSuggestionActivity extends BaseActivity {
@@ -35,7 +36,6 @@ public class ContentSuggestionActivity extends BaseActivity {
 	RecyclerView recyclerView;
 	private AgeInterval ageInterval;
 	private boolean isMale;
-	private EventBus bus = EventBus.getDefault();
 	private SuggestionsAdapter adapter;
 
 	public static Intent getLaunchingIntent(Context context, boolean isMale, AgeInterval interval) {
@@ -51,10 +51,8 @@ public class ContentSuggestionActivity extends BaseActivity {
 
 		ageInterval = (AgeInterval) getIntent().getSerializableExtra(AGE);
 		isMale = getIntent().getBooleanExtra(IS_MALE, false);
-		//Timber.d("onCreate age=%s  &  isMale=%b", age, isMale);
 
 		setContentView(R.layout.activity_content_suggestion);
-//		bus.register(this);
 		setTitle(R.string.title_activity_suggestions);
 
 		recyclerView.setHasFixedSize(true);
@@ -76,8 +74,6 @@ public class ContentSuggestionActivity extends BaseActivity {
 				GenericTypeIndicator<List<Suggestion>> t = new GenericTypeIndicator<List<Suggestion>>() {
 				};
 				List<Suggestion> suggestions = dataSnapshot.getValue(t);
-
-				//Observable.from(suggestions).filter(suggestion -> suggestion != null && suggestion.minAge >= ageInterval.minAge);
 
 				for (int i = 0; i < suggestions.size(); i++) {
 					if (suggestions.get(i) == null) {
@@ -112,9 +108,8 @@ public class ContentSuggestionActivity extends BaseActivity {
 		});
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		//	bus.unregister(this);
+	@OnClick(R.id.nextStep)
+	public void nextStepClick(View view) {
+		startActivity(LocationsActivity.getLaunchingIntent(this));
 	}
 }

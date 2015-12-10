@@ -7,6 +7,10 @@
 	<color name="colorAccentGirl">#ff5500</color>
 	<color name="colorAccentBoy">#0d32cc</color>
 
+	<color name="shoeBoxGreen">#05ce39</color>
+	<color name="shoeBoxOrange">#ff5500</color>
+	<color name="shoeBoxBlue">#0d32cc</color>
+
 	<color name="transparentGreen">#c805ce39</color>
 	<color name="transparentOrange">#c8ff5500</color>
 	<color name="transparentBlue">#c80d32cc</color>
@@ -16,6 +20,7 @@
 	<color name="text_blue">#014e91</color>
 	<color name="text_white">#ffffff</color>
 	<color name="text_gray">#797979</color>
+	<color name="frame_gray">#B3B3B3</color>
 	<color name="text_light_gray">#aaaaaa</color>
 
 	<color name="app_gray">#aaaaaa</color>

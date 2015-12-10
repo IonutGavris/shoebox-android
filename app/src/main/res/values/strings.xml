@@ -71,6 +71,8 @@
 	<string name="slide3_msg1">After you fill the shoe box with all the nice presents, you just need to take it to a ShoeBox location.</string>
 	<string name="slide3_msg2">There are more than 260 ShoeBox locations across the globe.</string>
 
+	<string name="get_involved">I want to get involved!</string>
+
 	<string name="nav_shoebox">ShoeBox</string>
 	<string name="nav_contact">Contact</string>
 	<string name="nav_about">About</string>

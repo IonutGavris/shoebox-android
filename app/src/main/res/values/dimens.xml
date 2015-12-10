@@ -14,7 +14,7 @@
     <dimen name="keyline_2_session_detail">@dimen/keyline_2</dimen>
 
     <dimen name="element_spacing">8dp</dimen>
-    <dimen name="text_size_large">18dp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
 	<dimen name="text_size_title">18sp</dimen>
 	<dimen name="text_size_subtitle">16sp</dimen>
     <dimen name="text_margin">16dp</dimen>

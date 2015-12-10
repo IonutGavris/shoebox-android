@@ -19,14 +19,19 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.shoebox.android.util.HelperClass;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class GettingStartedActivity extends BaseActivity {
 
@@ -36,6 +41,8 @@ public class GettingStartedActivity extends BaseActivity {
 	LinearLayout dotsLayout;
 	@InjectView(R.id.rootLayout)
 	View content;
+	@InjectView(R.id.frameBackground)
+	FrameLayout frameBackground;
 
 	private ViewPager.OnPageChangeListener pageChangeListener;
 	private Handler handler = new Handler();
@@ -65,23 +72,32 @@ public class GettingStartedActivity extends BaseActivity {
 		final int colorOrange = getResources().getColor(R.color.transparentOrange);
 		final int colorGreen = getResources().getColor(R.color.transparentGreen);
 		final int colorBlue = getResources().getColor(R.color.transparentBlue);
+		final int buttonOrange = getResources().getColor(R.color.shoeBoxOrange);
+		final int buttonGreen = getResources().getColor(R.color.shoeBoxGreen);
+		final int buttonBlue = getResources().getColor(R.color.shoeBoxBlue);
 
 		pageChangeListener = new ViewPager.OnPageChangeListener() {
 
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 				int color;
+				int buttonColor;
 				switch (position) {
 					case 0:
 						color = (Integer) argbEvaluator.evaluate(positionOffset, colorOrange, colorGreen);
+						buttonColor = (Integer) argbEvaluator.evaluate(positionOffset, buttonOrange, buttonGreen);
 						content.setBackgroundColor(color);
+						frameBackground.setBackgroundColor(buttonColor);
 						break;
 					case 1:
 						color = (Integer) argbEvaluator.evaluate(positionOffset, colorGreen, colorBlue);
+						buttonColor = (Integer) argbEvaluator.evaluate(positionOffset, buttonGreen, buttonBlue);
 						content.setBackgroundColor(color);
+						frameBackground.setBackgroundColor(buttonColor);
 						break;
 					case 2:
 						content.setBackgroundColor(colorBlue);
+						frameBackground.setBackgroundColor(buttonBlue);
 						break;
 				}
 			}
@@ -183,11 +199,15 @@ public class GettingStartedActivity extends BaseActivity {
 		return result;
 	}
 
+	@OnClick(R.id.buttonStart)
+	public void buttonStartClicked(View view) {
+		finish();
+	}
+
 	@Override
 	public void finish() {
 		super.finish();
-//		Settings settings = new Settings(getApplicationContext());
-//		settings.setAppIntroCompleted();
+		HelperClass.addBooleanValueInSharedPreference(getApplicationContext(), HelperClass.keyIsFirstTime, false);
 	}
 
 	@Override

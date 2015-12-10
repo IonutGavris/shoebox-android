@@ -23,8 +23,9 @@
 		android:layout_marginBottom="@dimen/keyline_1_minus_8dp"
 		android:paddingBottom="@dimen/keyline_1_minus_8dp"
 		android:paddingTop="@dimen/keyline_1_minus_8dp"
-		tools:progress="15"
-		/>
+		android:progressTint="@color/colorAccent"
+		android:thumbTint="@color/colorAccent"
+		tools:progress="15" />
 
 	<Button
 		android:id="@+id/okBtn"
@@ -33,5 +34,5 @@
 		android:layout_alignParentRight="true"
 		android:layout_below="@id/ageSelection"
 		android:text="OK"
-		android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+		android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 </RelativeLayout>

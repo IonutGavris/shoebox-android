@@ -109,6 +109,7 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
 		map = googleMap;
+		centerMapToCoordinate(ROMANIA_CENTER_LATITUDE, ROMANIA_CENTER_LONGITUDE, 6, false);
 		map.setOnMyLocationButtonClickListener(this);
 		enableMyLocation();
 		UiSettings mapUiSettings = map.getUiSettings();
@@ -223,21 +224,25 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	public void onMyLocationChange(android.location.Location location) {
 		if (mapCentered) // try to center map only once
 			return;
+
 		Timber.d("onMyLocationChange: myLocation=%s", location);
-		float zoom = 15;
-		if (location == null) { // if we don't have my location yet, then go to the center of Romania
-			location = new android.location.Location("");
-			location.setLatitude(ROMANIA_CENTER_LATITUDE);
-			location.setLongitude(ROMANIA_CENTER_LONGITUDE);
-			zoom = 7;
+		if (location != null) {
+			centerMapToCoordinate(location.getLatitude(), location.getLongitude(), 12, true);
+			mapCentered = true;
+			// we need the my location found callback only once
+			map.setOnMyLocationChangeListener(null);
 		}
+	}
+
+	private void centerMapToCoordinate(double lat, double lng, float zoom, boolean withAnimation) {
 		CameraPosition position = new CameraPosition.Builder()
-				.target(new LatLng(location.getLatitude(), location.getLongitude()))
+				.target(new LatLng(lat, lng))
 				.zoom(zoom).build();
-		map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
-		mapCentered = true;
-		// we need the my location found callback only once
-		map.setOnMyLocationChangeListener(null);
+		if (withAnimation) {
+			map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+		} else {
+			map.moveCamera(CameraUpdateFactory.newCameraPosition(position));
+		}
 	}
 
 	private class SetLocationMarkersTask extends AsyncTask<List<Location>, Void, Void> {

@@ -1,6 +1,5 @@
 package com.shoebox.android.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -16,15 +15,17 @@ public class HelperClass {
     public static final String contactPhoneNumber = "+40745 900 851";
     public static final String contactEmail = "valvesa@gmail.com";
 
-    public static void addBooleanValueInSharedPreference(Activity context, String key, boolean value) {
-        SharedPreferences sharedPref = context.getPreferences(Context.MODE_PRIVATE);
+    private static final String SHARED_PREFERENCES = "SHARED_PREFERENCES";
+
+    public static void addBooleanValueInSharedPreference(Context context, String key, boolean value) {
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(key, value);
-        editor.commit();
+        editor.apply();
     }
 
-    public static boolean getBooleanValueInSharedPreference(Activity context, String key, boolean defaultValue) {
-        SharedPreferences sharedPref = context.getPreferences(Context.MODE_PRIVATE);
+    public static boolean getBooleanValueInSharedPreference(Context context, String key, boolean defaultValue) {
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         return sharedPref.getBoolean(key, defaultValue);
     }
 }

@@ -116,7 +116,7 @@ public class LocationDetailsActivity extends BaseActivity {
 			try {
 				address = URLEncoder.encode(location.addressFull, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
-				Timber.e("doGetDirections", e);
+				Timber.e(e, "doGetDirections");
 			}
 			uri = Uri.parse(GET_DIRECTIONS_PREFIX + address);
 		}

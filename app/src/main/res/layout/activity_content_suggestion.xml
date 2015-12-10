@@ -19,16 +19,25 @@
 			android:id="@+id/recyclerView"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_above="@+id/nextStep"
+			android:layout_above="@+id/frameBackground"
 			android:scrollbars="vertical"/>
 
-		<Button
-			android:id="@id/nextStep"
+		<FrameLayout
+			android:id="@+id/frameBackground"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="60dp"
 			android:layout_alignParentBottom="true"
-			android:text="@string/btn_box_packing_guide"/>
+			android:background="@color/transparentGreen">
 
+			<Button
+				android:id="@+id/nextStep"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:background="?selectableItemBackground"
+				android:text="@string/btn_drop_location"
+				android:textColor="@color/text_white"
+				android:textSize="@dimen/text_size_large" />
+		</FrameLayout>
 
 	</RelativeLayout>
 

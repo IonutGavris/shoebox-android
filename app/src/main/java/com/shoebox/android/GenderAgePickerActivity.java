@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.shoebox.android.adapter.AgePickerAdapter;
 import com.shoebox.android.beans.AgeInterval;
@@ -42,6 +43,9 @@ public class GenderAgePickerActivity extends BaseActivity {
 	@InjectView(R.id.nextStep)
 	Button nextStep;
 
+	@InjectView(R.id.frameBackground)
+	FrameLayout frameBackground;
+
 	private AgeInterval selectedAgeInterval;
 
 	private AgePickerAdapter adapter;
@@ -65,6 +69,7 @@ public class GenderAgePickerActivity extends BaseActivity {
 		adapter = new AgePickerAdapter();
 		recyclerView.setAdapter(adapter);
 		nextStep.setEnabled(false);
+		frameBackground.setEnabled(false);
 
 		// no custom age set by default
 		fillAdapter(INITIAL_CUSTOM_AGE);
@@ -122,6 +127,7 @@ public class GenderAgePickerActivity extends BaseActivity {
 			}
 		}
 		nextStep.setEnabled(true);
+		frameBackground.setEnabled(true);
 	}
 
 	public void onEvent(CustomAgePickedEvent event) {
