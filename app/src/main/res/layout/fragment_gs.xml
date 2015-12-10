@@ -11,7 +11,6 @@
         android:layout_height="0dp"
         android:layout_above="@+id/textMsg1"
         android:layout_weight="6"
-        android:scaleType="center"
         tools:src="@drawable/gift_for_boy_girl_large" />
 
     <LinearLayout
