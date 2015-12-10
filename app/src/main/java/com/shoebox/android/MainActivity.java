@@ -39,9 +39,8 @@ public class MainActivity extends BaseActivity
 		if (isFirstTime == true)//is first time in app
 		{
 			HelperClass.addBooleanValueInSharedPreference(MainActivity.this, HelperClass.keyIsFirstTime, false);
-			Intent intro = new Intent(MainActivity.this, IntroActivity.class);
-			startActivity(intro);
 		}
+		startActivity(GettingStartedActivity.getLaunchingIntent(this));
 	}
 
 	@Override

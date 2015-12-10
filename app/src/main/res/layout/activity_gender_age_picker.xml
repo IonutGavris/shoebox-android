@@ -25,7 +25,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerHorizontal="true"
-				android:src="@drawable/fetita_baiat_img"/>
+				android:src="@drawable/gift_for_boy_girl"/>
 
 			<LinearLayout
 				android:layout_width="match_parent"

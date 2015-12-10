@@ -62,4 +62,14 @@
 
 	<string name="msg_no_dial">There are no dial applications installed.</string>
 
+	<string name="slide1_msg1">The ShoeBox project is a tiny attempt to make the world a better place.</string>
+	<string name="slide1_msg2">We try to put a smile on the face of unprivileged children every year, in the cities we live in.</string>
+
+	<string name="slide2_msg1">You only need an empty shoe box, wrapping paper and the desire to buy the things you want to gift.</string>
+	<string name="slide2_msg2">Don\'t know what to put in the box? We can help you</string>
+
+	<string name="slide3_msg1">After you fill the shoe box with all the nice presents, you just need to take it to a ShoeBox location.</string>
+	<string name="slide3_msg2">There are more than 260 ShoeBox locations across the globe.</string>
+
+
 </resources>

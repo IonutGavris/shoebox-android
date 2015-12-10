@@ -48,5 +48,14 @@
 
 	<string name="msg_no_dial">Nu exista aplicatii instalate pentru a suna.</string>
 
+	<string name="slide1_msg1">Proiectul ShoeBox e o incercare de a face lumea un loc mai bun.</string>
+	<string name="slide1_msg2">In fiecare an, incercam sa punem un zambet pe fata copiilor defavorizati din orasele in care locuim.</string>
+
+	<string name="slide2_msg1">Ai nevoie doar de o cutie de pantofi goala, hartie de impachetat si dorinta de a cumpara lucrurile ce vrei sa le daruiesti.</string>
+	<string name="slide2_msg2">Nu stii ce sa pui in cutie? Te putem ajuta noi!</string>
+
+	<string name="slide3_msg1">Dupa ce pui cadourile cumparate in cutia de pantofi, trebuie sa o duci la o locatie ShoeBox.</string>
+	<string name="slide3_msg2">Sunt mai mult de 260 de locatii in toata lumea.</string>
+
 
 </resources>

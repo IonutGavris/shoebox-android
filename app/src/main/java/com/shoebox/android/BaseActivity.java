@@ -29,6 +29,7 @@ public class BaseActivity extends AppCompatActivity {
 	@InjectView(R.id.coordinatorLayout)
 	public CoordinatorLayout coordinatorLayout;
 
+	@Optional
 	@InjectView(R.id.toolbar)
 	protected Toolbar toolbar;
 
@@ -105,11 +106,13 @@ public class BaseActivity extends AppCompatActivity {
 	}
 
 	private void configureActionBar() {
-		setSupportActionBar(toolbar);
-		if (getSupportActionBar() != null) {
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		} else {
-			Timber.w("getSupportActionBar() is NULL");
+		if (toolbar != null) {
+			setSupportActionBar(toolbar);
+			if (getSupportActionBar() != null) {
+				getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			} else {
+				Timber.w("getSupportActionBar() is NULL");
+			}
 		}
 	}
 
