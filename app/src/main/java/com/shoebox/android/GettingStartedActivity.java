@@ -256,7 +256,7 @@ public class GettingStartedActivity extends BaseActivity {
 			switch (getArguments().getInt(SLIDE_INDEX, 0)) {
 				case 0:
 					view = inflater.inflate(R.layout.fragment_gs, container, false);
-					((ImageView) view.findViewById(R.id.slideImage)).setImageResource(R.drawable.gift_for_boy_girl);
+					((ImageView) view.findViewById(R.id.slideImage)).setImageResource(R.drawable.gift_for_boy_girl_large);
 					((TextView) view.findViewById(R.id.textMsg1)).setText(R.string.slide1_msg1);
 					((TextView) view.findViewById(R.id.textMsg2)).setText(R.string.slide1_msg2);
 					break;

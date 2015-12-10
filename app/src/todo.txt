@@ -1,0 +1,5 @@
+change icons for menu
+link the menu options to smth
+style the button
+logic for single shot walkthrough
+crashlytics, eventually analytics
