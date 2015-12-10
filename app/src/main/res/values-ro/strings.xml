@@ -8,8 +8,8 @@
 	<string name="btn_drop_location">Unde sa las cutia?</string>
 	<string name="btn_box_content_suggestions">Urmatorul pas</string>
 
-	<string name="title_activity_picker">Cui daruiesti cadoul?</string>
-	<string name="title_activity_suggestions">Box content suggestions</string>
+	<string name="title_activity_picker">Pentru cine este cadoul?</string>
+	<string name="title_activity_suggestions">Sugestii</string>
 	<string name="title_activity_locations">Locatii ShoeBox</string>
 
 	<string name="btn_boy">Baiat</string>
