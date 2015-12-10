@@ -85,6 +85,9 @@
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.shoebox.android.LocationsActivity"/>
 		</activity>
-	</application>
+	    <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3b24327bf13dc6258f579bf4303b6eb98aabd810" />
+    </application>
 
 </manifest>

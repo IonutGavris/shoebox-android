@@ -2,10 +2,12 @@ package com.shoebox.android;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.firebase.client.Config;
 import com.firebase.client.Firebase;
 import com.firebase.client.Logger;
 
+import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 public class ShoeBoxApplication extends Application {
@@ -13,6 +15,8 @@ public class ShoeBoxApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
+		// Configure Fabric Kits
+		Fabric.with(this, new Crashlytics());
 		// configure Firebase
 		Firebase.setAndroidContext(this);
 
