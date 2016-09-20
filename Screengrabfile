@@ -1,0 +1,15 @@
+# remove the leading '#' to uncomment lines
+
+app_package_name 'com.shoebox.android'
+use_tests_in_packages ['com.shoebox.android']
+
+app_apk_path 'app/build/outputs/apk/app-debug.apk'
+tests_apk_path 'app/build/outputs/apk/app-debug-androidTest.apk'
+
+locales ['en-US', 'ro-RO']
+
+# clear all previously generated screenshots in your local output directory before creating new ones
+clear_previous_screenshots true
+
+# For more information about all available options run
+#   screengrab --help
