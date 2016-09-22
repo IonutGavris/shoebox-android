@@ -1,0 +1,17 @@
+language: android
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+android:
+  components:
+    - build-tools-23.0.2
+    - android-23
+    - extra
+
+script: travis/script.sh
+after_success: travis/after_success_script.sh
