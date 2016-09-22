@@ -1,2 +1,2 @@
 #!/bin/sh
-./gradlew assembleDebug crashlyticsUploadDistributionDebug
+./gradlew assembleDebug crashlyticsUploadDistributionDebug --stacktrace
