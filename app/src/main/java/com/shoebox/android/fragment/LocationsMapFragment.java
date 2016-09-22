@@ -188,20 +188,25 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 		// Do a null check to confirm that we have not already instantiated the map.
 		if (map == null) {
 			// Try to obtain the map from the SupportMapFragment.
-			map = getMap();
-			// Check if we were successful in obtaining the map.
-			if (map != null) {
-				// setup cluster manager and needed listeners
-				clusterManager = new ClusterManager<>(getActivity(), map);
-				clusterManager.setRenderer(new LocationRenderer());
-				map.setOnCameraChangeListener(clusterManager);
-				map.setOnMarkerClickListener(clusterManager);
-				map.setOnInfoWindowClickListener(clusterManager);
-				map.setOnMyLocationChangeListener(this);
-				clusterManager.setOnClusterItemInfoWindowClickListener(this);
-				clusterManager.setOnClusterClickListener(this);
-				setLocationsResult(((LocationsActivity) getActivity()).getLocations());
-			}
+			getMapAsync(new OnMapReadyCallback() {
+				@Override
+				public void onMapReady(GoogleMap googleMap) {
+					map = googleMap;
+					// Check if we were successful in obtaining the map.
+					if (map != null) {
+						// setup cluster manager and needed listeners
+						clusterManager = new ClusterManager<>(getActivity(), map);
+						clusterManager.setRenderer(new LocationRenderer(map));
+						map.setOnCameraChangeListener(clusterManager);
+						map.setOnMarkerClickListener(clusterManager);
+						map.setOnInfoWindowClickListener(clusterManager);
+						map.setOnMyLocationChangeListener(LocationsMapFragment.this);
+						clusterManager.setOnClusterItemInfoWindowClickListener(LocationsMapFragment.this);
+						clusterManager.setOnClusterClickListener(LocationsMapFragment.this);
+						setLocationsResult(((LocationsActivity) getActivity()).getLocations());
+					}
+				}
+			});
 		}
 	}
 
@@ -283,8 +288,8 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	 */
 	private class LocationRenderer extends DefaultClusterRenderer<Location> {
 
-		public LocationRenderer() {
-			super(getActivity().getApplicationContext(), getMap(), clusterManager);
+		public LocationRenderer(GoogleMap map) {
+			super(getActivity().getApplicationContext(), map, clusterManager);
 		}
 
 		@Override

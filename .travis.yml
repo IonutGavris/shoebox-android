@@ -16,12 +16,12 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-23.0.2
-    - android-23
+    - build-tools-24.0.2
+    - android-24
     - extra-android-m2repository
     - extra-android-support
-    - extra-google-m2repository-29
-    - extra-google-google_play_services-29
+    - extra-google-m2repository
+    - extra-google-google_play_services
   licenses:
     - android-sdk-preview-license-.+
     - android-sdk-license-.+
