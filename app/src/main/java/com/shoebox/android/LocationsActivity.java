@@ -11,10 +11,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.GenericTypeIndicator;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.shoebox.android.beans.Location;
 import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.fragment.LocationsListFragment;
@@ -34,15 +35,17 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	private static final String FRAGMENT_TAG_MAP = "map_locations";
 	private static final String FRAGMENT_TAG_LIST = "list_locations";
 
-	private static final String dataPath = "/locations/";
+	private static final String dataPath = "locations";
 
 	private final Bus bus = BusProvider.get();
 
 	private Fragment mapFragment;
 	private Fragment listFragment;
 	private ViewMode currentViewMode = ViewMode.MAP;
-
 	private List<Location> locations;
+
+	private DatabaseReference locationsRef;
+	private ValueEventListener valueEventListener;
 
 	public static Intent getLaunchingIntent(Context context) {
 		return new Intent(context, LocationsActivity.class);
@@ -73,7 +76,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 
 		initFragments(currentViewMode);
 
-		firebase.child(dataPath).addValueEventListener(new ValueEventListener() {
+		valueEventListener = new ValueEventListener() {
 			// TODO try to use orderByChild for sorting
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
@@ -91,11 +94,13 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 			}
 
 			@Override
-			public void onCancelled(FirebaseError firebaseError) {
-				Timber.e("The %s read failed: %s ", dataPath, firebaseError.getMessage());
-				setStatusToFragments(firebaseError.getMessage());
+			public void onCancelled(DatabaseError databaseError) {
+				Timber.e("The %s read failed: %s ", dataPath, databaseError.getMessage());
+				setStatusToFragments(databaseError.getMessage());
 			}
-		});
+		};
+		locationsRef = firebase.getReference(dataPath);
+		locationsRef.addValueEventListener(valueEventListener);
 	}
 
 	@Override
@@ -108,6 +113,12 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	public void onPause() {
 		bus.unregister(this);
 		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		locationsRef.removeEventListener(valueEventListener);
 	}
 
 	@Override

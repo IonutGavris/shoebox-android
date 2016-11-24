@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.client.Firebase;
+import com.google.firebase.database.FirebaseDatabase;
 import com.shoebox.android.util.UIUtils;
 
 import butterknife.ButterKnife;
@@ -24,7 +24,6 @@ import timber.log.Timber;
  */
 public class BaseActivity extends AppCompatActivity {
 
-	private final String firebaseUrl = "https://shoebox.firebaseio.com/";
 	@Optional
 	@InjectView(R.id.coordinatorLayout)
 	public CoordinatorLayout coordinatorLayout;
@@ -33,12 +32,12 @@ public class BaseActivity extends AppCompatActivity {
 	@InjectView(R.id.toolbar)
 	protected Toolbar toolbar;
 
-	protected Firebase firebase;
+	protected FirebaseDatabase firebase;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		firebase = new Firebase(firebaseUrl);
+		firebase = FirebaseDatabase.getInstance();
 	}
 
 	@Override

@@ -8,10 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.GenericTypeIndicator;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.shoebox.android.adapter.SuggestionsAdapter;
 import com.shoebox.android.beans.AgeInterval;
 import com.shoebox.android.beans.Suggestion;
@@ -31,12 +32,17 @@ public class ContentSuggestionActivity extends BaseActivity {
 	private static final String FEMALE = "female";
 	private static final String BOTH = "both";
 
-	private static final String dataPath = "/suggestions/";
+	private static final String dataPath = "suggestions";
+
 	@InjectView(R.id.recyclerView)
 	RecyclerView recyclerView;
+
 	private AgeInterval ageInterval;
 	private boolean isMale;
 	private SuggestionsAdapter adapter;
+
+	private DatabaseReference suggestionsRef;
+	private ValueEventListener valueEventListener;
 
 	public static Intent getLaunchingIntent(Context context, boolean isMale, AgeInterval interval) {
 		Intent intent = new Intent(context, ContentSuggestionActivity.class);
@@ -65,8 +71,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 		adapter.setSuggestionsTarget(isMale, ageInterval.minAge, ageInterval.maxAge);
 		recyclerView.setAdapter(adapter);
 
-
-		firebase.child(dataPath).addValueEventListener(new ValueEventListener() {
+		valueEventListener = new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				Timber.d("The %s read was successful :)", dataPath);
@@ -102,10 +107,18 @@ public class ContentSuggestionActivity extends BaseActivity {
 			}
 
 			@Override
-			public void onCancelled(FirebaseError firebaseError) {
-				Timber.e("The %s read failed: %s ", dataPath, firebaseError.getMessage());
+			public void onCancelled(DatabaseError databaseError) {
+				Timber.e("The %s read failed: %s ", dataPath, databaseError.getMessage());
 			}
-		});
+		};
+		suggestionsRef = firebase.getReference(dataPath);
+		suggestionsRef.addValueEventListener(valueEventListener);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		suggestionsRef.removeEventListener(valueEventListener);
 	}
 
 	@OnClick(R.id.nextStep)
