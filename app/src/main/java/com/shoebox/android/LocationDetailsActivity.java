@@ -18,6 +18,7 @@ import com.shoebox.android.event.ContactCallClickedEvent;
 import com.shoebox.android.event.DistanceCalculatedEvent;
 import com.shoebox.android.fragment.LocationDetailsMapFragment;
 import com.shoebox.android.util.BusProvider;
+import com.shoebox.android.util.ShoeBoxAnalytics;
 import com.shoebox.android.util.UIUtils;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -68,6 +69,12 @@ public class LocationDetailsActivity extends BaseActivity {
 
 		detailsRecyclerAdapter = new LocationDetailsRecyclerAdapter(location);
 		recyclerView.setAdapter(detailsRecyclerAdapter);
+
+		Bundle bundle = new Bundle(3);
+		bundle.putString(ShoeBoxAnalytics.Param.LOCATION_TITLE, location.title);
+		bundle.putString(ShoeBoxAnalytics.Param.LOCATION_CITY, location.city);
+		bundle.putString(ShoeBoxAnalytics.Param.LOCATION_COUNTRY, location.country);
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.State.LOCATION_DETAILS, bundle);
 	}
 
 	@Override
@@ -121,10 +128,12 @@ public class LocationDetailsActivity extends BaseActivity {
 			uri = Uri.parse(GET_DIRECTIONS_PREFIX + address);
 		}
 		Timber.d("doGetDirections: uri = %s", uri.toString());
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.SHOW_DIRECTIONS, null);
 		try {
 			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
 			startActivity(intent);
 		} catch (ActivityNotFoundException e) {
+			ShoeBoxAnalytics.sendErrorState(firebaseAnalytics, getString(R.string.msg_no_navigation));
 			UIUtils.showMessage(this, R.string.msg_no_navigation);
 		}
 	}
@@ -136,6 +145,7 @@ public class LocationDetailsActivity extends BaseActivity {
 
 	@Subscribe
 	public void onContactCallClicked(ContactCallClickedEvent event) {
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CALL_CONTACT, null);
 		UIUtils.launchDial(this, event.phoneNumber);
 	}
 }

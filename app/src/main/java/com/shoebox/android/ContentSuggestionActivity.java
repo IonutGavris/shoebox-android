@@ -17,6 +17,7 @@ import com.shoebox.android.adapter.SuggestionsAdapter;
 import com.shoebox.android.beans.AgeInterval;
 import com.shoebox.android.beans.Suggestion;
 import com.shoebox.android.util.DividerItemDecoration;
+import com.shoebox.android.util.ShoeBoxAnalytics;
 
 import java.util.List;
 
@@ -109,10 +110,16 @@ public class ContentSuggestionActivity extends BaseActivity {
 			@Override
 			public void onCancelled(DatabaseError databaseError) {
 				Timber.e("The %s read failed: %s ", dataPath, databaseError.getMessage());
+				ShoeBoxAnalytics.sendErrorState(firebaseAnalytics, "Content suggestions read failed: " + databaseError.getMessage());
 			}
 		};
 		suggestionsRef = firebase.getReference(dataPath);
 		suggestionsRef.addValueEventListener(valueEventListener);
+
+		Bundle bundle = new Bundle(2);
+		bundle.putSerializable(ShoeBoxAnalytics.Param.AGE_INTERVAL, ageInterval);
+		bundle.putBoolean(ShoeBoxAnalytics.Param.IS_MALE, isMale);
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.State.CONTENT_SUGGESTIONS, bundle);
 	}
 
 	@Override
@@ -123,6 +130,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 
 	@OnClick(R.id.nextStep)
 	public void nextStepClick(View view) {
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.GOTO_LOCATIONS, null);
 		startActivity(LocationsActivity.getLaunchingIntent(this));
 	}
 }

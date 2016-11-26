@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shoebox.android.util.UIUtils;
 
@@ -33,11 +34,19 @@ public class BaseActivity extends AppCompatActivity {
 	protected Toolbar toolbar;
 
 	protected FirebaseDatabase firebase;
+	protected FirebaseAnalytics firebaseAnalytics;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		firebase = FirebaseDatabase.getInstance();
+		firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null);
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.fragment.LocationsListFragment;
 import com.shoebox.android.fragment.LocationsMapFragment;
 import com.shoebox.android.util.BusProvider;
+import com.shoebox.android.util.ShoeBoxAnalytics;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -61,6 +62,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 			@Override
 			public void onClick(View view) {
 				if (currentViewMode == ViewMode.MAP) {
+					firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.LOCATIONS_VIEW_LIST, null);
 					switchFragmentsVisibility(mapFragment, listFragment);
 					fab.setImageResource(R.drawable.ic_action_map);
 				} else {
@@ -96,11 +98,14 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 			@Override
 			public void onCancelled(DatabaseError databaseError) {
 				Timber.e("The %s read failed: %s ", dataPath, databaseError.getMessage());
+				ShoeBoxAnalytics.sendErrorState(firebaseAnalytics, "Locations read failed: " + databaseError.getMessage());
 				setStatusToFragments(databaseError.getMessage());
 			}
 		};
 		locationsRef = firebase.getReference(dataPath);
 		locationsRef.addValueEventListener(valueEventListener);
+
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.State.LOCATIONS, null);
 	}
 
 	@Override
