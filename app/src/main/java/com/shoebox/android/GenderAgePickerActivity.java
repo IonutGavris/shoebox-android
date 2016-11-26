@@ -15,6 +15,7 @@ import com.shoebox.android.beans.AgeInterval;
 import com.shoebox.android.event.CustomAgePickedEvent;
 import com.shoebox.android.events.AgeSelectedEvent;
 import com.shoebox.android.ui.CustomAgeDialog;
+import com.shoebox.android.util.ShoeBoxAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,28 +25,21 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 public class GenderAgePickerActivity extends BaseActivity {
-	private EventBus bus = EventBus.getDefault();
 	private static final int INITIAL_CUSTOM_AGE = 0;
 	private static final int DEFAULT_CUSTOM_AGE = 15;
-
 	@InjectView(R.id.boyCheck)
 	View boyCheck;
-
 	@InjectView(R.id.girlCheck)
 	View girlCheck;
-
 	@InjectView(R.id.recyclerView)
 	RecyclerView recyclerView;
-
 	@InjectView(R.id.disableView)
 	View disableView;
-
 	@InjectView(R.id.nextStep)
 	Button nextStep;
-
 	@InjectView(R.id.frameBackground)
 	FrameLayout frameBackground;
-
+	private EventBus bus = EventBus.getDefault();
 	private AgeInterval selectedAgeInterval;
 
 	private AgePickerAdapter adapter;
@@ -73,6 +67,8 @@ public class GenderAgePickerActivity extends BaseActivity {
 
 		// no custom age set by default
 		fillAdapter(INITIAL_CUSTOM_AGE);
+
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.State.GENDER_AGE_PICKER, null);
 	}
 
 	private void fillAdapter(int customValue) {
@@ -87,6 +83,7 @@ public class GenderAgePickerActivity extends BaseActivity {
 
 	@OnClick(R.id.nextStep)
 	public void onNextStep() {
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.GOTO_CONTENT_SUGGESTIONS, null);
 		startActivity(ContentSuggestionActivity.getLaunchingIntent(this, boyCheck.getVisibility() == View.VISIBLE, selectedAgeInterval));
 	}
 
@@ -95,6 +92,7 @@ public class GenderAgePickerActivity extends BaseActivity {
 		girlCheck.setVisibility(View.VISIBLE);
 		boyCheck.setVisibility(View.INVISIBLE);
 		disableView.setVisibility(View.GONE);
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CHOOSE_GIRL, null);
 	}
 
 	@OnClick(R.id.boy)
@@ -102,6 +100,7 @@ public class GenderAgePickerActivity extends BaseActivity {
 		boyCheck.setVisibility(View.VISIBLE);
 		girlCheck.setVisibility(View.INVISIBLE);
 		disableView.setVisibility(View.GONE);
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CHOOSE_BOY, null);
 	}
 
 	@Override
@@ -128,6 +127,10 @@ public class GenderAgePickerActivity extends BaseActivity {
 		}
 		nextStep.setEnabled(true);
 		frameBackground.setEnabled(true);
+
+		Bundle bundle = new Bundle(1);
+		bundle.putSerializable(ShoeBoxAnalytics.Param.AGE_INTERVAL, selectedAgeInterval);
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CHOOSE_AGE_INTERVAL, bundle);
 	}
 
 	public void onEvent(CustomAgePickedEvent event) {

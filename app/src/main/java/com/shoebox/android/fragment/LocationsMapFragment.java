@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
@@ -26,6 +27,7 @@ import com.shoebox.android.beans.Location;
 import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.util.BusProvider;
 import com.shoebox.android.util.PermissionUtils;
+import com.shoebox.android.util.ShoeBoxAnalytics;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	 */
 	private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 	private final Bus bus = BusProvider.get();
+	protected FirebaseAnalytics firebaseAnalytics;
 	boolean mapCentered = false;
 	/**
 	 * Flag indicating whether a requested permission has been denied after returning in
@@ -68,7 +71,7 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 		getMapAsync(this);
 	}
 
@@ -128,7 +131,9 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 			Timber.d("onRequestPermissionsResult: Enable the my location layer <- the permission has been granted.");
 			enableMyLocation();
 		} else {
-			Timber.d("onRequestPermissionsResult: Display the missing permission error dialog when the fragment resumes");
+			String errorMsg = "onRequestPermissionsResult: Display the missing permission error dialog when the fragment resumes";
+			ShoeBoxAnalytics.sendErrorState(firebaseAnalytics, errorMsg);
+			Timber.d(errorMsg);
 			mPermissionDenied = true;
 		}
 	}

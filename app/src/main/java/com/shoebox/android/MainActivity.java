@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
 import com.shoebox.android.util.HelperClass;
+import com.shoebox.android.util.ShoeBoxAnalytics;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -52,7 +53,6 @@ public class MainActivity extends BaseActivity
 		}
 	}
 
-	@SuppressWarnings("StatementWithEmptyBody")
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Handle navigation view item clicks here.
@@ -60,12 +60,14 @@ public class MainActivity extends BaseActivity
 
 		switch (item.getItemId()) {
 			case R.id.nav_contact:
+				firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CONTACT_US, null);
 				Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "contact@shoebox.ro", null));
 				intent.putExtra(Intent.EXTRA_EMAIL, "contact@shoebox.ro");
 				intent.putExtra(Intent.EXTRA_SUBJECT, "ShoeBox Android");
 				startActivity(Intent.createChooser(intent, getString(R.string.send_email)));
 				break;
 			case R.id.nav_about:
+				firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.ABOUT, null);
 				startActivity(GettingStartedActivity.getLaunchingIntent(this));
 				break;
 		}
@@ -74,11 +76,13 @@ public class MainActivity extends BaseActivity
 
 	@OnClick(R.id.boxContentBtn)
 	public void doBoxContent() {
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.DO_BOX_CONTENT, null);
 		startActivity(GenderAgePickerActivity.getLaunchingIntent(this));
 	}
 
 	@OnClick(R.id.dropLocationsBtn)
 	public void doDropLocations() {
+		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.DO_DROP_LOCATIONS, null);
 		startActivity(LocationsActivity.getLaunchingIntent(this));
 	}
 

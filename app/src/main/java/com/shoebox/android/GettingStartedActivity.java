@@ -19,13 +19,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.shoebox.android.util.HelperClass;
+import com.shoebox.android.util.ShoeBoxAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +125,8 @@ public class GettingStartedActivity extends BaseActivity {
 				return false;
 			}
 		});
+
+		firebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_BEGIN, null);
 	}
 
 	private void changePages(final int page, final boolean forward) {
@@ -201,6 +204,9 @@ public class GettingStartedActivity extends BaseActivity {
 
 	@OnClick(R.id.buttonStart)
 	public void buttonStartClicked(View view) {
+		Bundle bundle = new Bundle(1);
+		bundle.putString(ShoeBoxAnalytics.Param.SLIDE_LAST_SEEN, String.valueOf(viewPager.getCurrentItem() + 1));
+		firebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, bundle);
 		finish();
 	}
 
