@@ -13,10 +13,12 @@ import com.shoebox.android.event.CustomAgePickedEvent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by vasile.mihalca on 02/12/15.
+ * The dialog is used to allow the user to pick a custom age for the next step.
  */
 public class CustomAgeDialog extends BaseDialogFragment {
 	public static final String DEFAULT_AGE = "default_age";
@@ -41,7 +43,7 @@ public class CustomAgeDialog extends BaseDialogFragment {
 		okBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				bus.post(new CustomAgePickedEvent(ageSelection.getProgress() + MIN_AGE));
+				EventBus.getDefault().post(new CustomAgePickedEvent(ageSelection.getProgress() + MIN_AGE));
 				dismiss();
 			}
 		});

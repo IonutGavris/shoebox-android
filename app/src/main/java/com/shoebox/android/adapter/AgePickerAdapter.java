@@ -11,12 +11,13 @@ import com.shoebox.android.R;
 import com.shoebox.android.beans.AgeInterval;
 import com.shoebox.android.events.AgeSelectedEvent;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 
 public class AgePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final int LIST_HEADER = 0;
