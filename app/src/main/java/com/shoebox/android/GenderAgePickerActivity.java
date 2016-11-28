@@ -11,18 +11,21 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.shoebox.android.adapter.AgePickerAdapter;
-import com.shoebox.android.beans.AgeInterval;
+import com.shoebox.android.bean.AgeInterval;
+import com.shoebox.android.event.AgeSelectedEvent;
 import com.shoebox.android.event.CustomAgePickedEvent;
-import com.shoebox.android.events.AgeSelectedEvent;
 import com.shoebox.android.ui.CustomAgeDialog;
 import com.shoebox.android.util.ShoeBoxAnalytics;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 
 public class GenderAgePickerActivity extends BaseActivity {
 	private static final int INITIAL_CUSTOM_AGE = 0;
@@ -53,7 +56,6 @@ public class GenderAgePickerActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gender_age_picker);
 		setTitle(R.string.title_activity_picker);
-		bus.register(this);
 
 		recyclerView.setHasFixedSize(true);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -71,14 +73,16 @@ public class GenderAgePickerActivity extends BaseActivity {
 		firebaseAnalytics.logEvent(ShoeBoxAnalytics.State.GENDER_AGE_PICKER, null);
 	}
 
-	private void fillAdapter(int customValue) {
-		List<AgeInterval> values = new ArrayList<>();
-		values.add(new AgeInterval(4, 6));
-		values.add(new AgeInterval(6, 8));
-		values.add(new AgeInterval(8, 10));
-		values.add(new AgeInterval(10, 12));
-		values.add(new AgeInterval(customValue));
-		adapter.setAgeIntervals(values);
+	@Override
+	public void onStart() {
+		super.onStart();
+		bus.register(this);
+	}
+
+	@Override
+	public void onStop() {
+		bus.unregister(this);
+		super.onStop();
 	}
 
 	@OnClick(R.id.nextStep)
@@ -103,13 +107,8 @@ public class GenderAgePickerActivity extends BaseActivity {
 		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CHOOSE_BOY, null);
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		bus.unregister(this);
-	}
-
-	public void onEvent(AgeSelectedEvent event) {
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void onAgeSelectedEvent(AgeSelectedEvent event) {
 		if (event.ageInterval.custom) {
 			CustomAgeDialog dialog = new CustomAgeDialog();
 			Bundle bundle = new Bundle();
@@ -133,9 +132,19 @@ public class GenderAgePickerActivity extends BaseActivity {
 		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CHOOSE_AGE_INTERVAL, bundle);
 	}
 
-	public void onEvent(CustomAgePickedEvent event) {
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void onCustomAgePickedEvent(CustomAgePickedEvent event) {
 		fillAdapter(event.age);
 		selectedAgeInterval = new AgeInterval(event.age);
 	}
 
+	private void fillAdapter(int customValue) {
+		List<AgeInterval> values = new ArrayList<>();
+		values.add(new AgeInterval(4, 6));
+		values.add(new AgeInterval(6, 8));
+		values.add(new AgeInterval(8, 10));
+		values.add(new AgeInterval(10, 12));
+		values.add(new AgeInterval(customValue));
+		adapter.setAgeIntervals(values);
+	}
 }

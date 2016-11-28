@@ -15,10 +15,10 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.shoebox.android.beans.Location;
+import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.DistanceCalculatedEvent;
-import com.shoebox.android.util.BusProvider;
-import com.squareup.otto.Bus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import timber.log.Timber;
 
@@ -27,7 +27,7 @@ public class LocationDetailsMapFragment extends com.google.android.gms.maps.Supp
 
 	private static final String LOCATION = "location";
 	private static final String BUNDLE_MAP_CENTERED = "map_centered";
-	private final Bus bus = BusProvider.get();
+	private final EventBus bus = EventBus.getDefault();
 	boolean mapCentered = false;
 
 	private View fragmentView;

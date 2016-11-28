@@ -1,6 +1,6 @@
 package com.shoebox.android.event;
 
-import com.shoebox.android.beans.Location;
+import com.shoebox.android.bean.Location;
 
 /**
  * The event to fire when a location is clicked.

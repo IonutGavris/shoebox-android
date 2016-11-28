@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shoebox.android.R;
-import com.shoebox.android.beans.Location;
+import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.LocationClickedEvent;
-import com.shoebox.android.util.BusProvider;
-import com.squareup.otto.Bus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +50,6 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.Loca
 	}
 
 	public class LocationViewHolder extends RecyclerView.ViewHolder {
-		private final Bus bus = BusProvider.get();
-
 		@BindView(R.id.locationTitleView)
 		TextView locationTitleView;
 		@BindView(R.id.cityCountryView)
@@ -66,7 +64,7 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.Loca
 			itemView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					bus.post(new LocationClickedEvent(location));
+					EventBus.getDefault().post(new LocationClickedEvent(location));
 				}
 			});
 		}

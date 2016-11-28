@@ -1,6 +1,6 @@
-package com.shoebox.android.events;
+package com.shoebox.android.event;
 
-import com.shoebox.android.beans.AgeInterval;
+import com.shoebox.android.bean.AgeInterval;
 
 /**
  * Created by vasile.mihalca on 02/12/15.

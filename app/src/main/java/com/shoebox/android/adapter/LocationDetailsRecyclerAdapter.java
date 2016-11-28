@@ -8,11 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shoebox.android.R;
-import com.shoebox.android.beans.Location;
-import com.shoebox.android.beans.LocationContact;
+import com.shoebox.android.bean.Location;
+import com.shoebox.android.bean.LocationContact;
 import com.shoebox.android.event.ContactCallClickedEvent;
-import com.shoebox.android.util.BusProvider;
-import com.squareup.otto.Bus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -167,8 +167,6 @@ class LocationDetailHolder extends RecyclerView.ViewHolder {
 }
 
 class LocationContactHolder extends RecyclerView.ViewHolder {
-	private final Bus bus = BusProvider.get();
-
 	@BindView(R.id.contactIcon)
 	ImageView contactIcon;
 	@BindView(R.id.contactName)
@@ -196,7 +194,7 @@ class LocationContactHolder extends RecyclerView.ViewHolder {
 			itemView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					bus.post(new ContactCallClickedEvent(locationContact.phoneNumber));
+					EventBus.getDefault().post(new ContactCallClickedEvent(locationContact.phoneNumber));
 				}
 			});
 		} else {

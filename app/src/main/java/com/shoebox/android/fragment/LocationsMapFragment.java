@@ -23,12 +23,12 @@ import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.shoebox.android.LocationsActivity;
-import com.shoebox.android.beans.Location;
+import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.LocationClickedEvent;
-import com.shoebox.android.util.BusProvider;
 import com.shoebox.android.util.PermissionUtils;
 import com.shoebox.android.util.ShoeBoxAnalytics;
-import com.squareup.otto.Bus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,6 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	 * @see #onRequestPermissionsResult(int, String[], int[])
 	 */
 	private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-	private final Bus bus = BusProvider.get();
 	protected FirebaseAnalytics firebaseAnalytics;
 	boolean mapCentered = false;
 	/**
@@ -183,9 +182,8 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	}
 
 	@Override
-	public void onClusterItemInfoWindowClick(Location item) {
-		// go to location details
-		bus.post(new LocationClickedEvent(item));
+	public void onClusterItemInfoWindowClick(Location item) { // go to location details
+		EventBus.getDefault().post(new LocationClickedEvent(item));
 	}
 
 	private void setUpMapIfNeeded() {

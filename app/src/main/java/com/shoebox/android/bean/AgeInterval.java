@@ -1,4 +1,4 @@
-package com.shoebox.android.beans;
+package com.shoebox.android.bean;
 
 import java.io.Serializable;
 
