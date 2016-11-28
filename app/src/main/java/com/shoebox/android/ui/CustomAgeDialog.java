@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -15,6 +14,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by vasile.mihalca on 02/12/15.
@@ -29,8 +29,6 @@ public class CustomAgeDialog extends BaseDialogFragment {
 	TextView dialogTitle;
 	@BindView(R.id.ageSelection)
 	SeekBar ageSelection;
-	@BindView(R.id.okBtn)
-	Button okBtn;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,13 +37,6 @@ public class CustomAgeDialog extends BaseDialogFragment {
 
 		int defaultAge = getArguments().getInt(DEFAULT_AGE, 0);
 		ageSelection.setMax(MAX_AGE - MIN_AGE);
-		okBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				EventBus.getDefault().post(new CustomAgePickedEvent(ageSelection.getProgress() + MIN_AGE));
-				dismiss();
-			}
-		});
 		ageSelection.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -67,5 +58,11 @@ public class CustomAgeDialog extends BaseDialogFragment {
 		dialogTitle.setText(String.format(getResources().getString(R.string.age_dialog_title), defaultAge));
 
 		return view;
+	}
+
+	@OnClick(R.id.okBtn)
+	public void onOkBtnClicked() {
+		EventBus.getDefault().post(new CustomAgePickedEvent(ageSelection.getProgress() + MIN_AGE));
+		dismiss();
 	}
 }
