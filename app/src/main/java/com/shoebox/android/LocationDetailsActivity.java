@@ -17,11 +17,12 @@ import com.shoebox.android.beans.Location;
 import com.shoebox.android.event.ContactCallClickedEvent;
 import com.shoebox.android.event.DistanceCalculatedEvent;
 import com.shoebox.android.fragment.LocationDetailsMapFragment;
-import com.shoebox.android.util.BusProvider;
 import com.shoebox.android.util.ShoeBoxAnalytics;
 import com.shoebox.android.util.UIUtils;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -35,7 +36,9 @@ public class LocationDetailsActivity extends BaseActivity {
 	public static final String EXTRA_LOCATION = "location";
 	private static final String FRAGMENT_TAG_MAP = "map_locations";
 	private static final String GET_DIRECTIONS_PREFIX = "google.navigation:q=";
-	private final Bus bus = BusProvider.get();
+
+	private final EventBus bus = EventBus.getDefault();
+
 	@BindView(R.id.locationDetailsItems)
 	RecyclerView recyclerView;
 
@@ -78,15 +81,15 @@ public class LocationDetailsActivity extends BaseActivity {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public void onStart() {
+		super.onStart();
 		bus.register(this);
 	}
 
 	@Override
-	public void onPause() {
+	public void onStop() {
 		bus.unregister(this);
-		super.onPause();
+		super.onStop();
 	}
 
 	@Override
@@ -138,12 +141,12 @@ public class LocationDetailsActivity extends BaseActivity {
 		}
 	}
 
-	@Subscribe
+	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onDistanceCalculated(DistanceCalculatedEvent event) {
 		detailsRecyclerAdapter.setDistance(event.distance);
 	}
 
-	@Subscribe
+	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onContactCallClicked(ContactCallClickedEvent event) {
 		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CALL_CONTACT, null);
 		UIUtils.launchDial(this, event.phoneNumber);

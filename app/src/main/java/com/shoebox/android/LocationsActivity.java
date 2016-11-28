@@ -20,10 +20,11 @@ import com.shoebox.android.beans.Location;
 import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.fragment.LocationsListFragment;
 import com.shoebox.android.fragment.LocationsMapFragment;
-import com.shoebox.android.util.BusProvider;
 import com.shoebox.android.util.ShoeBoxAnalytics;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 
 	private static final String dataPath = "locations";
 
-	private final Bus bus = BusProvider.get();
+	private final EventBus bus = EventBus.getDefault();
 
 	private Fragment mapFragment;
 	private Fragment listFragment;
@@ -110,15 +111,15 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public void onStart() {
+		super.onStart();
 		bus.register(this);
 	}
 
 	@Override
-	public void onPause() {
+	public void onStop() {
 		bus.unregister(this);
-		super.onPause();
+		super.onStop();
 	}
 
 	@Override
@@ -143,7 +144,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		return locations;
 	}
 
-	@Subscribe
+	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onLocationClicked(LocationClickedEvent event) {
 		startActivity(LocationDetailsActivity.getLaunchingIntent(this, event.location));
 	}

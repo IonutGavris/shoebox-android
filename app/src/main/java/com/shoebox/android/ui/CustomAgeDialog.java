@@ -11,10 +11,10 @@ import android.widget.TextView;
 import com.shoebox.android.R;
 import com.shoebox.android.event.CustomAgePickedEvent;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by vasile.mihalca on 02/12/15.
@@ -24,21 +24,20 @@ public class CustomAgeDialog extends BaseDialogFragment {
 	public static final String DEFAULT_AGE = "default_age";
 	public static final int MIN_AGE = 1;
 	public static final int MAX_AGE = 18;
+
 	@BindView(R.id.dialogTitle)
 	TextView dialogTitle;
 	@BindView(R.id.ageSelection)
 	SeekBar ageSelection;
 	@BindView(R.id.okBtn)
 	Button okBtn;
-	private EventBus bus = EventBus.getDefault();
-	private int defaultAge;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.custom_age_dialog, container);
 		unbinder = ButterKnife.bind(this, view);
 
-		defaultAge = getArguments().getInt(DEFAULT_AGE, 0);
+		int defaultAge = getArguments().getInt(DEFAULT_AGE, 0);
 		ageSelection.setMax(MAX_AGE - MIN_AGE);
 		okBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
