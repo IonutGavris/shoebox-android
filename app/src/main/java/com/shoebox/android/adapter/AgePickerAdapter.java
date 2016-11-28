@@ -14,14 +14,14 @@ import com.shoebox.android.events.AgeSelectedEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
 public class AgePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-	private List<AgeInterval> ageIntervals = new ArrayList<>();
 	private static final int LIST_HEADER = 0;
 	private static final int LIST_ITEM = 1;
+	private List<AgeInterval> ageIntervals = new ArrayList<>();
 
 	public void setAgeIntervals(List<AgeInterval> ageIntervals) {
 		this.ageIntervals.clear();
@@ -63,7 +63,7 @@ public class AgePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 	}
 
 	public static class AgeHolder extends RecyclerView.ViewHolder {
-		@InjectView(R.id.ageInterval)
+		@BindView(R.id.ageInterval)
 		CheckedTextView txtAgeInterval;
 
 		Context context;
@@ -73,7 +73,7 @@ public class AgePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		public AgeHolder(View itemView) {
 			super(itemView);
 			context = itemView.getContext();
-			ButterKnife.inject(this, itemView);
+			ButterKnife.bind(this, itemView);
 			itemView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {

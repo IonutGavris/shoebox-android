@@ -31,19 +31,33 @@ import com.shoebox.android.util.ShoeBoxAnalytics;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.InjectView;
+import butterknife.BindColor;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class GettingStartedActivity extends BaseActivity {
 
-	@InjectView(R.id.viewPager)
+	@BindView(R.id.viewPager)
 	ViewPager viewPager;
-	@InjectView(R.id.dotsLayout)
+	@BindView(R.id.dotsLayout)
 	LinearLayout dotsLayout;
-	@InjectView(R.id.rootLayout)
+	@BindView(R.id.rootLayout)
 	View content;
-	@InjectView(R.id.frameBackground)
+	@BindView(R.id.frameBackground)
 	FrameLayout frameBackground;
+
+	@BindColor(R.color.transparentOrange)
+	int colorOrange;
+	@BindColor(R.color.transparentGreen)
+	int colorGreen;
+	@BindColor(R.color.transparentBlue)
+	int colorBlue;
+	@BindColor(R.color.shoeBoxOrange)
+	int buttonOrange;
+	@BindColor(R.color.shoeBoxGreen)
+	int buttonGreen;
+	@BindColor(R.color.shoeBoxBlue)
+	int buttonBlue;
 
 	private ViewPager.OnPageChangeListener pageChangeListener;
 	private Handler handler = new Handler();
@@ -70,12 +84,6 @@ public class GettingStartedActivity extends BaseActivity {
 		initDotIndicator(slidesAdapter.getCount());
 
 		final ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-		final int colorOrange = getResources().getColor(R.color.transparentOrange);
-		final int colorGreen = getResources().getColor(R.color.transparentGreen);
-		final int colorBlue = getResources().getColor(R.color.transparentBlue);
-		final int buttonOrange = getResources().getColor(R.color.shoeBoxOrange);
-		final int buttonGreen = getResources().getColor(R.color.shoeBoxGreen);
-		final int buttonBlue = getResources().getColor(R.color.shoeBoxBlue);
 
 		pageChangeListener = new ViewPager.OnPageChangeListener() {
 

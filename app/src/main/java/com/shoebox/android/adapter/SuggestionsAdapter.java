@@ -13,8 +13,8 @@ import com.shoebox.android.beans.Suggestion;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final int ITEM_HEADER_IMAGE = 0;
@@ -89,15 +89,15 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 	public static class SuggestionItemHolder extends RecyclerView.ViewHolder {
 
-		@InjectView(R.id.suggestionTitle)
+		@BindView(R.id.suggestionTitle)
 		TextView suggestionTitle;
 
-		@InjectView(R.id.suggestionDescription)
+		@BindView(R.id.suggestionDescription)
 		TextView suggestionDescription;
 
 		public SuggestionItemHolder(View itemView) {
 			super(itemView);
-			ButterKnife.inject(this, itemView);
+			ButterKnife.bind(this, itemView);
 		}
 
 		public void setData(Suggestion suggestion) {
@@ -108,14 +108,14 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 	public static class SuggestionHeaderHolder extends RecyclerView.ViewHolder {
 
-		@InjectView(R.id.suggestionTitle)
+		@BindView(R.id.suggestionTitle)
 		TextView suggestionTitle;
 		Context context;
 
 		public SuggestionHeaderHolder(View itemView) {
 			super(itemView);
 			context = itemView.getContext();
-			ButterKnife.inject(this, itemView);
+			ButterKnife.bind(this, itemView);
 		}
 
 		public void setData(boolean isMale, int minAge, int maxAge) {

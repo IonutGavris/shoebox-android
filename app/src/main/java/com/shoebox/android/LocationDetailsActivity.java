@@ -26,7 +26,7 @@ import com.squareup.otto.Subscribe;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
@@ -36,7 +36,7 @@ public class LocationDetailsActivity extends BaseActivity {
 	private static final String FRAGMENT_TAG_MAP = "map_locations";
 	private static final String GET_DIRECTIONS_PREFIX = "google.navigation:q=";
 	private final Bus bus = BusProvider.get();
-	@InjectView(R.id.locationDetailsItems)
+	@BindView(R.id.locationDetailsItems)
 	RecyclerView recyclerView;
 
 	private LocationDetailsMapFragment mapFragment;

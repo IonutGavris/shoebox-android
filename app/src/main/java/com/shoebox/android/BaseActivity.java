@@ -3,6 +3,7 @@ package com.shoebox.android;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +16,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shoebox.android.util.UIUtils;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.Optional;
+import butterknife.Unbinder;
 import timber.log.Timber;
 
 /**
@@ -25,16 +26,17 @@ import timber.log.Timber;
  */
 public class BaseActivity extends AppCompatActivity {
 
-	@Optional
-	@InjectView(R.id.coordinatorLayout)
+	@Nullable
+	@BindView(R.id.coordinatorLayout)
 	public CoordinatorLayout coordinatorLayout;
 
-	@Optional
-	@InjectView(R.id.toolbar)
+	@Nullable
+	@BindView(R.id.toolbar)
 	protected Toolbar toolbar;
 
 	protected FirebaseDatabase firebase;
 	protected FirebaseAnalytics firebaseAnalytics;
+	private Unbinder unbinder;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +54,14 @@ public class BaseActivity extends AppCompatActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		ButterKnife.reset(this);
+		unbinder.unbind();
 	}
 
 	@Override
 	public void setContentView(int layoutResID) {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.setContentView(layoutResID);
-		ButterKnife.inject(this);
+		unbinder = ButterKnife.bind(this);
 		configureActionBar();
 	}
 
@@ -67,7 +69,7 @@ public class BaseActivity extends AppCompatActivity {
 	public void setContentView(View view) {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.setContentView(view);
-		ButterKnife.inject(this);
+		unbinder = ButterKnife.bind(this);
 		configureActionBar();
 	}
 
@@ -75,14 +77,14 @@ public class BaseActivity extends AppCompatActivity {
 	public void setContentView(View view, ViewGroup.LayoutParams params) {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.setContentView(view, params);
-		ButterKnife.inject(this);
+		unbinder = ButterKnife.bind(this);
 		configureActionBar();
 	}
 
 	@Override
 	public void addContentView(View view, ViewGroup.LayoutParams params) {
 		super.addContentView(view, params);
-		ButterKnife.inject(this);
+		unbinder = ButterKnife.bind(this);
 		configureActionBar();
 	}
 
@@ -130,7 +132,6 @@ public class BaseActivity extends AppCompatActivity {
 	 * @return Returns a CoordinatorLayout or the base content view.
 	 */
 	protected View getBaseView() {
-		return coordinatorLayout != null ? coordinatorLayout : getWindow().getDecorView().findViewById(android.R.id
-				.content);
+		return coordinatorLayout != null ? coordinatorLayout : getWindow().getDecorView().findViewById(android.R.id.content);
 	}
 }

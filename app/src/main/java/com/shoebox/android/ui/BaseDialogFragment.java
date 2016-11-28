@@ -1,7 +1,7 @@
-package com.shoebox.android.fragment;
+package com.shoebox.android.ui;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
 
 import com.shoebox.android.BaseActivity;
@@ -9,9 +9,9 @@ import com.shoebox.android.BaseActivity;
 import butterknife.Unbinder;
 
 /**
- * All fragments should extend from this one
+ * All dialog fragments should extend from this one
  */
-abstract public class BaseFragment extends Fragment {
+abstract public class BaseDialogFragment extends DialogFragment {
 
 	protected Unbinder unbinder;
 

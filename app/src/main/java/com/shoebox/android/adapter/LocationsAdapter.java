@@ -15,8 +15,8 @@ import com.squareup.otto.Bus;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * {@link RecyclerView.Adapter} that can display a list of {@link Location} items
@@ -52,16 +52,16 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.Loca
 	public class LocationViewHolder extends RecyclerView.ViewHolder {
 		private final Bus bus = BusProvider.get();
 
-		@InjectView(R.id.locationTitleView)
+		@BindView(R.id.locationTitleView)
 		TextView locationTitleView;
-		@InjectView(R.id.cityCountryView)
+		@BindView(R.id.cityCountryView)
 		TextView cityCountryView;
 
 		private Location location;
 
 		public LocationViewHolder(View itemView) {
 			super(itemView);
-			ButterKnife.inject(this, itemView);
+			ButterKnife.bind(this, itemView);
 
 			itemView.setOnClickListener(new View.OnClickListener() {
 				@Override

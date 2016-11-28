@@ -12,16 +12,15 @@ import android.view.MenuItem;
 import com.shoebox.android.util.HelperClass;
 import com.shoebox.android.util.ShoeBoxAnalytics;
 
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity
-		implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-	@InjectView(R.id.drawer_layout)
+	@BindView(R.id.drawer_layout)
 	DrawerLayout drawer;
 
-	@InjectView(R.id.nav_view)
+	@BindView(R.id.nav_view)
 	NavigationView navigationView;
 
 	@Override
@@ -29,8 +28,7 @@ public class MainActivity extends BaseActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-				this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.setDrawerListener(toggle);
 		toggle.syncState();
 
