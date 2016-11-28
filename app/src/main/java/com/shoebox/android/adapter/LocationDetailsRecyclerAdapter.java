@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shoebox.android.R;
-import com.shoebox.android.beans.Location;
-import com.shoebox.android.beans.LocationContact;
+import com.shoebox.android.bean.Location;
+import com.shoebox.android.bean.LocationContact;
 import com.shoebox.android.event.ContactCallClickedEvent;
 
 import org.greenrobot.eventbus.EventBus;

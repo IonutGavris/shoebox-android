@@ -1,4 +1,4 @@
-package com.shoebox.android.beans;
+package com.shoebox.android.bean;
 
 /**
  * The bean used for box content suggestions.

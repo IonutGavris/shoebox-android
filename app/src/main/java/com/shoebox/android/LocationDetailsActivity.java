@@ -13,7 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 import com.shoebox.android.adapter.LocationDetailsRecyclerAdapter;
-import com.shoebox.android.beans.Location;
+import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.ContactCallClickedEvent;
 import com.shoebox.android.event.DistanceCalculatedEvent;
 import com.shoebox.android.fragment.LocationDetailsMapFragment;

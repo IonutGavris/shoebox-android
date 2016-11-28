@@ -14,8 +14,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.shoebox.android.adapter.SuggestionsAdapter;
-import com.shoebox.android.beans.AgeInterval;
-import com.shoebox.android.beans.Suggestion;
+import com.shoebox.android.bean.AgeInterval;
+import com.shoebox.android.bean.Suggestion;
 import com.shoebox.android.util.DividerItemDecoration;
 import com.shoebox.android.util.ShoeBoxAnalytics;
 

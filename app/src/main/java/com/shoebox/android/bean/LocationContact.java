@@ -1,4 +1,4 @@
-package com.shoebox.android.beans;
+package com.shoebox.android.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

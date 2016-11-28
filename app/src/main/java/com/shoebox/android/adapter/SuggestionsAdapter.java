@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shoebox.android.R;
-import com.shoebox.android.beans.Suggestion;
+import com.shoebox.android.bean.Suggestion;
 
 import java.util.ArrayList;
 import java.util.List;

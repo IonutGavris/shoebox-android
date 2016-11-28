@@ -23,7 +23,7 @@ import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.shoebox.android.LocationsActivity;
-import com.shoebox.android.beans.Location;
+import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.util.PermissionUtils;
 import com.shoebox.android.util.ShoeBoxAnalytics;

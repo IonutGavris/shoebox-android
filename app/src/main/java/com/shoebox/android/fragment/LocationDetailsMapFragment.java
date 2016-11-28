@@ -15,7 +15,7 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.shoebox.android.beans.Location;
+import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.DistanceCalculatedEvent;
 
 import org.greenrobot.eventbus.EventBus;

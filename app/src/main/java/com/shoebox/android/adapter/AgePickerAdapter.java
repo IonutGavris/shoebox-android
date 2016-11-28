@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 
 import com.shoebox.android.R;
-import com.shoebox.android.beans.AgeInterval;
-import com.shoebox.android.events.AgeSelectedEvent;
+import com.shoebox.android.bean.AgeInterval;
+import com.shoebox.android.event.AgeSelectedEvent;
 
 import org.greenrobot.eventbus.EventBus;
 

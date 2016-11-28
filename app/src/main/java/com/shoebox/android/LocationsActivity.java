@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.shoebox.android.beans.Location;
+import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.fragment.LocationsListFragment;
 import com.shoebox.android.fragment.LocationsMapFragment;

@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.shoebox.android.adapter.AgePickerAdapter;
-import com.shoebox.android.beans.AgeInterval;
+import com.shoebox.android.bean.AgeInterval;
+import com.shoebox.android.event.AgeSelectedEvent;
 import com.shoebox.android.event.CustomAgePickedEvent;
-import com.shoebox.android.events.AgeSelectedEvent;
 import com.shoebox.android.ui.CustomAgeDialog;
 import com.shoebox.android.util.ShoeBoxAnalytics;
 
