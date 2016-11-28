@@ -17,8 +17,8 @@ import com.squareup.otto.Bus;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class LocationDetailsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	protected static final int TYPE_TITLE = 0;
@@ -122,14 +122,14 @@ public class LocationDetailsRecyclerAdapter extends RecyclerView.Adapter<Recycle
 }
 
 class LocationDetailHolder extends RecyclerView.ViewHolder {
-	@InjectView(R.id.detailIcon)
+	@BindView(R.id.detailIcon)
 	ImageView detailIcon;
-	@InjectView(R.id.detailDescription)
+	@BindView(R.id.detailDescription)
 	TextView detailDescription;
 
 	public LocationDetailHolder(View itemView) {
 		super(itemView);
-		ButterKnife.inject(this, itemView);
+		ButterKnife.bind(this, itemView);
 	}
 
 	public void setData(final Location location, final int detailType) {
@@ -169,18 +169,18 @@ class LocationDetailHolder extends RecyclerView.ViewHolder {
 class LocationContactHolder extends RecyclerView.ViewHolder {
 	private final Bus bus = BusProvider.get();
 
-	@InjectView(R.id.contactIcon)
+	@BindView(R.id.contactIcon)
 	ImageView contactIcon;
-	@InjectView(R.id.contactName)
+	@BindView(R.id.contactName)
 	TextView contactName;
-	@InjectView(R.id.contactDetail)
+	@BindView(R.id.contactDetail)
 	TextView contactDetail;
 
 	private View itemView;
 
 	public LocationContactHolder(View itemView) {
 		super(itemView);
-		ButterKnife.inject(this, itemView);
+		ButterKnife.bind(this, itemView);
 		this.itemView = itemView;
 	}
 

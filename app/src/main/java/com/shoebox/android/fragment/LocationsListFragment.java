@@ -15,15 +15,15 @@ import com.shoebox.android.util.DividerItemDecoration;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * A fragment representing a list of {@link Location} items.
  */
 public class LocationsListFragment extends BaseFragment implements LocationsActivity.LocationsListener {
 
-	@InjectView(R.id.locationsRecycler)
+	@BindView(R.id.locationsRecycler)
 	RecyclerView locationsRecycler;
 
 	LocationsAdapter recyclerViewAdapter;
@@ -44,7 +44,7 @@ public class LocationsListFragment extends BaseFragment implements LocationsActi
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		View fragmentView = inflater.inflate(R.layout.fragment_location_list, container, false);
-		ButterKnife.inject(this, fragmentView);
+		unbinder = ButterKnife.bind(this, fragmentView);
 
 		locationsRecycler.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
 		locationsRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));

@@ -21,7 +21,7 @@ import com.shoebox.android.util.ShoeBoxAnalytics;
 
 import java.util.List;
 
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
@@ -35,7 +35,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 
 	private static final String dataPath = "suggestions";
 
-	@InjectView(R.id.recyclerView)
+	@BindView(R.id.recyclerView)
 	RecyclerView recyclerView;
 
 	private AgeInterval ageInterval;

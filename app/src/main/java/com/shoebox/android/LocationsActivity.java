@@ -27,6 +27,7 @@ import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class LocationsActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -57,7 +58,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_locations);
 
-		final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+		final FloatingActionButton fab = ButterKnife.findById(this, R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

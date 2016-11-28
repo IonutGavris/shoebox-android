@@ -20,24 +20,24 @@ import com.shoebox.android.util.ShoeBoxAnalytics;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 public class GenderAgePickerActivity extends BaseActivity {
 	private static final int INITIAL_CUSTOM_AGE = 0;
 	private static final int DEFAULT_CUSTOM_AGE = 15;
-	@InjectView(R.id.boyCheck)
+	@BindView(R.id.boyCheck)
 	View boyCheck;
-	@InjectView(R.id.girlCheck)
+	@BindView(R.id.girlCheck)
 	View girlCheck;
-	@InjectView(R.id.recyclerView)
+	@BindView(R.id.recyclerView)
 	RecyclerView recyclerView;
-	@InjectView(R.id.disableView)
+	@BindView(R.id.disableView)
 	View disableView;
-	@InjectView(R.id.nextStep)
+	@BindView(R.id.nextStep)
 	Button nextStep;
-	@InjectView(R.id.frameBackground)
+	@BindView(R.id.frameBackground)
 	FrameLayout frameBackground;
 	private EventBus bus = EventBus.getDefault();
 	private AgeInterval selectedAgeInterval;
