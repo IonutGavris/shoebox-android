@@ -16,6 +16,8 @@ import com.shoebox.android.R;
  */
 public class UIUtils {
 	public static final String DIAL_PREFIX = "tel:";
+	public static final String LANG_RO = "ro";
+	public static final String LANG_EN = "en";
 
 	public static void hideKeyboard(Context context, View input) {
 		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);

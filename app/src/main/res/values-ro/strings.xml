@@ -48,7 +48,7 @@
 	<string name="slide1_msg1">Proiectul ShoeBox este o mica incercare de a face lumea in care traim un loc mai frumos.</string>
 	<string name="slide1_msg2">Incercam in fiecare an sa aducem zambetul pe buzele copiilor defavorizati din Romania.</string>
 
-	<string name="slide2_msg1">Ai nevoie doar de o cutie de papuci goala, hartie de impachetat si dorinta de a cumpara lucrurile care vrei sa le daruiesti unui copil.</string>
+	<string name="slide2_msg1">Ai nevoie doar de o cutie de pantofi goala, hartie de impachetat si dorinta de a cumpara lucrurile care vrei sa le daruiesti unui copil.</string>
 	<string name="slide2_msg2">Nu stii ce sa pui in cutie? Te ajutam noi!</string>
 
 	<string name="slide3_msg1">Dupa ce pui toate darurile tale in cutie, trebuie doar sa o duci la o locatie ShoeBox.</string>
@@ -61,4 +61,14 @@
 	<string name="nav_contact">Contact</string>
 	<string name="nav_about">Despre</string>
 	<string name="send_email">Trimite Email</string>
+	<string name="nav_invite">Invita-ti prietenii!</string>
+
+	<!--invites api-->
+	<string name="invitation_title">ShoeBox</string>
+	<!--invitation message can't be longer than 100 characters, otherwise it will crash-->
+	<string name="invitation_message">Se apropie sarbatorile! Hai sa punem un zambet pe fata unor copii!</string>
+	<string name="invitation_deep_link">https://rww9v.app.goo.gl/cffF</string>
+	<string name="invitation_cta">Implica-te si tu!</string>
+
+
 </resources>
