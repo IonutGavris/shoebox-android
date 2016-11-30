@@ -9,13 +9,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
+import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.shoebox.android.util.HelperClass;
 import com.shoebox.android.util.ShoeBoxAnalytics;
+import com.shoebox.android.util.UIUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+	private static final int REQUEST_LANGUAGE = 1;
+	private static final int REQUEST_INVITE = 2;
 
 	@BindView(R.id.drawer_layout)
 	DrawerLayout drawer;
@@ -28,16 +35,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-		drawer.setDrawerListener(toggle);
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+				this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 
 		navigationView.setNavigationItemSelectedListener(this);
 
 		if (savedInstanceState == null) {
-			boolean isFirstTime = HelperClass.getBooleanValueInSharedPreference(getApplicationContext(), HelperClass.keyIsFirstTime, true);
-			if (isFirstTime) {
-				startActivity(GettingStartedActivity.getLaunchingIntent(this));
+			if (!UIUtils.LANG_RO.equals(((ShoeBoxApplication) getApplication()).getPhoneLocale().getLanguage()) &&
+					!HelperClass.keyExistsInSharedPreference(getApplicationContext(), HelperClass.keyAppLanguage)) {
+				// request language selection only if the phone locale is in english
+				startActivityForResult(LanguageActivity.getLaunchingIntent(this), REQUEST_LANGUAGE);
+			} else {
+				boolean isFirstTime = HelperClass.getBooleanValueInSharedPreference(getApplicationContext(), HelperClass.keyIsFirstTime, true);
+				if (isFirstTime) {
+					startActivity(GettingStartedActivity.getLaunchingIntent(this));
+				}
 			}
 		}
 	}
@@ -68,8 +82,39 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 				firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.ABOUT, null);
 				startActivity(GettingStartedActivity.getLaunchingIntent(this));
 				break;
+			case R.id.nav_invite:
+				Intent inviteIntent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
+						.setMessage(getString(R.string.invitation_message))
+						.setDeepLink(Uri.parse(getString(R.string.invitation_deep_link)))
+						.setCallToActionText(getString(R.string.invitation_cta))
+						.build();
+				startActivityForResult(inviteIntent, REQUEST_INVITE);
+				break;
 		}
 		return true;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Timber.d("onActivityResult: requestCode=%s , resultCode=%s", requestCode, resultCode);
+
+		if (requestCode == REQUEST_INVITE) {
+			if (resultCode == RESULT_OK) {
+				// Get the invitation IDs of all sent messages
+				String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+				for (String id : ids) {
+					Timber.d("onActivityResult: sent invitation %s", id);
+				}
+			} else {
+				Timber.e("Failed to send invitation");
+			}
+		} else if (requestCode == REQUEST_LANGUAGE) {
+			if (resultCode == RESULT_OK) {
+				ProcessPhoenix.triggerRebirth(MainActivity.this, getPackageManager()
+						.getLaunchIntentForPackage(getApplicationContext().getPackageName()));
+			}
+		}
 	}
 
 	@OnClick(R.id.boxContentBtn)
@@ -83,6 +128,4 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.DO_DROP_LOCATIONS, null);
 		startActivity(LocationsActivity.getLaunchingIntent(this));
 	}
-
-
 }
