@@ -29,10 +29,17 @@
 	<!-- age screen -->
 	<string name="age_preset">%1$d–%2$d ani</string>
 	<string name="age_other_undefined">Alta varsta</string>
-	<string name="age_other_defined">Alta varsta: %1$d ani</string>
-	<string name="age_dialog_title">Alta varsta: %1$d ani</string>
 	<string name="header_age_picker">Alege Varsta</string>
-	<string name="header_suggestions">Sugestii pentru un %2$s de %1$s ani</string>
+
+	<plurals name="age_other_defined">
+		<item quantity="one">Alta varsta: %1$d an</item>
+		<item quantity="other">Alta varsta: %1$d ani</item>
+	</plurals>
+
+	<plurals name="header_suggestions">
+		<item quantity="one">Sugestii pentru %2$s de %1$s an</item>
+		<item quantity="other">Sugestii pentru %2$s de %1$s ani</item>
+	</plurals>
 
 	<!-- map screen -->
 	<string name="msg_no_navigation">Nu s-a gasit nici o aplicate de navigare.</string>
@@ -77,5 +84,9 @@
 
 	<string name="share_text">Daca ai o cutie de pantofi acasa si vrei sa o transformi in zambet, implica-te:
 		https://rww9v.app.goo.gl/cffF #ShoeBox2016</string>
+
+	<string name="msg_loading">Incarcare date</string>
+	<string name="msg_fetch_suggestions">Incarcarea sugestiilor a esuat!\nVa rugam sa verificati conexiunea la
+		internet si sa incercati din nou.</string>
 
 </resources>

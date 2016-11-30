@@ -31,9 +31,17 @@ public class CustomAgeDialog extends BaseDialogFragment {
 	SeekBar ageSelection;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setStyle(STYLE_NO_TITLE, 0); // fix for 4.x
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.custom_age_dialog, container);
 		unbinder = ButterKnife.bind(this, view);
+
+		setCancelable(false);
 
 		int defaultAge = getArguments().getInt(DEFAULT_AGE, 0);
 		ageSelection.setMax(MAX_AGE - MIN_AGE);
@@ -41,7 +49,7 @@ public class CustomAgeDialog extends BaseDialogFragment {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				int age = progress + MIN_AGE;
-				dialogTitle.setText(String.format(getResources().getString(R.string.age_dialog_title), age));
+				setTitle(age);
 			}
 
 			@Override
@@ -55,7 +63,7 @@ public class CustomAgeDialog extends BaseDialogFragment {
 			}
 		});
 		ageSelection.setProgress(defaultAge - MIN_AGE);
-		dialogTitle.setText(String.format(getResources().getString(R.string.age_dialog_title), defaultAge));
+		setTitle(defaultAge);
 
 		return view;
 	}
@@ -64,5 +72,9 @@ public class CustomAgeDialog extends BaseDialogFragment {
 	public void onOkBtnClicked() {
 		EventBus.getDefault().post(new CustomAgePickedEvent(ageSelection.getProgress() + MIN_AGE));
 		dismiss();
+	}
+
+	private void setTitle(int age) {
+		dialogTitle.setText(getResources().getQuantityString(R.plurals.age_other_defined, age, age));
 	}
 }

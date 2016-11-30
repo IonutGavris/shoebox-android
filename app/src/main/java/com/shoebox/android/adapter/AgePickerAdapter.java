@@ -86,10 +86,9 @@ public class AgePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		public void setData(AgeInterval interval) {
 			this.ageInterval = interval;
 			txtAgeInterval.setText(interval.custom ?
-					(interval.maxAge <= 0 ?
-							context.getString(R.string.age_other_undefined) :
-							String.format(context.getString(R.string.age_other_defined), interval.maxAge)) :
-					String.format(context.getString(R.string.age_preset), interval.minAge, interval.maxAge));
+					(interval.maxAge <= 0 ? context.getString(R.string.age_other_undefined) :
+							context.getResources().getQuantityString(R.plurals.age_other_defined, interval.maxAge, interval.maxAge)) :
+					context.getString(R.string.age_preset, interval.minAge, interval.maxAge));
 		}
 
 		public boolean setChecked(AgeInterval interval) {

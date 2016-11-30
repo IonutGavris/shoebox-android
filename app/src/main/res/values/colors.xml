@@ -3,6 +3,7 @@
 	<color name="colorPrimary">#014e91</color>
 	<color name="colorPrimaryDark">#003868</color>
 	<color name="colorAccent">#05ce39</color>
+	<color name="colorAccentDark">#18A036</color>
 
 	<color name="colorAccentGirl">#ff5500</color>
 	<color name="colorAccentBoy">#0d32cc</color>

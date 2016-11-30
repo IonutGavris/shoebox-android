@@ -29,10 +29,10 @@
 
 	<Button
 		android:id="@+id/okBtn"
+		style="@style/Widget.ShoeBox.Button.Green"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_below="@id/ageSelection"
-		android:text="OK"
-		android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+		android:text="@string/btn_ok"/>
 </RelativeLayout>

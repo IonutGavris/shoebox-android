@@ -8,18 +8,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
 import com.shoebox.android.adapter.SuggestionsAdapter;
 import com.shoebox.android.bean.AgeInterval;
 import com.shoebox.android.bean.Suggestion;
 import com.shoebox.android.util.DividerItemDecoration;
 import com.shoebox.android.util.ShoeBoxAnalytics;
-
-import java.util.List;
+import com.shoebox.android.util.UIUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,22 +27,21 @@ public class ContentSuggestionActivity extends BaseActivity {
 	private static final String IS_MALE = "isMale";
 	private static final String AGE = "age";
 
-	private static final String MALE = "male";
-	private static final String FEMALE = "female";
-	private static final String BOTH = "both";
-
 	private static final String dataPath = "suggestions";
 	private static final String dataPath_en = "suggestions_en";
 
 	@BindView(R.id.recyclerView)
 	RecyclerView recyclerView;
 
+	@BindView(R.id.listStatusView)
+	View listStatusView;
+
 	private AgeInterval ageInterval;
 	private boolean isMale;
 	private SuggestionsAdapter adapter;
 
-	private DatabaseReference suggestionsRef;
-	private ValueEventListener valueEventListener;
+	private Query suggestionsQuery;
+	private ChildEventListener childEventListener;
 
 	public static Intent getLaunchingIntent(Context context, boolean isMale, AgeInterval interval) {
 		Intent intent = new Intent(context, ContentSuggestionActivity.class);
@@ -56,12 +53,10 @@ public class ContentSuggestionActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_content_suggestion);
 
 		ageInterval = (AgeInterval) getIntent().getSerializableExtra(AGE);
 		isMale = getIntent().getBooleanExtra(IS_MALE, false);
-
-		setContentView(R.layout.activity_content_suggestion);
-		setTitle(R.string.title_activity_suggestions);
 
 		recyclerView.setHasFixedSize(true);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -69,54 +64,53 @@ public class ContentSuggestionActivity extends BaseActivity {
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 		recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-		adapter = new SuggestionsAdapter();
-		adapter.setSuggestionsTarget(isMale, ageInterval.minAge, ageInterval.maxAge);
+
+		adapter = new SuggestionsAdapter(isMale, ageInterval.minAge, ageInterval.maxAge);
 		recyclerView.setAdapter(adapter);
+		if (adapter.hasData()) {
+			listStatusView.setVisibility(View.GONE);
+		} else {
+			listStatusView.setVisibility(View.VISIBLE);
+			UIUtils.setListStatus(listStatusView, getString(R.string.msg_loading), false);
+		}
 
-		valueEventListener = new ValueEventListener() {
+		childEventListener = new ChildEventListener() {
 			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
-				Timber.d("The %s read was successful :)", dataPath);
+			public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+				adapter.addSuggestion(Suggestion.create(dataSnapshot));
+				listStatusView.setVisibility(adapter.hasData() ? View.GONE : View.VISIBLE);
+			}
 
-				GenericTypeIndicator<List<Suggestion>> t = new GenericTypeIndicator<List<Suggestion>>() {
-				};
-				List<Suggestion> suggestions = dataSnapshot.getValue(t);
+			@Override
+			public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+				adapter.changeSuggestion(Suggestion.create(dataSnapshot));
+			}
 
-				for (int i = 0; i < suggestions.size(); i++) {
-					if (suggestions.get(i) == null) {
-						suggestions.remove(i);
-						continue;
-					}
+			@Override
+			public void onChildRemoved(DataSnapshot dataSnapshot) {
+				adapter.removeSuggestion(Suggestion.create(dataSnapshot));
+			}
 
-					// picked up 8-10 and interval is 11-100
-					if (ageInterval.maxAge < suggestions.get(i).minAge) {
-						suggestions.remove(i);
-						continue;
-					}
-
-					//TODO
-					// picked up 1, and interval is 0-1 (de ex suzeta, care-i pana pe la 1 an)
-
-					if (isMale && suggestions.get(i).sex.equals(FEMALE)) {
-						suggestions.remove(i);
-					} else if (!isMale && suggestions.get(i).sex.equals(MALE)) {
-						suggestions.remove(i);
-					}
-				}
-
-				Timber.d("The %s count = %s", dataPath, suggestions.size());
-				adapter.setSuggestions(suggestions);
+			@Override
+			public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+				// nothing to do
 			}
 
 			@Override
 			public void onCancelled(DatabaseError databaseError) {
 				Timber.e("The %s read failed: %s ", dataPath, databaseError.getMessage());
+				if (!adapter.hasData()) {
+					listStatusView.setVisibility(View.VISIBLE);
+					UIUtils.setListStatus(listStatusView, getString(R.string.msg_fetch_suggestions), true);
+				}
 				ShoeBoxAnalytics.sendErrorState(firebaseAnalytics, "Content suggestions read failed: " + databaseError.getMessage());
 			}
 		};
 
-		suggestionsRef = firebase.getReference(useRomanianLanguage() ? dataPath : dataPath_en);
-		suggestionsRef.addValueEventListener(valueEventListener);
+		String path = useRomanianLanguage() ? dataPath : dataPath_en;
+		// TODO define the .indexOn rule to index those keys on the server and improve query performance
+		suggestionsQuery = firebase.getReference().child(path).orderByChild(Suggestion.ORDER_BY);
+		suggestionsQuery.addChildEventListener(childEventListener);
 
 		Bundle bundle = new Bundle(2);
 		bundle.putSerializable(ShoeBoxAnalytics.Param.AGE_INTERVAL, ageInterval);
@@ -127,7 +121,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		suggestionsRef.removeEventListener(valueEventListener);
+		suggestionsQuery.removeEventListener(childEventListener);
 	}
 
 	@OnClick(R.id.nextStep)

@@ -15,8 +15,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Widget.ShoeBox.Button.Green" parent="Widget.AppCompat.Button.Colored">
+        <item name="backgroundTint">@color/btn_green_tint_list</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Widget.Shoebox.ProgressBar.Horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_blue</item>
+    </style>
 
 </resources>

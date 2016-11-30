@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.shoebox.android.BaseActivity;
 import com.shoebox.android.R;
@@ -47,5 +48,13 @@ public class UIUtils {
 		} catch (android.content.ActivityNotFoundException ex) {
 			UIUtils.showMessage(activity, R.string.msg_no_dial);
 		}
+	}
+
+	public static void setListStatus(View listStatusView, String statusText, boolean isError) {
+		// TODO create custom view for listStatusView
+		TextView statusTextView = (TextView) listStatusView.findViewById(R.id.statusText);
+		View statusProgress = listStatusView.findViewById(R.id.statusProgress);
+		statusTextView.setText(statusText);
+		statusProgress.setVisibility(isError || statusText == null ? View.GONE : View.VISIBLE);
 	}
 }

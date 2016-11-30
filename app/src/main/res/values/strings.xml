@@ -29,10 +29,17 @@
 	<!-- age screen -->
 	<string name="age_preset">%1$d–%2$d years</string>
 	<string name="age_other_undefined">Other age</string>
-	<string name="age_other_defined">Other age: %1$d years</string>
-	<string name="age_dialog_title">Other age: %1$d years</string>
 	<string name="header_age_picker">Select Age</string>
-	<string name="header_suggestions">Suggestions for a %1$s yrs old %2$s</string>
+
+	<plurals name="age_other_defined">
+		<item quantity="one">Other age: %1$d year</item>
+		<item quantity="other">Other age: %1$d years</item>
+	</plurals>
+
+	<plurals name="header_suggestions">
+		<item quantity="one">Suggestions for a %1$s year old %2$s</item>
+		<item quantity="other">Suggestions for a %1$s years old %2$s</item>
+	</plurals>
 
 	<!-- map screen -->
 	<string name="msg_no_navigation">No navigation software was found on your device.</string>
@@ -76,4 +83,10 @@
 
 	<string name="share_text">If you have a shoebox and you want to transform it into a smile, get involved:
 		https://rww9v.app.goo.gl/cffF #ShoeBox2016</string>
+
+	<string name="msg_loading">Fetching data</string>
+	<string name="msg_fetch_suggestions">Fetching suggestions failed!\nPlease check your network connection and
+		try again.</string>
+
+	<string name="btn_ok">OK</string>
 </resources>
