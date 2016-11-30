@@ -91,6 +91,9 @@ public class MainActivity extends BaseActivity
 						.build();
 				startActivityForResult(inviteIntent, REQUEST_INVITE);
 				break;
+			case R.id.nav_language:
+				startActivityForResult(LanguageActivity.getLaunchingIntent(this), REQUEST_LANGUAGE);
+				break;
 		}
 		return true;
 	}

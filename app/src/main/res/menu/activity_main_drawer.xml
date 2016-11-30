@@ -16,7 +16,12 @@
 
 	<item
 		android:id="@+id/nav_invite"
-		android:icon="@drawable/ic_info_black_24px"
+		android:icon="@drawable/ic_group_add_black_24dp"
 		android:title="@string/nav_invite"/>
+
+	<item
+		android:id="@+id/nav_language"
+		android:icon="@drawable/ic_language_black_24dp"
+		android:title="@string/nav_language"/>
 
 </menu>
