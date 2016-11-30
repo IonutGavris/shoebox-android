@@ -19,7 +19,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity
+		implements NavigationView.OnNavigationItemSelectedListener {
 
 	private static final int REQUEST_LANGUAGE = 1;
 	private static final int REQUEST_INVITE = 2;
@@ -111,6 +112,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 			}
 		} else if (requestCode == REQUEST_LANGUAGE) {
 			if (resultCode == RESULT_OK) {
+				firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.SET_LANGUAGE_EN, null);
 				ProcessPhoenix.triggerRebirth(MainActivity.this, getPackageManager()
 						.getLaunchIntentForPackage(getApplicationContext().getPackageName()));
 			}
