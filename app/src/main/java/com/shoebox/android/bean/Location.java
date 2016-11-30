@@ -86,6 +86,17 @@ public class Location implements ClusterItem, Parcelable {
 		return !TextUtils.isEmpty(messages);
 	}
 
+	public boolean containsFilter(String filterText) {
+		filterText = filterText.toLowerCase();
+		if (!TextUtils.isEmpty(title) && title.toLowerCase().contains(filterText)) return true;
+		if (!TextUtils.isEmpty(addressFull) && addressFull.toLowerCase().contains(filterText)) return true;
+		if (!TextUtils.isEmpty(city) && city.toLowerCase().contains(filterText)) return true;
+		if (!TextUtils.isEmpty(state) && state.toLowerCase().contains(filterText)) return true;
+		if (!TextUtils.isEmpty(country) && country.toLowerCase().contains(filterText)) return true;
+
+		return false;
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;

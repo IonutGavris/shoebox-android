@@ -26,4 +26,6 @@
 
 	<color name="app_gray">#aaaaaa</color>
 	<color name="disable_layer">#94ffffff</color>
+
+	<color name="bg_gray_light">#EDEDED</color>
 </resources>

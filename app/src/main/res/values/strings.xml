@@ -89,4 +89,6 @@
 		try again.</string>
 
 	<string name="btn_ok">OK</string>
+
+	<string name="hint_filter_locations">Filter locations (e.g. by city)</string>
 </resources>

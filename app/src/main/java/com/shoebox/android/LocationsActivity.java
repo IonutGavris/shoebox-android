@@ -10,12 +10,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.fragment.LocationsListFragment;
@@ -26,9 +29,15 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import butterknife.ButterKnife;
+import butterknife.BindView;
+import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 public class LocationsActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -42,6 +51,11 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 
 	private final EventBus bus = EventBus.getDefault();
 
+	@BindView(R.id.filterLayout)
+	View filterLayout;
+	@BindView(R.id.filterShopsView)
+	EditText filterShopsView;
+
 	private Fragment mapFragment;
 	private Fragment listFragment;
 	private ViewMode currentViewMode = ViewMode.MAP;
@@ -49,6 +63,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 
 	private DatabaseReference locationsRef;
 	private ValueEventListener valueEventListener;
+	private CompositeSubscription compositeSubscription;
 
 	public static Intent getLaunchingIntent(Context context) {
 		return new Intent(context, LocationsActivity.class);
@@ -59,24 +74,11 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_locations);
 
-		final FloatingActionButton fab = ButterKnife.findById(this, R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (currentViewMode == ViewMode.MAP) {
-					firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.LOCATIONS_VIEW_LIST, null);
-					switchFragmentsVisibility(mapFragment, listFragment);
-					fab.setImageResource(R.drawable.ic_action_map);
-				} else {
-					switchFragmentsVisibility(listFragment, mapFragment);
-					fab.setImageResource(R.drawable.ic_action_view_as_list);
-				}
-			}
-		});
-
 		if (savedInstanceState != null) {
 			currentViewMode = ViewMode.valueOf(savedInstanceState.getInt(BUNDLE_CURRENT_VIEW_MODE, ViewMode.LIST.ordinal()));
 		}
+
+		filterLayout.setVisibility(View.GONE);
 
 		initFragments(currentViewMode);
 
@@ -91,9 +93,13 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 				List<Location> locations = dataSnapshot.getValue(t);
 				if (locations != null && locations.size() > 1 && locations.get(0) == null) {
 					locations.remove(0);
+					if (locations.size() > 0) {
+						filterLayout.setVisibility(currentViewMode == ViewMode.LIST ? View.VISIBLE : View.GONE);
+					}
 					Timber.d("The %s count = %s", dataPath, locations.size());
 				}
 				LocationsActivity.this.locations = locations;
+				filterShopsView.setText("");
 				setLocationsToFragments(locations);
 			}
 
@@ -108,6 +114,15 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		locationsRef.addValueEventListener(valueEventListener);
 
 		firebaseAnalytics.logEvent(ShoeBoxAnalytics.State.LOCATIONS, null);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		Timber.d("onPostCreate");
+		if (savedInstanceState == null) {
+			startReactingOnChanges();
+		}
 	}
 
 	@Override
@@ -126,12 +141,19 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	protected void onDestroy() {
 		super.onDestroy();
 		locationsRef.removeEventListener(valueEventListener);
+		compositeSubscription.unsubscribe();
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(BUNDLE_CURRENT_VIEW_MODE, currentViewMode.ordinal());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		startReactingOnChanges();
 	}
 
 	@Override
@@ -147,6 +169,18 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onLocationClicked(LocationClickedEvent event) {
 		startActivity(LocationDetailsActivity.getLaunchingIntent(this, event.location));
+	}
+
+	@OnClick(R.id.fab)
+	public void doFabClicked(FloatingActionButton fab) {
+		if (currentViewMode == ViewMode.MAP) {
+			firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.LOCATIONS_VIEW_LIST, null);
+			switchFragmentsVisibility(mapFragment, listFragment);
+			fab.setImageResource(R.drawable.ic_action_map);
+		} else {
+			switchFragmentsVisibility(listFragment, mapFragment);
+			fab.setImageResource(R.drawable.ic_action_view_as_list);
+		}
 	}
 
 	private void initFragments(ViewMode viewMode) {
@@ -188,6 +222,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		// after fragment is switch the search view will take focus.
 		// execute now and clear focus
 		fm.executePendingTransactions();
+		filterLayout.setVisibility(currentViewMode == ViewMode.LIST ? View.VISIBLE : View.GONE);
 	}
 
 	private void setLocationsToFragments(List<Location> locations) {
@@ -200,6 +235,30 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		Timber.d("setStatusToFragments currentViewMode = %s  &  status = %s", currentViewMode, status);
 		((LocationsListener) listFragment).setStatus(status);
 		((LocationsListener) mapFragment).setStatus(status);
+	}
+
+	private void startReactingOnChanges() {
+		compositeSubscription = new CompositeSubscription();
+
+		compositeSubscription.add(RxTextView.textChangeEvents(filterShopsView)
+				.debounce(150, TimeUnit.MILLISECONDS)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Action1<TextViewTextChangeEvent>() {
+					@Override
+					public void call(TextViewTextChangeEvent event) {
+						if (event.text().length() != 0) {
+							List<Location> filteredLocations = new ArrayList<>();
+							for (Location location : locations) {
+								if (location.containsFilter(event.text().toString().trim())) {
+									filteredLocations.add(location);
+								}
+							}
+							setLocationsToFragments(filteredLocations);
+						} else if ((event.text().length() == 0 && event.before() > 0)) {
+							setLocationsToFragments(locations);
+						}
+					}
+				}));
 	}
 
 	public enum ViewMode {

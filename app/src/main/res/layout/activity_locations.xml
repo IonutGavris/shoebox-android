@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
-	android:id="@+id/coordinatorLayout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/coordinatorLayout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
@@ -23,13 +23,54 @@
 
 	</android.support.design.widget.AppBarLayout>
 
-	<FrameLayout
-		android:id="@+id/fragmentHolder"
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior"
-		tools:context="com.shoebox.android.LocationsActivity"
-		tools:showIn="@layout/activity_locations"/>
+		android:orientation="vertical"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+		<RelativeLayout
+			android:id="@+id/filterLayout"
+			android:layout_width="match_parent"
+			android:layout_height="?actionBarSize"
+			android:background="@color/bg_gray_light">
+
+			<ImageView
+				android:id="@+id/mag_icon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="@dimen/keyline_1"
+				android:tint="@color/text_gray"
+				app:srcCompat="@drawable/ic_filter_list_black_24px"/>
+
+			<EditText
+				android:id="@+id/filterShopsView"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="@dimen/keyline_2"
+				android:layout_marginRight="@dimen/element_spacing"
+				android:background="@null"
+				android:hint="@string/hint_filter_locations"
+				android:imeOptions="flagNoFullscreen|flagNoExtractUi|actionDone"
+				android:inputType="text|textFilter"
+				android:paddingRight="48dp"/>
+		</RelativeLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="@color/divider_gray"/>
+
+		<FrameLayout
+			android:id="@+id/fragmentHolder"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"
+			tools:context="com.shoebox.android.LocationsActivity"
+			tools:showIn="@layout/activity_locations"/>
+	</LinearLayout>
 
 	<android.support.design.widget.FloatingActionButton
 		android:id="@+id/fab"
