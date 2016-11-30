@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	android:id="@+id/coordinatorLayout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/coordinatorLayout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:layout_gravity="center"
+	android:background="@drawable/bg_language_repeat"
 	android:fitsSystemWindows="true"
+	android:gravity="center"
 	android:orientation="vertical"
 	tools:context="com.shoebox.android.LanguageActivity">
 
@@ -15,11 +17,11 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
-		android:layout_marginTop="@dimen/keyline_2"
-		android:text="Select your language"
+		android:text="@string/select_your_language"
 		android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
 	<RadioGroup
+		android:id="@+id/languageGroup"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center">
@@ -29,7 +31,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="@dimen/keyline_1"
-			android:text="Românā"/>
+			android:text="Română"/>
 
 		<RadioButton
 			android:id="@+id/radioEn"

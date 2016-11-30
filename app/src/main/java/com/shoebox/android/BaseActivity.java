@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
+import com.shoebox.android.util.HelperClass;
 import com.shoebox.android.util.UIUtils;
 
 import butterknife.BindView;
@@ -113,6 +114,11 @@ public class BaseActivity extends AppCompatActivity {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	protected boolean useRomanianLanguage() {
+		String languageCode = HelperClass.getStringValueInSharedPreference(getApplicationContext(), HelperClass.keyAppLanguage, UIUtils.LANG_RO);
+		return UIUtils.LANG_RO.equals(languageCode);
 	}
 
 	private void configureActionBar() {

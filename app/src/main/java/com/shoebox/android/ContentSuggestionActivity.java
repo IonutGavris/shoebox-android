@@ -34,6 +34,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 	private static final String BOTH = "both";
 
 	private static final String dataPath = "suggestions";
+	private static final String dataPath_en = "suggestions_en";
 
 	@BindView(R.id.recyclerView)
 	RecyclerView recyclerView;
@@ -113,7 +114,8 @@ public class ContentSuggestionActivity extends BaseActivity {
 				ShoeBoxAnalytics.sendErrorState(firebaseAnalytics, "Content suggestions read failed: " + databaseError.getMessage());
 			}
 		};
-		suggestionsRef = firebase.getReference(dataPath);
+
+		suggestionsRef = firebase.getReference(useRomanianLanguage() ? dataPath : dataPath_en);
 		suggestionsRef.addValueEventListener(valueEventListener);
 
 		Bundle bundle = new Bundle(2);

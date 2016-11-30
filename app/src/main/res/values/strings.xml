@@ -61,6 +61,7 @@
 	<string name="nav_contact">Contact</string>
 	<string name="nav_about">About</string>
 	<string name="nav_invite">Invite your friends!</string>
+	<string name="nav_language">Choose language</string>
 	<string name="send_email">Send Email</string>
 
 	<!--invites api-->
@@ -69,4 +70,6 @@
 	<string name="invitation_message">Holidays are coming! Let\'s put a smile on a children\'s face!</string>
 	<string name="invitation_deep_link">https://rww9v.app.goo.gl/cffF</string>
 	<string name="invitation_cta">Get involved</string>
+
+	<string name="select_your_language">Select your language</string>
 </resources>
