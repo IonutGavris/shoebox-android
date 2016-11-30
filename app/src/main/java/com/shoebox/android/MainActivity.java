@@ -84,6 +84,7 @@ public class MainActivity extends BaseActivity
 				startActivity(GettingStartedActivity.getLaunchingIntent(this));
 				break;
 			case R.id.nav_invite:
+				firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.INVITE_FRIENDS, null);
 				Intent inviteIntent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
 						.setMessage(getString(R.string.invitation_message))
 						.setDeepLink(Uri.parse(getString(R.string.invitation_deep_link)))
@@ -92,9 +93,11 @@ public class MainActivity extends BaseActivity
 				startActivityForResult(inviteIntent, REQUEST_INVITE);
 				break;
 			case R.id.nav_language:
+				firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CHANGE_LANGUAGE, null);
 				startActivityForResult(LanguageActivity.getLaunchingIntent(this), REQUEST_LANGUAGE);
 				break;
 			case R.id.nav_share:
+				firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.SOCIAL_SHARE, null);
 				Intent shareIntent = new Intent(Intent.ACTION_SEND);
 				shareIntent.setType("text/plain");
 				shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
@@ -121,7 +124,6 @@ public class MainActivity extends BaseActivity
 			}
 		} else if (requestCode == REQUEST_LANGUAGE) {
 			if (resultCode == RESULT_OK) {
-				firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.SET_LANGUAGE_EN, null);
 				ProcessPhoenix.triggerRebirth(MainActivity.this, getPackageManager()
 						.getLaunchIntentForPackage(getApplicationContext().getPackageName()));
 			}

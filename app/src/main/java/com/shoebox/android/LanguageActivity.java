@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.shoebox.android.util.HelperClass;
+import com.shoebox.android.util.ShoeBoxAnalytics;
 import com.shoebox.android.util.UIUtils;
 
 import butterknife.ButterKnife;
@@ -38,11 +40,13 @@ public class LanguageActivity extends AppCompatActivity {
 
 	@OnClick(R.id.radioRo)
 	void onRoSelected() {
+		FirebaseAnalytics.getInstance(this).logEvent(ShoeBoxAnalytics.Action.SET_LANGUAGE_RO, null);
 		selectLanguage(UIUtils.LANG_RO);
 	}
 
 	@OnClick(R.id.radioEn)
 	void onEnSelected() {
+		FirebaseAnalytics.getInstance(this).logEvent(ShoeBoxAnalytics.Action.SET_LANGUAGE_EN, null);
 		selectLanguage(UIUtils.LANG_EN);
 	}
 
