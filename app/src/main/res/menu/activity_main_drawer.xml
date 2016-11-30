@@ -5,14 +5,6 @@
 		android:id="@+id/nav_shoebox"
 		android:icon="@drawable/ic_card_giftcard_black_24px"
 		android:title="@string/nav_shoebox"/>
-	<item
-		android:id="@+id/nav_contact"
-		android:icon="@drawable/ic_email_black_24px"
-		android:title="@string/nav_contact"/>
-	<item
-		android:id="@+id/nav_about"
-		android:icon="@drawable/ic_info_black_24px"
-		android:title="@string/nav_about"/>
 
 	<item
 		android:id="@+id/nav_invite"
@@ -20,8 +12,23 @@
 		android:title="@string/nav_invite"/>
 
 	<item
+		android:id="@+id/nav_share"
+		android:icon="@drawable/ic_menu_share"
+		android:title="@string/nav_share"/>
+
+	<item
+		android:id="@+id/nav_contact"
+		android:icon="@drawable/ic_email_black_24px"
+		android:title="@string/nav_contact"/>
+
+	<item
 		android:id="@+id/nav_language"
 		android:icon="@drawable/ic_language_black_24dp"
 		android:title="@string/nav_language"/>
+
+	<item
+		android:id="@+id/nav_about"
+		android:icon="@drawable/ic_info_black_24px"
+		android:title="@string/nav_about"/>
 
 </menu>

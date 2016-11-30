@@ -60,9 +60,11 @@
 	<string name="nav_shoebox">ShoeBox</string>
 	<string name="nav_contact">Contact</string>
 	<string name="nav_about">Despre</string>
-	<string name="send_email">Trimite Email</string>
 	<string name="nav_invite">Invita-ti prietenii!</string>
 	<string name="nav_language">Alege limba dorita</string>
+	<string name="nav_share">Ajuta cu un share</string>
+
+	<string name="send_email">Trimite Email</string>
 
 	<!--invites api-->
 	<string name="invitation_title">ShoeBox</string>
@@ -72,5 +74,8 @@
 	<string name="invitation_cta">Implica-te</string>
 
 	<string name="select_your_language">Alege limba dorita</string>
+
+	<string name="share_text">Daca ai o cutie de pantofi acasa si vrei sa o transformi in zambet, implica-te:
+		https://rww9v.app.goo.gl/cffF #ShoeBox2016</string>
 
 </resources>

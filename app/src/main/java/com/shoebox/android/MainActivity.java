@@ -94,6 +94,12 @@ public class MainActivity extends BaseActivity
 			case R.id.nav_language:
 				startActivityForResult(LanguageActivity.getLaunchingIntent(this), REQUEST_LANGUAGE);
 				break;
+			case R.id.nav_share:
+				Intent shareIntent = new Intent(Intent.ACTION_SEND);
+				shareIntent.setType("text/plain");
+				shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
+				startActivity(Intent.createChooser(shareIntent, getString(R.string.nav_share)));
+				break;
 		}
 		return true;
 	}
