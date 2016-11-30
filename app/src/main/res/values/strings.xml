@@ -68,5 +68,5 @@
 	<!--invitation message can't be longer than 100 characters, otherwise it will crash-->
 	<string name="invitation_message">Holidays are coming! Let\'s put a smile on a children\'s face!</string>
 	<string name="invitation_deep_link">https://rww9v.app.goo.gl/cffF</string>
-	<string name="invitation_cta">Get involved too!</string>
+	<string name="invitation_cta">Get involved</string>
 </resources>

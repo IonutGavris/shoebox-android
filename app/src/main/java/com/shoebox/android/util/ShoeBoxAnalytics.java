@@ -49,6 +49,7 @@ public class ShoeBoxAnalytics {
 		public static final String LOCATIONS_VIEW_LIST = "locations_view_list";
 		public static final String SHOW_DIRECTIONS = "show_directions";
 		public static final String CALL_CONTACT = "call_contact";
+		public static final String SET_LANGUAGE_EN = "set_language_en";
 
 		protected Action() {
 		}
