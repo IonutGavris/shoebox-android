@@ -8,7 +8,7 @@
 	<string name="btn_drop_location">Where to leave the box?</string>
 	<string name="btn_box_content_suggestions">Next step</string>
 
-	<string name="title_activity_picker">For who the box is?</string>
+	<string name="title_activity_picker">For who is the box?</string>
 	<string name="title_activity_suggestions">Box content suggestions</string>
 	<string name="title_activity_locations">ShoeBox Locations</string>
 

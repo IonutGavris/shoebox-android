@@ -89,6 +89,8 @@
 	<string name="msg_fetch_suggestions">Incarcarea sugestiilor a esuat!\nVa rugam sa verificati conexiunea la
 		internet si sa incercati din nou.</string>
 
+	<string name="btn_ok">OK</string>
+
 	<string name="hint_filter_locations">Filtreaza locatiile (ex. dupa oras)</string>
 
 </resources>
