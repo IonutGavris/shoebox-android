@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.res.Resources;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shoebox.android.util.HelperClass;
@@ -25,6 +26,7 @@ public class ShoeBoxApplication extends Application {
 		// Configure Fabric Kits
 		Fabric.with(this, new Crashlytics());
 
+		FirebaseApp.initializeApp(getApplicationContext());
 		// enable persistence for the data fetched from Firebase
 		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
