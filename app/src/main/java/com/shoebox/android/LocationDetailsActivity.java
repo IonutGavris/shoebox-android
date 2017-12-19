@@ -42,7 +42,6 @@ public class LocationDetailsActivity extends BaseActivity {
 	@BindView(R.id.locationDetailsItems)
 	RecyclerView recyclerView;
 
-	private LocationDetailsMapFragment mapFragment;
 	private Location location;
 
 	private LocationDetailsRecyclerAdapter detailsRecyclerAdapter;
@@ -105,7 +104,7 @@ public class LocationDetailsActivity extends BaseActivity {
 
 	private void initMapFragment() {
 		FragmentManager fm = getSupportFragmentManager();
-		mapFragment = (LocationDetailsMapFragment) fm.findFragmentByTag(FRAGMENT_TAG_MAP);
+		LocationDetailsMapFragment mapFragment = (LocationDetailsMapFragment) fm.findFragmentByTag(FRAGMENT_TAG_MAP);
 
 		FragmentTransaction ft = fm.beginTransaction();
 		if (mapFragment == null) {

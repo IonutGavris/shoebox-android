@@ -5,8 +5,8 @@ buildscript {
     ext.target_version = 25
     ext.min_version = 19
 
-    ext.support_version = '27.0.1'
-    ext.google_version = '11.6.0'
+    ext.support_version = '27.0.2'
+    ext.google_version = '11.6.2'
     ext.espresso_version = '3.0.1'
     ext.runner_version = '1.0.1'
 

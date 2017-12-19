@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/coordinatorLayout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
-	tools:context="com.shoebox.android.LocationDetailsActivity">
+	tools:context=".LocationDetailsActivity">
 
 	<android.support.design.widget.AppBarLayout
 		android:layout_width="match_parent"
@@ -18,7 +18,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="?attr/actionBarSize"
 			android:background="?attr/colorPrimary"
-			app:popupTheme="@style/AppTheme.PopupOverlay"/>
+			app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 	</android.support.design.widget.AppBarLayout>
 
@@ -32,14 +32,14 @@
 		<FrameLayout
 			android:id="@+id/fragmentHolder"
 			android:layout_width="match_parent"
-			android:layout_height="200dp"/>
+			android:layout_height="200dp" />
 
 		<View
 			android:id="@+id/divider"
 			android:layout_width="match_parent"
 			android:layout_height="1dp"
 			android:layout_below="@+id/fragmentHolder"
-			android:background="@color/divider_gray"/>
+			android:background="@color/divider_gray" />
 
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/fab"
@@ -49,14 +49,14 @@
 			android:layout_alignParentRight="true"
 			android:layout_marginBottom="-24dp"
 			android:layout_marginRight="@dimen/fab_margin"
-			android:src="@drawable/ic_directions_white_24dp"/>
+			android:src="@drawable/ic_directions_white_24dp" />
 
 		<android.support.v7.widget.RecyclerView
 			android:id="@+id/locationDetailsItems"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_below="@+id/fragmentHolder"
-			android:paddingTop="28dp"/>
+			android:paddingTop="28dp" />
 
 	</RelativeLayout>
 

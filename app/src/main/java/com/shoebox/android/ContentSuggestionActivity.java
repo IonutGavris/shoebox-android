@@ -36,10 +36,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 	@BindView(R.id.listStatusView)
 	View listStatusView;
 
-	private AgeInterval ageInterval;
-	private boolean isMale;
 	private SuggestionsAdapter adapter;
-
 	private Query suggestionsQuery;
 	private ChildEventListener childEventListener;
 
@@ -55,8 +52,8 @@ public class ContentSuggestionActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_content_suggestion);
 
-		ageInterval = (AgeInterval) getIntent().getSerializableExtra(AGE);
-		isMale = getIntent().getBooleanExtra(IS_MALE, false);
+		AgeInterval ageInterval = (AgeInterval) getIntent().getSerializableExtra(AGE);
+		boolean isMale = getIntent().getBooleanExtra(IS_MALE, false);
 
 		recyclerView.setHasFixedSize(true);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -121,11 +118,16 @@ public class ContentSuggestionActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		suggestionsQuery.removeEventListener(childEventListener);
+		if (childEventListener == null) {
+			Timber.w("onDestroy: childEventListener is NULL!");
+		} else {
+			suggestionsQuery.removeEventListener(childEventListener);
+		}
 	}
 
 	@OnClick(R.id.nextStep)
 	public void nextStepClick(View view) {
+		Timber.d("nextStepClick");
 		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.GOTO_LOCATIONS, null);
 		startActivity(LocationsActivity.getLaunchingIntent(this));
 	}

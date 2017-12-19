@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
-import com.shoebox.android.util.HelperClass;
 import com.shoebox.android.util.UIUtils;
 
 import butterknife.BindView;
@@ -25,7 +24,7 @@ import timber.log.Timber;
 /**
  * All activities should extend from this one
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
 	@Nullable
 	@BindView(R.id.coordinatorLayout)
@@ -109,7 +108,11 @@ public class BaseActivity extends AppCompatActivity {
 				// hide keyboard when going to the previous screen
 				UIUtils.hideCurrentFocusKeyboard(this);
 				Intent upIntent = NavUtils.getParentActivityIntent(this);
-				NavUtils.navigateUpTo(this, upIntent);
+				if (upIntent == null) {
+					Timber.w("onOptionsItemSelected: HOME -> upIntent is NULL");
+				} else {
+					NavUtils.navigateUpTo(this, upIntent);
+				}
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -117,8 +120,9 @@ public class BaseActivity extends AppCompatActivity {
 	}
 
 	protected boolean useRomanianLanguage() {
-		String languageCode = HelperClass.getStringValueInSharedPreference(getApplicationContext(), HelperClass.keyAppLanguage, UIUtils.LANG_RO);
-		return UIUtils.LANG_RO.equals(languageCode);
+		String phoneLocale = getResources().getConfiguration().locale.getLanguage();
+		Timber.d("useRomanianLanguage: phoneLocale=%s", phoneLocale);
+		return UIUtils.LANG_RO.equals(phoneLocale);
 	}
 
 	private void configureActionBar() {

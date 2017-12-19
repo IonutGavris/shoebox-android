@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.rxbinding.widget.RxTextView;
-import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.fragment.LocationsListFragment;
@@ -36,7 +35,6 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
@@ -157,8 +155,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	}
 
 	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
-			grantResults) {
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		((LocationsMapFragment) mapFragment).onRequestPermissionsEnded(requestCode, permissions, grantResults);
 	}
 
@@ -243,20 +240,17 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		compositeSubscription.add(RxTextView.textChangeEvents(filterShopsView)
 				.debounce(150, TimeUnit.MILLISECONDS)
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Action1<TextViewTextChangeEvent>() {
-					@Override
-					public void call(TextViewTextChangeEvent event) {
-						if (event.text().length() != 0) {
-							List<Location> filteredLocations = new ArrayList<>();
-							for (Location location : locations) {
-								if (location.containsFilter(event.text().toString().trim())) {
-									filteredLocations.add(location);
-								}
+				.subscribe(event -> {
+					if (event.text().length() != 0) {
+						List<Location> filteredLocations = new ArrayList<>();
+						for (Location location : locations) {
+							if (location.containsFilter(event.text().toString().trim())) {
+								filteredLocations.add(location);
 							}
-							setLocationsToFragments(filteredLocations);
-						} else if ((event.text().length() == 0 && event.before() > 0)) {
-							setLocationsToFragments(locations);
 						}
+						setLocationsToFragments(filteredLocations);
+					} else if ((event.text().length() == 0 && event.before() > 0)) {
+						setLocationsToFragments(locations);
 					}
 				}));
 	}
