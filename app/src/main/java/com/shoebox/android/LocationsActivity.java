@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -23,6 +24,7 @@ import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.fragment.LocationsListFragment;
 import com.shoebox.android.fragment.LocationsMapFragment;
 import com.shoebox.android.util.ShoeBoxAnalytics;
+import com.shoebox.android.util.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,6 +43,7 @@ import timber.log.Timber;
 public class LocationsActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
 	private static final String BUNDLE_CURRENT_VIEW_MODE = "current_view_mode";
+	private static final String BUNDLE_FILTER_VALUE = "filter_value";
 
 	private static final String FRAGMENT_TAG_MAP = "map_locations";
 	private static final String FRAGMENT_TAG_LIST = "list_locations";
@@ -146,12 +149,17 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(BUNDLE_CURRENT_VIEW_MODE, currentViewMode.ordinal());
+		outState.putString(BUNDLE_FILTER_VALUE, filterShopsView.getText().toString());
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 		startReactingOnChanges();
+		String filterValue = savedInstanceState.getString(BUNDLE_FILTER_VALUE);
+		if (!TextUtils.isEmpty(filterValue)) {
+			filterShopsView.setText(filterValue);
+		}
 	}
 
 	@Override
@@ -205,6 +213,9 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		if (newFragment.isVisible()) {
 			return;
 		}
+
+		UIUtils.hideCurrentFocusKeyboard(this);
+
 		currentViewMode = newFragment == listFragment ? ViewMode.LIST : ViewMode.MAP;
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
@@ -212,9 +223,6 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		ft.show(newFragment);
 		ft.hide(oldFragment);
 		ft.commitAllowingStateLoss();
-
-		// set cursor to the new fragment so it can show the data
-		((LocationsListener) newFragment).setLocationsResult(locations);
 
 		// after fragment is switch the search view will take focus.
 		// execute now and clear focus
