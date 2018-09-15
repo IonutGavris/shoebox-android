@@ -1,13 +1,12 @@
 package com.shoebox.android.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +26,11 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.shoebox.android.LocationsActivity;
 import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.LocationClickedEvent;
-import com.shoebox.android.util.PermissionUtils;
 import com.shoebox.android.util.ShoeBoxAnalytics;
+import com.shoebox.android.util.permission.PermissionRequest;
+import com.shoebox.android.util.permission.PermissionResult;
+import com.shoebox.android.util.permission.PermissionUtil;
+import com.shoebox.android.viewmodel.PermissionsViewModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,6 +41,8 @@ import javax.inject.Inject;
 
 import dagger.Lazy;
 import dagger.android.support.AndroidSupportInjection;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 public class LocationsMapFragment extends com.google.android.gms.maps.SupportMapFragment implements
@@ -50,26 +54,18 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	private static final double ROMANIA_CENTER_LONGITUDE = 24.91699199999993;
 
 	private static final String BUNDLE_MAP_CENTERED = "map_centered";
-	/**
-	 * Request code for location permission request.
-	 *
-	 * @see #onRequestPermissionsResult(int, String[], int[])
-	 */
-	private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
 	@Inject
 	protected Lazy<FirebaseAnalytics> firebaseAnalytics;
 
 	boolean mapCentered = false;
-	/**
-	 * Flag indicating whether a requested permission has been denied after returning in
-	 * {@link #onRequestPermissionsResult(int, String[], int[])}.
-	 */
-	private boolean mPermissionDenied = false;
 	private GoogleMap map;
 	private List<Location> locations;
 	private ClusterManager<Location> clusterManager;
 	private SetLocationMarkersTask setMarkersTask;
+
+	private PermissionsViewModel permissionsViewModel;
+	private Disposable permissionDisposable;
 
 	public LocationsMapFragment() {
 		// Required empty public constructor
@@ -89,6 +85,13 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		permissionsViewModel = ViewModelProviders.of(this).get(PermissionsViewModel.class);
+		permissionsViewModel.init(getActivity());
+
+		permissionDisposable = permissionsViewModel.getPermissionResult()
+				.doOnNext(result -> Timber.d(result.toString()))
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(this::onResult, Timber::e);
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
@@ -97,6 +100,17 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 		Timber.d("onSaveInstanceState zoom=%s", mapCentered);
 		outState.putBoolean(BUNDLE_MAP_CENTERED, mapCentered);
 		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onDestroyView() {
+		if (permissionsViewModel != null) {
+			permissionsViewModel.clear();
+		}
+		if (permissionDisposable != null && !permissionDisposable.isDisposed()) {
+			permissionDisposable.dispose();
+		}
+		super.onDestroyView();
 	}
 
 	@Override
@@ -110,13 +124,6 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		if (mPermissionDenied && getActivity() != null) {
-			Timber.d("onResume: Permission was not granted, display error dialog");
-			// Displays a dialog with error message explaining that the location permission is missing.
-			PermissionUtils.PermissionDeniedDialog.newInstance(false).show(getActivity().getSupportFragmentManager(), "dialog");
-			mPermissionDenied = false;
-		}
 		setUpMapIfNeeded();
 	}
 
@@ -129,24 +136,6 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 		UiSettings mapUiSettings = map.getUiSettings();
 		mapUiSettings.setZoomControlsEnabled(false);
 		mapUiSettings.setMapToolbarEnabled(false);
-	}
-
-	public void onRequestPermissionsEnded(int requestCode, @NonNull String[] permissions, @NonNull int[]
-			grantResults) {
-		if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
-			return;
-		}
-
-		if (PermissionUtils.isPermissionGranted(permissions, grantResults,
-				Manifest.permission.ACCESS_FINE_LOCATION)) {
-			Timber.d("onRequestPermissionsResult: Enable the my location layer <- the permission has been granted.");
-			enableMyLocation();
-		} else {
-			String errorMsg = "onRequestPermissionsResult: Display the missing permission error dialog when the fragment resumes";
-			ShoeBoxAnalytics.sendErrorState(firebaseAnalytics.get(), errorMsg);
-			Timber.d(errorMsg);
-			mPermissionDenied = true;
-		}
 	}
 
 	@Override
@@ -203,6 +192,36 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 		EventBus.getDefault().post(new LocationClickedEvent(item));
 	}
 
+	private void requestPermission(PermissionRequest permissionRequest) {
+		if (permissionsViewModel != null) {
+			permissionsViewModel.requestPermissionDetailed(permissionRequest);
+		}
+	}
+
+	private void onResult(PermissionResult permissionResult) {
+		onPermissionResult(permissionResult.isGranted(), permissionResult.getPermissionRequest());
+
+		if (permissionResult.getRequestType() == PermissionResult.RequestType.DETAILED) {
+			if (permissionResult.isShouldShowRequestPermissionRationale()) {
+				PermissionUtil.showSnackbarWithAction(getActivity(), permissionResult.getPermissionRequest(),
+						view -> permissionsViewModel.requestPermission(permissionResult.getPermissionRequest()));
+			} else if (!permissionResult.isGranted()) {
+				PermissionUtil.showSettingsSnackbar(getActivity(), permissionResult.getPermissionRequest());
+			}
+		}
+	}
+
+	private void onPermissionResult(boolean granted, PermissionRequest permissionRequest) {
+		if (granted) {
+			Timber.d("onPermissionResult: Enable the my location layer <- the permission has been granted.");
+			enableMyLocation();
+		} else {
+			String errorMsg = "onPermissionResult: Missing permission for: " + permissionRequest.getPermission();
+			ShoeBoxAnalytics.sendErrorState(firebaseAnalytics.get(), errorMsg);
+			Timber.d(errorMsg);
+		}
+	}
+
 	private void setUpMapIfNeeded() {
 		Timber.i("setUpMapIfNeeded: map = %s ", map);
 		// Do a null check to confirm that we have not already instantiated the map.
@@ -231,16 +250,16 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	/**
 	 * Enables the My Location layer if the fine location permission has been granted.
 	 */
+	@SuppressLint("MissingPermission")
 	private void enableMyLocation() {
 		if (getActivity() == null) {
 			Timber.e("enableMyLocation: getActivity() returned NULL!!!");
 			return;
 		}
-		if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-				!= PackageManager.PERMISSION_GRANTED) {
+		final String[] locationPermissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+		if (!PermissionUtil.hasPermissions(getActivity(), locationPermissions)) {
 			Timber.d("enableMyLocation: Permission to access the location is missing");
-			PermissionUtils.requestPermission(getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
-					Manifest.permission.ACCESS_FINE_LOCATION, false);
+			requestPermission(PermissionRequest.DETECT_LOCATION);
 		} else if (map != null) {
 			Timber.d("enableMyLocation: Access to the location has been granted to the app");
 			map.setMyLocationEnabled(true);

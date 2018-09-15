@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,7 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.fragment.LocationsListFragment;
@@ -36,11 +35,11 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-public class LocationsActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class LocationsActivity extends BaseActivity {
 
 	private static final String BUNDLE_CURRENT_VIEW_MODE = "current_view_mode";
 	private static final String BUNDLE_FILTER_VALUE = "filter_value";
@@ -64,7 +63,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 
 	private DatabaseReference locationsRef;
 	private ValueEventListener valueEventListener;
-	private CompositeSubscription compositeSubscription;
+	private Disposable textChangesDisposable;
 
 	public static Intent getLaunchingIntent(Context context) {
 		return new Intent(context, LocationsActivity.class);
@@ -142,7 +141,9 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	protected void onDestroy() {
 		super.onDestroy();
 		locationsRef.removeEventListener(valueEventListener);
-		compositeSubscription.unsubscribe();
+		if (textChangesDisposable != null && !textChangesDisposable.isDisposed()) {
+			textChangesDisposable.dispose();
+		}
 	}
 
 	@Override
@@ -160,11 +161,6 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		if (!TextUtils.isEmpty(filterValue)) {
 			filterShopsView.setText(filterValue);
 		}
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		((LocationsMapFragment) mapFragment).onRequestPermissionsEnded(requestCode, permissions, grantResults);
 	}
 
 	public List<Location> getLocations() {
@@ -243,9 +239,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	}
 
 	private void startReactingOnChanges() {
-		compositeSubscription = new CompositeSubscription();
-
-		compositeSubscription.add(RxTextView.textChangeEvents(filterShopsView)
+		textChangesDisposable = RxTextView.textChangeEvents(filterShopsView)
 				.debounce(150, TimeUnit.MILLISECONDS)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(event -> {
@@ -260,7 +254,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 					} else if ((event.text().length() == 0 && event.before() > 0)) {
 						setLocationsToFragments(locations);
 					}
-				}));
+				});
 	}
 
 	public enum ViewMode {

@@ -92,4 +92,8 @@
 
 	<string name="msg_no_email_app">Nu exista nici o aplicatie de email instalata.</string>
 
+	<string name="permission_location">Locatie</string>
+	<string name="btn_settings">Setari</string>
+	<string name="permission_denied_single">Va rugam sa autorizati manual setarea %1$s pentru a folosi aceasta caracteristica</string>
+
 </resources>
