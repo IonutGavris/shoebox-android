@@ -73,11 +73,6 @@
 			android:theme="@style/AppTheme.NoActionBar"
 			android:windowSoftInputMode="stateHidden"/>
 		<activity
-			android:name=".LanguageActivity"
-			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme.NoActionBar"
-			android:windowSoftInputMode="stateHidden"/>
-		<activity
 			android:name=".GenderAgePickerActivity"
 			android:parentActivityName=".MainActivity"
 			android:theme="@style/AppTheme.NoActionBar">

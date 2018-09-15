@@ -1,6 +1,7 @@
 package com.shoebox.android.fragment;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -57,7 +58,6 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	 * {@link #onRequestPermissionsResult(int, String[], int[])}.
 	 */
 	private boolean mPermissionDenied = false;
-	private View fragmentView;
 	private GoogleMap map;
 	private List<Location> locations;
 	private ClusterManager<Location> clusterManager;
@@ -70,14 +70,15 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+		if (getActivity() != null) {
+			firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+		}
 		getMapAsync(this);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		fragmentView = super.onCreateView(inflater, container, savedInstanceState);
-		return fragmentView;
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
@@ -98,11 +99,11 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (mPermissionDenied) {
+
+		if (mPermissionDenied && getActivity() != null) {
 			Timber.d("onResume: Permission was not granted, display error dialog");
 			// Displays a dialog with error message explaining that the location permission is missing.
-			PermissionUtils.PermissionDeniedDialog
-					.newInstance(false).show(getActivity().getSupportFragmentManager(), "dialog");
+			PermissionUtils.PermissionDeniedDialog.newInstance(false).show(getActivity().getSupportFragmentManager(), "dialog");
 			mPermissionDenied = false;
 		}
 		setUpMapIfNeeded();
@@ -144,11 +145,16 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 
 	@Override
 	public void setLocationsResult(List<Location> locations) {
-		Timber.d("setLocationsResult map=%s  &  locations=%s", map, locations);
+		Timber.d("setLocationsResult: map=%s & size=%d", map, locations == null ? -1 : locations.size());
 		if (map == null)
 			return;
-		if (this.locations != null && locations != null && this.locations.containsAll(locations))
-			return;
+
+		boolean filtering = false;
+		if (this.locations != null && locations != null) {
+			filtering = this.locations.size() > locations.size();
+			if (!filtering && this.locations.containsAll(locations)) return;
+		}
+		Timber.d("setLocationsResult: filtering=%b", filtering);
 
 		this.locations = locations;
 		// Attempt to cancel the in-flight request.
@@ -156,14 +162,14 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 			setMarkersTask.cancel(true);
 		}
 
-		if (locations == null || locations.isEmpty()) {
+		if (locations == null || locations.isEmpty() || filtering) {
 			// clear the map when we don't have locations
 			map.clear();
 			clusterManager.clearItems();
-		} else {
-			setMarkersTask = new SetLocationMarkersTask();
-			setMarkersTask.execute(locations);
 		}
+		setMarkersTask = new SetLocationMarkersTask();
+		setMarkersTask.execute(locations);
+
 	}
 
 	@Override
@@ -191,23 +197,21 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 		// Do a null check to confirm that we have not already instantiated the map.
 		if (map == null) {
 			// Try to obtain the map from the SupportMapFragment.
-			getMapAsync(new OnMapReadyCallback() {
-				@Override
-				public void onMapReady(GoogleMap googleMap) {
-					map = googleMap;
-					// Check if we were successful in obtaining the map.
-					if (map != null) {
-						// setup cluster manager and needed listeners
-						clusterManager = new ClusterManager<>(getActivity(), map);
-						clusterManager.setRenderer(new LocationRenderer(map));
-						map.setOnCameraChangeListener(clusterManager);
-						map.setOnMarkerClickListener(clusterManager);
-						map.setOnInfoWindowClickListener(clusterManager);
-						map.setOnMyLocationChangeListener(LocationsMapFragment.this);
-						clusterManager.setOnClusterItemInfoWindowClickListener(LocationsMapFragment.this);
-						clusterManager.setOnClusterClickListener(LocationsMapFragment.this);
-						setLocationsResult(((LocationsActivity) getActivity()).getLocations());
-					}
+			getMapAsync(googleMap -> {
+				map = googleMap;
+				Context context = getActivity();
+				// Check if we were successful in obtaining the map.
+				if (map != null && context != null) {
+					// setup cluster manager and needed listeners
+					clusterManager = new ClusterManager<>(context, map);
+					clusterManager.setRenderer(new LocationRenderer(context, map));
+					map.setOnCameraChangeListener(clusterManager);
+					map.setOnMarkerClickListener(clusterManager);
+					map.setOnInfoWindowClickListener(clusterManager);
+					map.setOnMyLocationChangeListener(LocationsMapFragment.this);
+					clusterManager.setOnClusterItemInfoWindowClickListener(LocationsMapFragment.this);
+					clusterManager.setOnClusterClickListener(LocationsMapFragment.this);
+					setLocationsResult(((LocationsActivity) getActivity()).getLocations());
 				}
 			});
 		}
@@ -217,6 +221,10 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	 * Enables the My Location layer if the fine location permission has been granted.
 	 */
 	private void enableMyLocation() {
+		if (getActivity() == null) {
+			Timber.e("enableMyLocation: getActivity() returned NULL!!!");
+			return;
+		}
 		if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
 				!= PackageManager.PERMISSION_GRANTED) {
 			Timber.d("enableMyLocation: Permission to access the location is missing");
@@ -255,12 +263,13 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 
 	private class SetLocationMarkersTask extends AsyncTask<List<Location>, Void, Void> {
 
-		public SetLocationMarkersTask() {
+		SetLocationMarkersTask() {
 			super();
 		}
 
+		@SafeVarargs
 		@Override
-		protected Void doInBackground(List<Location>... locationsList) {
+		protected final Void doInBackground(List<Location>... locationsList) {
 			List<Location> locations = locationsList[0];
 			if (locations != null && locations.size() > 0) {
 				List<Location> locationsWitGeoPosition = new ArrayList<>();
@@ -291,8 +300,8 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	 */
 	private class LocationRenderer extends DefaultClusterRenderer<Location> {
 
-		public LocationRenderer(GoogleMap map) {
-			super(getActivity().getApplicationContext(), map, clusterManager);
+		LocationRenderer(Context context, GoogleMap map) {
+			super(context, map, clusterManager);
 		}
 
 		@Override

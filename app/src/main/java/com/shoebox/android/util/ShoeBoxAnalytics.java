@@ -13,24 +13,24 @@ public class ShoeBoxAnalytics {
 	}
 
 	public static class Param {
-		public static final String ERROR_MSG = "error_msg";
 		public static final String SLIDE_LAST_SEEN = "slide_last_seen";
 		public static final String IS_MALE = "is_male";
 		public static final String AGE_INTERVAL = "age_interval";
 		public static final String LOCATION_TITLE = "location_title";
 		public static final String LOCATION_CITY = "location_city";
 		public static final String LOCATION_COUNTRY = "location_country";
+		static final String ERROR_MSG = "error_msg";
 
 		protected Param() {
 		}
 	}
 
 	public static class State {
-		public static final String ERROR = "error";
 		public static final String GENDER_AGE_PICKER = "gender_age_picker";
 		public static final String CONTENT_SUGGESTIONS = "content_suggestions";
 		public static final String LOCATIONS = "locations";
 		public static final String LOCATION_DETAILS = "location_details";
+		static final String ERROR = "app_error";
 
 		protected State() {
 		}
@@ -50,9 +50,6 @@ public class ShoeBoxAnalytics {
 		public static final String SHOW_DIRECTIONS = "show_directions";
 		public static final String CALL_CONTACT = "call_contact";
 		public static final String INVITE_FRIENDS = "invite_friends";
-		public static final String CHANGE_LANGUAGE = "change_language";
-		public static final String SET_LANGUAGE_RO = "set_language_ro";
-		public static final String SET_LANGUAGE_EN = "set_language_en";
 		public static final String SOCIAL_SHARE = "social_share";
 
 		protected Action() {

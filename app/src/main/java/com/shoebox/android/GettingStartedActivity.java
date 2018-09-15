@@ -8,12 +8,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -25,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.shoebox.android.util.HelperClass;
+import com.shoebox.android.util.SettingsPrefs;
 import com.shoebox.android.util.ShoeBoxAnalytics;
 
 import java.util.ArrayList;
@@ -126,58 +126,49 @@ public class GettingStartedActivity extends BaseActivity {
 
 		viewPager.addOnPageChangeListener(pageChangeListener);
 		viewPager.setAdapter(slidesAdapter);
-		viewPager.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				stopChangePages();
-				return false;
-			}
+		viewPager.setOnTouchListener((v, event) -> {
+			stopChangePages();
+			return false;
 		});
 
 		firebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_BEGIN, null);
 	}
 
 	private void changePages(final int page, final boolean forward) {
-		runnable = new Runnable() {
-			@Override
-			public void run() {
-				final float SLIDE_WITDH = (viewPager.getWidth() / getResources().getDisplayMetrics().density) / 2;
-				final float OFFSET = forward ? -SLIDE_WITDH : SLIDE_WITDH;
-				animatingForward = forward;
+		runnable = () -> {
+			final float SLIDE_WITDH = (viewPager.getWidth() / getResources().getDisplayMetrics().density) / 2;
+			final float OFFSET = forward ? -SLIDE_WITDH : SLIDE_WITDH;
+			animatingForward = forward;
 
-				animator = ValueAnimator.ofFloat(0, OFFSET);
-				animator.setInterpolator(new AccelerateInterpolator(2.0f));
-				animator.setDuration(1000);
-				animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-					@Override
-					public void onAnimationUpdate(ValueAnimator animation) {
-						if (!viewPager.isFakeDragging()) {
-							viewPager.beginFakeDrag();
-						}
-						viewPager.fakeDragBy((float) animation.getAnimatedValue());
-					}
-				});
-				animator.addListener(new Animator.AnimatorListener() {
-					@Override
-					public void onAnimationStart(Animator animation) {
-					}
+			animator = ValueAnimator.ofFloat(0, OFFSET);
+			animator.setInterpolator(new AccelerateInterpolator(2.0f));
+			animator.setDuration(1000);
+			animator.addUpdateListener(animation -> {
+				if (!viewPager.isFakeDragging()) {
+					viewPager.beginFakeDrag();
+				}
+				viewPager.fakeDragBy((float) animation.getAnimatedValue());
+			});
+			animator.addListener(new Animator.AnimatorListener() {
+				@Override
+				public void onAnimationStart(Animator animation) {
+				}
 
-					@Override
-					public void onAnimationEnd(Animator animation) {
-						viewPager.endFakeDrag();
-						changePage(page, forward);
-					}
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					viewPager.endFakeDrag();
+					changePage(page, forward);
+				}
 
-					@Override
-					public void onAnimationCancel(Animator animation) {
-					}
+				@Override
+				public void onAnimationCancel(Animator animation) {
+				}
 
-					@Override
-					public void onAnimationRepeat(Animator animation) {
-					}
-				});
-				animator.start();
-			}
+				@Override
+				public void onAnimationRepeat(Animator animation) {
+				}
+			});
+			animator.start();
 		};
 		handler.postDelayed(runnable, 3000);
 	}
@@ -221,7 +212,7 @@ public class GettingStartedActivity extends BaseActivity {
 	@Override
 	public void finish() {
 		super.finish();
-		HelperClass.addBooleanValueInSharedPreference(getApplicationContext(), HelperClass.keyIsFirstTime, false);
+		SettingsPrefs.setIsNotFirstTime(getApplicationContext());
 	}
 
 	@Override
@@ -285,9 +276,10 @@ public class GettingStartedActivity extends BaseActivity {
 		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View view = null;
-			switch (getArguments().getInt(SLIDE_INDEX, 0)) {
+			int slideIndex = getArguments() == null ? 0 : getArguments().getInt(SLIDE_INDEX, 0);
+			switch (slideIndex) {
 				case 0:
 					view = inflater.inflate(R.layout.fragment_gs, container, false);
 					((ImageView) view.findViewById(R.id.slideImage)).setImageResource(R.drawable.gift_for_boy_girl_large);
@@ -316,11 +308,11 @@ public class GettingStartedActivity extends BaseActivity {
 
 		private List<Fragment> slides = new ArrayList<>();
 
-		public SlidesAdapter(FragmentManager fm) {
+		SlidesAdapter(FragmentManager fm) {
 			super(fm);
 		}
 
-		public void setSlides(List<Fragment> slides) {
+		void setSlides(List<Fragment> slides) {
 			this.slides = slides;
 		}
 

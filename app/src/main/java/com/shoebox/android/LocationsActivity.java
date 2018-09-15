@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -18,12 +19,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.rxbinding.widget.RxTextView;
-import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.shoebox.android.bean.Location;
 import com.shoebox.android.event.LocationClickedEvent;
 import com.shoebox.android.fragment.LocationsListFragment;
 import com.shoebox.android.fragment.LocationsMapFragment;
 import com.shoebox.android.util.ShoeBoxAnalytics;
+import com.shoebox.android.util.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,13 +37,13 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 public class LocationsActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
 	private static final String BUNDLE_CURRENT_VIEW_MODE = "current_view_mode";
+	private static final String BUNDLE_FILTER_VALUE = "filter_value";
 
 	private static final String FRAGMENT_TAG_MAP = "map_locations";
 	private static final String FRAGMENT_TAG_LIST = "list_locations";
@@ -148,17 +149,21 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(BUNDLE_CURRENT_VIEW_MODE, currentViewMode.ordinal());
+		outState.putString(BUNDLE_FILTER_VALUE, filterShopsView.getText().toString());
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 		startReactingOnChanges();
+		String filterValue = savedInstanceState.getString(BUNDLE_FILTER_VALUE);
+		if (!TextUtils.isEmpty(filterValue)) {
+			filterShopsView.setText(filterValue);
+		}
 	}
 
 	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
-			grantResults) {
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		((LocationsMapFragment) mapFragment).onRequestPermissionsEnded(requestCode, permissions, grantResults);
 	}
 
@@ -208,6 +213,9 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		if (newFragment.isVisible()) {
 			return;
 		}
+
+		UIUtils.hideCurrentFocusKeyboard(this);
+
 		currentViewMode = newFragment == listFragment ? ViewMode.LIST : ViewMode.MAP;
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
@@ -215,9 +223,6 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		ft.show(newFragment);
 		ft.hide(oldFragment);
 		ft.commitAllowingStateLoss();
-
-		// set cursor to the new fragment so it can show the data
-		((LocationsListener) newFragment).setLocationsResult(locations);
 
 		// after fragment is switch the search view will take focus.
 		// execute now and clear focus
@@ -243,20 +248,17 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		compositeSubscription.add(RxTextView.textChangeEvents(filterShopsView)
 				.debounce(150, TimeUnit.MILLISECONDS)
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Action1<TextViewTextChangeEvent>() {
-					@Override
-					public void call(TextViewTextChangeEvent event) {
-						if (event.text().length() != 0) {
-							List<Location> filteredLocations = new ArrayList<>();
-							for (Location location : locations) {
-								if (location.containsFilter(event.text().toString().trim())) {
-									filteredLocations.add(location);
-								}
+				.subscribe(event -> {
+					if (event.text().length() != 0) {
+						List<Location> filteredLocations = new ArrayList<>();
+						for (Location location : locations) {
+							if (location.containsFilter(event.text().toString().trim())) {
+								filteredLocations.add(location);
 							}
-							setLocationsToFragments(filteredLocations);
-						} else if ((event.text().length() == 0 && event.before() > 0)) {
-							setLocationsToFragments(locations);
 						}
+						setLocationsToFragments(filteredLocations);
+					} else if ((event.text().length() == 0 && event.before() > 0)) {
+						setLocationsToFragments(locations);
 					}
 				}));
 	}
