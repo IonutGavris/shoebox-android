@@ -1,11 +1,11 @@
 package com.shoebox.android.ui;
 
-import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 
-import com.shoebox.android.BaseActivity;
-
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -13,7 +13,8 @@ import butterknife.Unbinder;
  */
 abstract public class BaseDialogFragment extends DialogFragment {
 
-	protected Unbinder unbinder;
+	@Nullable
+	private Unbinder unbinder;
 
 	@Override
 	public void onDestroyView() {
@@ -23,14 +24,8 @@ abstract public class BaseDialogFragment extends DialogFragment {
 		super.onDestroyView();
 	}
 
-	/**
-	 * Gets the base view of this fragment.
-	 *
-	 * @return Returns a CoordinatorLayout or the base content view.
-	 */
-	protected View getBaseView() {
-		Activity activity = getActivity();
-		return activity instanceof BaseActivity ?
-				((BaseActivity) activity).coordinatorLayout : activity.getWindow().getDecorView().findViewById(android.R.id.content);
+	protected void bindViews(@NonNull Object target, @NonNull View source) {
+		unbinder = ButterKnife.bind(target, source);
 	}
+
 }

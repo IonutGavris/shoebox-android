@@ -3,6 +3,7 @@ package com.shoebox.android;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,28 +74,28 @@ public class ContentSuggestionActivity extends BaseActivity {
 
 		childEventListener = new ChildEventListener() {
 			@Override
-			public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+			public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
 				adapter.addSuggestion(Suggestion.create(dataSnapshot));
 				listStatusView.setVisibility(adapter.hasData() ? View.GONE : View.VISIBLE);
 			}
 
 			@Override
-			public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+			public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
 				adapter.changeSuggestion(Suggestion.create(dataSnapshot));
 			}
 
 			@Override
-			public void onChildRemoved(DataSnapshot dataSnapshot) {
+			public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 				adapter.removeSuggestion(Suggestion.create(dataSnapshot));
 			}
 
 			@Override
-			public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+			public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
 				// nothing to do
 			}
 
 			@Override
-			public void onCancelled(DatabaseError databaseError) {
+			public void onCancelled(@NonNull DatabaseError databaseError) {
 				Timber.e("The %s read failed: %s ", dataPath, databaseError.getMessage());
 				if (!adapter.hasData()) {
 					listStatusView.setVisibility(View.VISIBLE);
@@ -106,7 +107,7 @@ public class ContentSuggestionActivity extends BaseActivity {
 
 		String path = useRomanianLanguage() ? dataPath : dataPath_en;
 		// TODO define the .indexOn rule to index those keys on the server and improve query performance
-		suggestionsQuery = firebase.getReference().child(path).orderByChild(Suggestion.ORDER_BY);
+		suggestionsQuery = firebase.get().getReference().child(path).orderByChild(Suggestion.ORDER_BY);
 		suggestionsQuery.addChildEventListener(childEventListener);
 
 		Bundle bundle = new Bundle(2);

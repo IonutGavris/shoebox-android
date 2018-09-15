@@ -86,7 +86,7 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		valueEventListener = new ValueEventListener() {
 			// TODO try to use orderByChild for sorting
 			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				Timber.d("The %s read was successful :)", dataPath);
 
 				GenericTypeIndicator<List<Location>> t = new GenericTypeIndicator<List<Location>>() {
@@ -105,13 +105,13 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 			}
 
 			@Override
-			public void onCancelled(DatabaseError databaseError) {
+			public void onCancelled(@NonNull DatabaseError databaseError) {
 				Timber.e("The %s read failed: %s ", dataPath, databaseError.getMessage());
 				ShoeBoxAnalytics.sendErrorState(firebaseAnalytics, "Locations read failed: " + databaseError.getMessage());
 				setStatusToFragments(databaseError.getMessage());
 			}
 		};
-		locationsRef = firebase.getReference(dataPath);
+		locationsRef = firebase.get().getReference(dataPath);
 		locationsRef.addValueEventListener(valueEventListener);
 
 		firebaseAnalytics.logEvent(ShoeBoxAnalytics.State.LOCATIONS, null);

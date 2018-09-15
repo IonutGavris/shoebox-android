@@ -9,6 +9,7 @@ buildscript {
     ext.google_version = '15.0.1'
     ext.espresso_version = '3.0.2'
     ext.runner_version = '1.0.2'
+    ext.daggerVersion = '2.11'
 
     repositories {
         google()

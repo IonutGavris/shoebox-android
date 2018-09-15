@@ -98,6 +98,15 @@ dependencies {
 
 	implementation 'de.cketti.mailto:email-intent-builder:1.0.0'
 
+	// Dagger dependencies
+	implementation "com.google.dagger:dagger:$daggerVersion"
+	annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+	api 'javax.annotation:jsr250-api:1.0'
+	// Dagger Android dependencies
+	implementation "com.google.dagger:dagger-android:$daggerVersion"
+	implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+	annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+
 	// Dependencies for UI Automation Testing
 	configurations.all {
 		resolutionStrategy.force "com.android.support:support-annotations:$support_version"

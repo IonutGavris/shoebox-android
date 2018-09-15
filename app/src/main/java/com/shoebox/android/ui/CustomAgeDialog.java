@@ -1,6 +1,7 @@
 package com.shoebox.android.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import com.shoebox.android.event.CustomAgePickedEvent;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -37,9 +37,9 @@ public class CustomAgeDialog extends BaseDialogFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.custom_age_dialog, container);
-		unbinder = ButterKnife.bind(this, view);
+		bindViews(this, view);
 
 		setCancelable(false);
 
