@@ -1,6 +1,7 @@
 package com.shoebox.android.fragment;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -34,6 +35,10 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.Lazy;
+import dagger.android.support.AndroidSupportInjection;
 import timber.log.Timber;
 
 public class LocationsMapFragment extends com.google.android.gms.maps.SupportMapFragment implements
@@ -51,7 +56,10 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	 * @see #onRequestPermissionsResult(int, String[], int[])
 	 */
 	private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-	protected FirebaseAnalytics firebaseAnalytics;
+
+	@Inject
+	protected Lazy<FirebaseAnalytics> firebaseAnalytics;
+
 	boolean mapCentered = false;
 	/**
 	 * Flag indicating whether a requested permission has been denied after returning in
@@ -68,11 +76,14 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		AndroidSupportInjection.inject(this);
+		super.onAttach(activity);
+	}
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getActivity() != null) {
-			firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-		}
 		getMapAsync(this);
 	}
 
@@ -132,7 +143,7 @@ public class LocationsMapFragment extends com.google.android.gms.maps.SupportMap
 			enableMyLocation();
 		} else {
 			String errorMsg = "onRequestPermissionsResult: Display the missing permission error dialog when the fragment resumes";
-			ShoeBoxAnalytics.sendErrorState(firebaseAnalytics, errorMsg);
+			ShoeBoxAnalytics.sendErrorState(firebaseAnalytics.get(), errorMsg);
 			Timber.d(errorMsg);
 			mPermissionDenied = true;
 		}

@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,17 +15,24 @@ import android.view.ViewGroup;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
+import com.shoebox.android.injection.module.ShoeBoxAndroidInjector;
 import com.shoebox.android.util.UIUtils;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.Lazy;
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import timber.log.Timber;
 
 /**
  * All activities should extend from this one
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
 	@Nullable
 	@BindView(R.id.coordinatorLayout)
@@ -34,15 +42,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 	@BindView(R.id.toolbar)
 	protected Toolbar toolbar;
 
-	protected FirebaseDatabase firebase;
+	@Inject
+	protected ShoeBoxAndroidInjector<Fragment> supportFragmentInjector;
+	@Inject
+	protected Lazy<FirebaseDatabase> firebase;
+	@Inject
 	protected FirebaseAnalytics firebaseAnalytics;
+
+	@Nullable
 	private Unbinder unbinder;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		AndroidInjection.inject(this);
 		super.onCreate(savedInstanceState);
-		firebase = FirebaseDatabase.getInstance();
-		firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 	}
 
 	@Override
@@ -54,38 +67,36 @@ public abstract class BaseActivity extends AppCompatActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		unbinder.unbind();
+		if (unbinder != null) {
+			unbinder.unbind();
+		}
 	}
 
 	@Override
 	public void setContentView(int layoutResID) {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.setContentView(layoutResID);
-		unbinder = ButterKnife.bind(this);
-		configureActionBar();
+		setupUI();
 	}
 
 	@Override
 	public void setContentView(View view) {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.setContentView(view);
-		unbinder = ButterKnife.bind(this);
-		configureActionBar();
+		setupUI();
 	}
 
 	@Override
 	public void setContentView(View view, ViewGroup.LayoutParams params) {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.setContentView(view, params);
-		unbinder = ButterKnife.bind(this);
-		configureActionBar();
+		setupUI();
 	}
 
 	@Override
 	public void addContentView(View view, ViewGroup.LayoutParams params) {
 		super.addContentView(view, params);
-		unbinder = ButterKnife.bind(this);
-		configureActionBar();
+		setupUI();
 	}
 
 	public void setTitle(String title) {
@@ -125,6 +136,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 		return UIUtils.LANG_RO.equals(phoneLocale);
 	}
 
+	private void setupUI() {
+		unbinder = ButterKnife.bind(this);
+		configureActionBar();
+	}
+
 	private void configureActionBar() {
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
@@ -143,5 +159,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 	 */
 	protected View getBaseView() {
 		return coordinatorLayout != null ? coordinatorLayout : getWindow().getDecorView().findViewById(android.R.id.content);
+	}
+
+	@Override
+	public AndroidInjector<Fragment> supportFragmentInjector() {
+		return supportFragmentInjector;
 	}
 }
