@@ -1,13 +1,17 @@
 package com.shoebox.android.util;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -96,4 +100,38 @@ public class UIUtils {
 		}
 		return "";
 	}
+
+	public static void showMessageWithAction(@NonNull BaseActivity activity, @StringRes int messageResId, @Snackbar
+			.Duration int duration, @StringRes int btnResId, @NonNull View.OnClickListener onClickListener) {
+		showMessageWithAction(activity, activity.getString(messageResId), duration, btnResId, onClickListener, null);
+	}
+
+	public static void showMessageWithAction(@NonNull BaseActivity activity, @NonNull String message, @Snackbar.Duration int duration,
+	                                         @StringRes int btnResId, @NonNull View.OnClickListener onClickListener, Snackbar.Callback showDismissCallback) {
+		if (!activity.isFinishing()) {
+			View view = activity.coordinatorLayout;
+			if (activity.coordinatorLayout == null) {
+				view = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+			}
+			Snackbar snackbar = Snackbar.make(view, message, duration);
+			snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
+			snackbar.setAction(btnResId, onClickListener);
+			snackbar.addCallback(showDismissCallback);
+			snackbar.show();
+		}
+	}
+
+	public static void launchSystemAppSettings(Activity activity) {
+		try {
+			//Open the specific App Info page:
+			Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+			intent.setData(Uri.parse("package:" + activity.getPackageName()));
+			activity.startActivity(intent);
+		} catch (ActivityNotFoundException ignored) {
+			//Open the generic Apps page:
+			Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+			activity.startActivity(intent);
+		}
+	}
+
 }

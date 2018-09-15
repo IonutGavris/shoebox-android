@@ -7,6 +7,7 @@ import android.support.v4.util.ArrayMap;
 
 import com.shoebox.android.injection.component.ViewModelSubComponent;
 import com.shoebox.android.injection.scope.ApplicationScope;
+import com.shoebox.android.viewmodel.PermissionsViewModel;
 
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -21,6 +22,7 @@ public class ShoeBoxViewModelFactory implements ViewModelProvider.Factory {
 	@Inject
 	public ShoeBoxViewModelFactory(ViewModelSubComponent viewModelSubComponent) {
 		creators = new ArrayMap<>();
+		creators.put(PermissionsViewModel.class, viewModelSubComponent::getPermissionsViewModel);
 	}
 
 	@NonNull

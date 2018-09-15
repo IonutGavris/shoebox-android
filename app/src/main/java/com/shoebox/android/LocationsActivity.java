@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -40,7 +39,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-public class LocationsActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class LocationsActivity extends BaseActivity {
 
 	private static final String BUNDLE_CURRENT_VIEW_MODE = "current_view_mode";
 	private static final String BUNDLE_FILTER_VALUE = "filter_value";
@@ -162,11 +161,6 @@ public class LocationsActivity extends BaseActivity implements ActivityCompat.On
 		if (!TextUtils.isEmpty(filterValue)) {
 			filterShopsView.setText(filterValue);
 		}
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		((LocationsMapFragment) mapFragment).onRequestPermissionsEnded(requestCode, permissions, grantResults);
 	}
 
 	public List<Location> getLocations() {
