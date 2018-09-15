@@ -30,7 +30,6 @@ public class LocationDetailsMapFragment extends com.google.android.gms.maps.Supp
 	private final EventBus bus = EventBus.getDefault();
 	boolean mapCentered = false;
 
-	private View fragmentView;
 	private GoogleMap map;
 	private Location location;
 
@@ -56,8 +55,7 @@ public class LocationDetailsMapFragment extends com.google.android.gms.maps.Supp
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		fragmentView = super.onCreateView(inflater, container, savedInstanceState);
-		return fragmentView;
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
