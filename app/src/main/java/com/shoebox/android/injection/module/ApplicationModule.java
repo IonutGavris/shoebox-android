@@ -6,7 +6,9 @@ import android.content.Context;
 import com.shoebox.android.ShoeBoxApplication;
 import com.shoebox.android.injection.component.ViewModelSubComponent;
 import com.shoebox.android.injection.scope.ApplicationScope;
-import com.shoebox.android.util.ShoeBoxViewModelFactory;
+import com.shoebox.android.util.schedulers.BaseSchedulerProvider;
+import com.shoebox.android.util.schedulers.SchedulerProvider;
+import com.shoebox.android.viewmodel.ShoeBoxViewModelFactory;
 
 import dagger.Module;
 import dagger.Provides;
@@ -24,6 +26,12 @@ public class ApplicationModule {
 	@ApplicationScope
 	ViewModelProvider.Factory provideViewModelFactory(ViewModelSubComponent.Builder viewModelSubComponent) {
 		return new ShoeBoxViewModelFactory(viewModelSubComponent.build());
+	}
+
+	@Provides
+	@ApplicationScope
+	public static BaseSchedulerProvider provideSchedulerProvider() {
+		return SchedulerProvider.getInstance();
 	}
 
 }
