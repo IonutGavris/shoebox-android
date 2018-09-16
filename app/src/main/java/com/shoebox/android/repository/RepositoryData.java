@@ -1,14 +1,14 @@
 package com.shoebox.android.repository;
 
-public class RepositoryData {
+public class RepositoryData<T> {
 
-	public Object data;
+	public T data;
 	public String error;
 
 	public RepositoryData() {
 	}
 
-	public RepositoryData(Object data) {
+	public RepositoryData(T data) {
 		this.data = data;
 	}
 

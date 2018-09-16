@@ -16,7 +16,7 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
-public class ContentSuggestionsRepository extends BaseRepository {
+public class ContentSuggestionsRepository extends BaseRepository<List<Suggestion>> {
 
 	private static final String dataPath_ro = "suggestions";
 	private static final String dataPath_en = "suggestions_en";
@@ -39,7 +39,7 @@ public class ContentSuggestionsRepository extends BaseRepository {
 
 	@NonNull
 	@Override
-	public Object getUIData(@NonNull DataSnapshot dataSnapshot) {
+	public List<Suggestion> getUIData(@NonNull DataSnapshot dataSnapshot) {
 		GenericTypeIndicator<List<Suggestion>> t = new GenericTypeIndicator<List<Suggestion>>() {
 		};
 		List<Suggestion> data = dataSnapshot.getValue(t);

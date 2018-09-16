@@ -19,7 +19,7 @@ import dagger.Lazy;
 import io.reactivex.Observable;
 import timber.log.Timber;
 
-public abstract class BaseRepository {
+public abstract class BaseRepository<T> {
 
 	@Inject
 	protected FirebaseDatabase firebaseDatabase;
@@ -28,20 +28,20 @@ public abstract class BaseRepository {
 
 	protected Context context;
 	private ValueEventListener dataListener;
-	private BehaviorRelay<RepositoryData> dataSubject = BehaviorRelay.createDefault(new RepositoryData());
+	private BehaviorRelay<RepositoryData<T>> dataSubject = BehaviorRelay.createDefault(new RepositoryData<T>());
 
 	public BaseRepository(Context context) {
 		this.context = context;
-		ShoeBoxApplication.getComponent(context).inject(this);
+		ShoeBoxApplication.getComponent(context).inject((BaseRepository<Object>) this);
 	}
 
 	@NonNull
 	public abstract Query getDataQuery();
 
 	@NonNull
-	public abstract Object getUIData(@NonNull DataSnapshot dataSnapshot);
+	public abstract T getUIData(@NonNull DataSnapshot dataSnapshot);
 
-	public Observable<RepositoryData> getDataStream() {
+	public Observable<RepositoryData<T>> getDataStream() {
 		startListeningForData();
 		return dataSubject;
 	}
@@ -58,14 +58,14 @@ public abstract class BaseRepository {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				Timber.d("onDataChange: DB read was successful :)");
-				dataSubject.accept(new RepositoryData(getUIData(dataSnapshot)));
+				dataSubject.accept(new RepositoryData<>(getUIData(dataSnapshot)));
 			}
 
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
 				Timber.e("onCancelled: DB read failed: %s ", databaseError.getMessage());
 				ShoeBoxAnalytics.sendErrorState(firebaseAnalytics.get(), "Content suggestions read failed: " + databaseError.getMessage());
-				dataSubject.accept(new RepositoryData(databaseError.getMessage()));
+				dataSubject.accept(new RepositoryData<>(databaseError.getMessage()));
 			}
 		};
 		getDataQuery().addValueEventListener(dataListener);

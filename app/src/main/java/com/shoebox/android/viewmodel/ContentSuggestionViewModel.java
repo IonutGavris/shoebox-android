@@ -39,7 +39,7 @@ public class ContentSuggestionViewModel extends ViewModel {
 
 		uiModelObservable = suggestionsRepository.getDataStream()
 				.map(repoData -> {
-					List<Suggestion> suggestions = getValidSuggestions((List<Suggestion>) repoData.data);
+					List<Suggestion> suggestions = getValidSuggestions(repoData.data);
 					Timber.d("combineLatest() params: \n\t suggestions: %s \n\t error: %s ", suggestions, repoData.error);
 					return new ContentSuggestionUiModel(suggestions, repoData.error, repoData.data == null);
 				})

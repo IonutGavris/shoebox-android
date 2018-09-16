@@ -30,7 +30,7 @@ public interface ApplicationComponent extends AndroidInjector<DaggerApplication>
 
 	void inject(ShoeBoxApplication application);
 
-	void inject(BaseRepository baseRepository);
+	void inject(BaseRepository<Object> baseRepository);
 
 	@Component.Builder
 	interface Builder {
