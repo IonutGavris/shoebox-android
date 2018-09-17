@@ -1,5 +1,6 @@
 package com.shoebox.android;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -48,6 +49,8 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
 	protected Lazy<FirebaseDatabase> firebase;
 	@Inject
 	protected FirebaseAnalytics firebaseAnalytics;
+	@Inject
+	protected ViewModelProvider.Factory viewModelFactory;
 
 	@Nullable
 	private Unbinder unbinder;

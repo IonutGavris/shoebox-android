@@ -1,13 +1,17 @@
 package com.shoebox.android.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shoebox.android.R;
+import com.shoebox.android.bean.AgeInterval;
 import com.shoebox.android.bean.Suggestion;
 
 import java.util.ArrayList;
@@ -17,127 +21,120 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-	private static final String MALE = "male";
-	private static final String FEMALE = "female";
 
-	private static final int ITEM_HEADER_IMAGE = 0;
-	private static final int ITEM_HEADER_TEXT = 1;
-	private static final int ITEM_SUGGESTION = 2;
-
-	private List<Suggestion> suggestions = new ArrayList<>();
+	private List<Pair<ItemType, Object>> listItems = new ArrayList<>();
 	private boolean isMale;
-	private int minAge;
-	private int maxAge;
+	private AgeInterval ageInterval;
 
-	public SuggestionsAdapter(boolean isMale, int minAge, int maxAge) {
+	public SuggestionsAdapter(boolean isMale, @NonNull AgeInterval ageInterval) {
 		this.isMale = isMale;
-		this.minAge = minAge;
-		this.maxAge = maxAge;
+		this.ageInterval = ageInterval;
 	}
 
-//	public void setSuggestions(List<Suggestion> list) {
-//		this.suggestions.clear();
-//		for (Suggestion suggestion : list) {
-//			if (suggestion == null) continue;
-//	        if (isInvalidSuggestion(suggestion)) continue;
-//			this.suggestions.add(suggestion);
-//		}
-//
-//		notifyDataSetChanged();
-//	}
+	public void setSuggestions(@NonNull List<Suggestion> list) {
+		List<Pair<ItemType, Object>> newItems = new ArrayList<>();
+		newItems.add(new Pair<>(ItemType.IMAGE_HEADER, null));
+		newItems.add(new Pair<>(ItemType.TEXT_HEADER, null));
+		for (Suggestion suggestion : list) {
+			newItems.add(new Pair<>(ItemType.SUGGESTION, suggestion));
+		}
 
-	public void addSuggestion(Suggestion suggestion) {
-		if (suggestion == null) return;
-		if (isInvalidSuggestion(suggestion)) return;
-
-		suggestions.add(suggestion);
-		// notifyItemInserted(suggestions.size() - 1);  --- we don't need to scroll to the item inserted
-		notifyDataSetChanged();
-	}
-
-	public void removeSuggestion(Suggestion suggestion) {
-		if (suggestion == null) return;
-		int index = findDocumentIndexByKey(suggestion.key);
-		notifyItemRemoved(index);
-		suggestions.remove(index);
-	}
-
-	public void changeSuggestion(Suggestion suggestion) {
-		if (suggestion == null) return;
-		int index = findDocumentIndexByKey(suggestion.key);
-		suggestions.set(index, suggestion);
-		notifyItemChanged(index);
+		DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ItemsDiffCallback(listItems, newItems));
+		this.listItems.clear();
+		this.listItems.addAll(newItems);
+		diffResult.dispatchUpdatesTo(this);
 	}
 
 	public boolean hasData() {
-		return suggestions != null && suggestions.size() > 0;
+		return listItems != null && listItems.size() > 2; // ignore headers for data count
 	}
 
-	private boolean isInvalidSuggestion(Suggestion suggestion) {
-		// picked up 8-10 and interval is 11-100
-		if (maxAge < suggestion.minAge) return true;
-
-		//TODO
-		// picked up 1, and interval is 0-1 (de ex suzeta, care-i pana pe la 1 an)
-
-		if (isMale && suggestion.sex.equals(FEMALE)) return true;
-		if (!isMale && suggestion.sex.equals(MALE)) return true;
-
-		return false;
-	}
-
-	private int findDocumentIndexByKey(String key) {
-		for (int i = 0; i < suggestions.size(); i++) {
-			if (suggestions.get(i).key.equals(key)) return i;
-		}
-		return -1;
-	}
-
+	@NonNull
 	@Override
-	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-		switch (viewType) {
-			case ITEM_HEADER_IMAGE:
-				return new DefaultViewHolder(inflater.inflate(R.layout.suggestion_header_image, parent, false));
-			case ITEM_HEADER_TEXT:
-				return new SuggestionHeaderHolder(inflater.inflate(R.layout.suggestion_header_text, parent, false));
-			case ITEM_SUGGESTION:
+		switch (ItemType.valueOf(viewType)) {
+			case IMAGE_HEADER:
+				return new ImageHeaderHolder(inflater.inflate(R.layout.suggestion_header_image, parent, false));
+			case TEXT_HEADER:
+				return new TextHeaderHolder(inflater.inflate(R.layout.suggestion_header_text, parent, false));
+			case SUGGESTION:
 				return new SuggestionItemHolder(inflater.inflate(R.layout.suggestion_item, parent, false));
 		}
 		return null;
 	}
 
 	@Override
-	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-		switch (getItemViewType(position)) {
-			case ITEM_HEADER_TEXT:
-				((SuggestionHeaderHolder) holder).setData(isMale, minAge, maxAge);
+	public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+		switch (ItemType.valueOf(getItemViewType(position))) {
+			case TEXT_HEADER:
+				((TextHeaderHolder) holder).setData(isMale, ageInterval);
 				break;
-			case ITEM_SUGGESTION:
-				((SuggestionItemHolder) holder).setData(suggestions.get(position - 2));
+			case SUGGESTION:
+				((SuggestionItemHolder) holder).setData((Suggestion) listItems.get(position).second);
 				break;
 		}
 	}
 
 	@Override
 	public int getItemCount() {
-		// add the first two items
-		return suggestions.size() + 2;
+		return listItems.size();
 	}
 
 	@Override
 	public int getItemViewType(int position) {
-		switch (position) {
-			case 0:
-				return ITEM_HEADER_IMAGE;
-			case 1:
-				return ITEM_HEADER_TEXT;
-			default:
-				return ITEM_SUGGESTION;
+		return listItems.get(position).first.ordinal();
+	}
+
+	enum ItemType {
+		IMAGE_HEADER, TEXT_HEADER, SUGGESTION;
+
+		public static ItemType valueOf(int ordinal) {
+			return ItemType.class.getEnumConstants()[ordinal];
 		}
 	}
 
-	public static class SuggestionItemHolder extends RecyclerView.ViewHolder {
+	class ItemsDiffCallback extends DiffUtil.Callback {
+		private List<Pair<ItemType, Object>> oldItems;
+		private List<Pair<ItemType, Object>> newItems;
+
+		ItemsDiffCallback(List<Pair<ItemType, Object>> oldItems, List<Pair<ItemType, Object>> newItems) {
+			this.oldItems = oldItems;
+			this.newItems = newItems;
+		}
+
+		@Override
+		public int getOldListSize() {
+			return oldItems.size();
+		}
+
+		@Override
+		public int getNewListSize() {
+			return newItems.size();
+		}
+
+		@Override
+		public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+			Pair<ItemType, Object> oldItem = oldItems.get(oldItemPosition);
+			Pair<ItemType, Object> newItem = newItems.get(newItemPosition);
+			if (oldItem.first != newItem.first) {
+				return false;
+			} else if (oldItem.first == ItemType.SUGGESTION) {
+				return ((Suggestion) oldItem.second).key.equals(((Suggestion) newItem.second).key);
+			}
+			return false;
+		}
+
+		@Override
+		public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+			Pair<ItemType, Object> oldItem = oldItems.get(oldItemPosition);
+			Pair<ItemType, Object> newItem = newItems.get(newItemPosition);
+
+			return oldItem.first != ItemType.SUGGESTION || oldItem.second.equals(newItem.second);
+		}
+	}
+
+	class SuggestionItemHolder extends RecyclerView.ViewHolder {
 
 		@BindView(R.id.suggestionTitle)
 		TextView suggestionTitle;
@@ -145,7 +142,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 		@BindView(R.id.suggestionDescription)
 		TextView suggestionDescription;
 
-		public SuggestionItemHolder(View itemView) {
+		SuggestionItemHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 		}
@@ -156,29 +153,31 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 		}
 	}
 
-	public static class SuggestionHeaderHolder extends RecyclerView.ViewHolder {
+	class TextHeaderHolder extends RecyclerView.ViewHolder {
 
 		@BindView(R.id.suggestionTitle)
 		TextView suggestionTitle;
-		Context context;
 
-		public SuggestionHeaderHolder(View itemView) {
+		TextHeaderHolder(View itemView) {
 			super(itemView);
-			context = itemView.getContext();
 			ButterKnife.bind(this, itemView);
 		}
 
-		public void setData(boolean isMale, int minAge, int maxAge) {
+		void setData(boolean isMale, AgeInterval ageInterval) {
+			Context context = itemView.getContext();
 			String sex = context.getString(isMale ? R.string.btn_boy : R.string.btn_girl);
-			String age = minAge == maxAge ? String.valueOf(maxAge) : minAge + "-" + maxAge;
-			suggestionTitle.setText(context.getResources().getQuantityString(R.plurals.header_suggestions, maxAge, age, sex));
+			String age = ageInterval.getAgeInterval();
+			suggestionTitle.setText(context.getResources().getQuantityString(R.plurals.header_suggestions, ageInterval.maxAge, age, sex));
 		}
 	}
 
-	public static class DefaultViewHolder extends RecyclerView.ViewHolder {
-
-		public DefaultViewHolder(View itemView) {
+	class ImageHeaderHolder extends RecyclerView.ViewHolder {
+		ImageHeaderHolder(View itemView) {
 			super(itemView);
 		}
 	}
+
+
 }
+
+

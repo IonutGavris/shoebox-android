@@ -47,12 +47,16 @@ public class UIUtils {
 	}
 
 	public static void showMessage(BaseActivity activity, int resId) {
+		showMessage(activity, activity.getString(resId));
+	}
+
+	public static void showMessage(BaseActivity activity, String message) {
 		if (!activity.isFinishing()) {
 			View view = activity.coordinatorLayout;
 			if (activity.coordinatorLayout == null) {
 				view = activity.getWindow().getDecorView().findViewById(android.R.id.content);
 			}
-			Snackbar.make(view, resId, Snackbar.LENGTH_LONG).show();
+			Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
 		}
 	}
 
@@ -132,6 +136,12 @@ public class UIUtils {
 			Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
 			activity.startActivity(intent);
 		}
+	}
+
+	public static boolean useRomanianLanguage(Context context) {
+		String phoneLocale = context.getResources().getConfiguration().locale.getLanguage();
+		Timber.d("useRomanianLanguage: phoneLocale=%s", phoneLocale);
+		return UIUtils.LANG_RO.equals(phoneLocale);
 	}
 
 }

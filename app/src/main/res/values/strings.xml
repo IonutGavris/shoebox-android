@@ -82,8 +82,8 @@
 		https://rww9v.app.goo.gl/cffF #ShoeBox2016</string>
 
 	<string name="msg_loading">Fetching data</string>
-	<string name="msg_fetch_suggestions">Fetching suggestions failed!\nPlease check your network connection and
-		try again.</string>
+	<string name="msg_no_results">No results</string>
+	<string name="msg_fetch_suggestions">Fetching suggestions failed!\nPlease check your network connection and try again.</string>
 
 	<string name="btn_ok">OK</string>
 

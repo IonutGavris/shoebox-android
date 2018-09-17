@@ -1,5 +1,6 @@
 package com.shoebox.android;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,27 +10,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.Query;
 import com.shoebox.android.adapter.SuggestionsAdapter;
 import com.shoebox.android.bean.AgeInterval;
-import com.shoebox.android.bean.Suggestion;
+import com.shoebox.android.uimodel.ContentSuggestionUiModel;
 import com.shoebox.android.util.DividerItemDecoration;
 import com.shoebox.android.util.ShoeBoxAnalytics;
 import com.shoebox.android.util.UIUtils;
+import com.shoebox.android.viewmodel.ContentSuggestionViewModel;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 public class ContentSuggestionActivity extends BaseActivity {
-	private static final String IS_MALE = "isMale";
-	private static final String AGE = "age";
-
-	private static final String dataPath = "suggestions";
-	private static final String dataPath_en = "suggestions_en";
+	private static final String EXTRA_IS_MALE = "is_male";
+	private static final String EXTRA_AGE_INTERVAL = "age_interval";
 
 	@BindView(R.id.recyclerView)
 	RecyclerView recyclerView;
@@ -38,13 +35,13 @@ public class ContentSuggestionActivity extends BaseActivity {
 	View listStatusView;
 
 	private SuggestionsAdapter adapter;
-	private Query suggestionsQuery;
-	private ChildEventListener childEventListener;
+	private ContentSuggestionViewModel viewModel;
+	private Disposable uiModelDisposable;
 
-	public static Intent getLaunchingIntent(Context context, boolean isMale, AgeInterval interval) {
+	public static Intent getLaunchingIntent(@NonNull Context context, boolean isMale, @NonNull AgeInterval interval) {
 		Intent intent = new Intent(context, ContentSuggestionActivity.class);
-		intent.putExtra(IS_MALE, isMale);
-		intent.putExtra(AGE, interval);
+		intent.putExtra(EXTRA_IS_MALE, isMale);
+		intent.putExtra(EXTRA_AGE_INTERVAL, interval);
 		return intent;
 	}
 
@@ -53,8 +50,9 @@ public class ContentSuggestionActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_content_suggestion);
 
-		AgeInterval ageInterval = (AgeInterval) getIntent().getSerializableExtra(AGE);
-		boolean isMale = getIntent().getBooleanExtra(IS_MALE, false);
+		AgeInterval ageInterval = (AgeInterval) getIntent().getSerializableExtra(EXTRA_AGE_INTERVAL);
+		boolean isMale = getIntent().getBooleanExtra(EXTRA_IS_MALE, false);
+		adapter = new SuggestionsAdapter(isMale, ageInterval);
 
 		recyclerView.setHasFixedSize(true);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -62,53 +60,14 @@ public class ContentSuggestionActivity extends BaseActivity {
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 		recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-
-		adapter = new SuggestionsAdapter(isMale, ageInterval.minAge, ageInterval.maxAge);
 		recyclerView.setAdapter(adapter);
-		if (adapter.hasData()) {
-			listStatusView.setVisibility(View.GONE);
-		} else {
-			listStatusView.setVisibility(View.VISIBLE);
-			UIUtils.setListStatus(listStatusView, getString(R.string.msg_loading), false);
-		}
 
-		childEventListener = new ChildEventListener() {
-			@Override
-			public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-				adapter.addSuggestion(Suggestion.create(dataSnapshot));
-				listStatusView.setVisibility(adapter.hasData() ? View.GONE : View.VISIBLE);
-			}
-
-			@Override
-			public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
-				adapter.changeSuggestion(Suggestion.create(dataSnapshot));
-			}
-
-			@Override
-			public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-				adapter.removeSuggestion(Suggestion.create(dataSnapshot));
-			}
-
-			@Override
-			public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
-				// nothing to do
-			}
-
-			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {
-				Timber.e("The %s read failed: %s ", dataPath, databaseError.getMessage());
-				if (!adapter.hasData()) {
-					listStatusView.setVisibility(View.VISIBLE);
-					UIUtils.setListStatus(listStatusView, getString(R.string.msg_fetch_suggestions), true);
-				}
-				ShoeBoxAnalytics.sendErrorState(firebaseAnalytics, "Content suggestions read failed: " + databaseError.getMessage());
-			}
-		};
-
-		String path = useRomanianLanguage() ? dataPath : dataPath_en;
-		// TODO define the .indexOn rule to index those keys on the server and improve query performance
-		suggestionsQuery = firebase.get().getReference().child(path).orderByChild(Suggestion.ORDER_BY);
-		suggestionsQuery.addChildEventListener(childEventListener);
+		viewModel = ViewModelProviders.of(this, viewModelFactory).get(ContentSuggestionViewModel.class);
+		viewModel.init(isMale, ageInterval);
+		uiModelDisposable = viewModel.getUiModel()
+				.doOnNext(model -> Timber.d("renderUiModel: %s", model.toString()))
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(this::renderUiModel, Timber::e);
 
 		Bundle bundle = new Bundle(2);
 		bundle.putSerializable(ShoeBoxAnalytics.Param.AGE_INTERVAL, ageInterval);
@@ -119,10 +78,8 @@ public class ContentSuggestionActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (childEventListener == null) {
-			Timber.w("onDestroy: childEventListener is NULL!");
-		} else {
-			suggestionsQuery.removeEventListener(childEventListener);
+		if (uiModelDisposable != null && !uiModelDisposable.isDisposed()) {
+			uiModelDisposable.dispose();
 		}
 	}
 
@@ -131,5 +88,20 @@ public class ContentSuggestionActivity extends BaseActivity {
 		Timber.d("nextStepClick");
 		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.GOTO_LOCATIONS, null);
 		startActivity(LocationsActivity.getLaunchingIntent(this));
+	}
+
+	private void renderUiModel(ContentSuggestionUiModel model) {
+		adapter.setSuggestions(model.getSuggestions());
+
+		if (adapter.hasData()) {
+			listStatusView.setVisibility(View.GONE);
+			if (model.containsError()) {
+				UIUtils.showMessage(this, model.getError());
+			}
+		} else {
+			UIUtils.setListStatus(listStatusView, getString(model.showProgress() ? R.string.msg_loading :
+					model.containsError() ? R.string.msg_fetch_suggestions : R.string.msg_no_results), model.containsError());
+			listStatusView.setVisibility(View.VISIBLE);
+		}
 	}
 }

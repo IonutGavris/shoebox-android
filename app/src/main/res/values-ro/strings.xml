@@ -83,8 +83,8 @@
 		https://rww9v.app.goo.gl/cffF #ShoeBox2016</string>
 
 	<string name="msg_loading">Incarcare date</string>
-	<string name="msg_fetch_suggestions">Incarcarea sugestiilor a esuat!\nVa rugam sa verificati conexiunea la
-		internet si sa incercati din nou.</string>
+	<string name="msg_no_results">Fara rezultate</string>
+	<string name="msg_fetch_suggestions">Incarcarea sugestiilor a esuat!\nVa rugam sa verificati conexiunea la internet si sa incercati din nou.</string>
 
 	<string name="btn_ok">OK</string>
 

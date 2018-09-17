@@ -20,4 +20,17 @@ public class AgeInterval implements Serializable {
 		this.maxAge = customAge;
 		this.custom = true;
 	}
+
+	public String getAgeInterval() {
+		return minAge == maxAge ? String.valueOf(maxAge) : minAge + "-" + maxAge;
+	}
+
+	@Override
+	public String toString() {
+		return "AgeInterval{" +
+				"minAge=" + minAge +
+				", maxAge=" + maxAge +
+				", custom=" + custom +
+				'}';
+	}
 }
