@@ -15,6 +15,7 @@ import com.google.android.gms.appinvite.AppInviteInvitation
 import com.shoebox.android.util.SettingsPrefs
 import com.shoebox.android.util.ShoeBoxAnalytics
 import com.shoebox.android.util.UIUtils
+import com.shoebox.android.util.getDeviceData
 import timber.log.Timber
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -59,7 +60,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when (item.itemId) {
             R.id.nav_contact -> {
                 firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CONTACT_US, null)
-                UIUtils.launchEmail(this, UIUtils.CONTACT_EMAIL, UIUtils.CONTACT_EMAIL_SUBJECT, UIUtils.getDeviceData(applicationContext))
+                UIUtils.launchEmail(this, UIUtils.CONTACT_EMAIL, UIUtils.CONTACT_EMAIL_SUBJECT, getDeviceData())
             }
             R.id.nav_about -> {
                 firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.ABOUT, null)

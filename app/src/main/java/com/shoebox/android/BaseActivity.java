@@ -133,12 +133,6 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
 		}
 	}
 
-	protected boolean useRomanianLanguage() {
-		String phoneLocale = getResources().getConfiguration().locale.getLanguage();
-		Timber.d("useRomanianLanguage: phoneLocale=%s", phoneLocale);
-		return UIUtils.LANG_RO.equals(phoneLocale);
-	}
-
 	private void setupUI() {
 		unbinder = ButterKnife.bind(this);
 		configureActionBar();

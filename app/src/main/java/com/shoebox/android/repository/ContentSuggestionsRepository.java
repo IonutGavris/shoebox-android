@@ -7,7 +7,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.shoebox.android.bean.Suggestion;
-import com.shoebox.android.util.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import timber.log.Timber;
+
+import static com.shoebox.android.util.ExtensionsKt.useRomanianLanguage;
 
 public class ContentSuggestionsRepository extends BaseRepository<List<Suggestion>> {
 
@@ -26,7 +27,7 @@ public class ContentSuggestionsRepository extends BaseRepository<List<Suggestion
 	@Inject
 	public ContentSuggestionsRepository(Context context) {
 		super(context);
-		String path = UIUtils.useRomanianLanguage(context) ? dataPath_ro : dataPath_en;
+		String path = useRomanianLanguage(context) ? dataPath_ro : dataPath_en;
 		// TODO define the .indexOn rule to index those keys on the server and improve query performance
 		dataQuery = firebaseDatabase.getReference().child(path).orderByChild(Suggestion.ORDER_BY);
 	}

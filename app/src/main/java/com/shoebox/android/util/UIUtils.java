@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -20,10 +17,8 @@ import com.shoebox.android.BaseActivity;
 import com.shoebox.android.R;
 
 import de.cketti.mailto.EmailIntentBuilder;
-import timber.log.Timber;
 
 public class UIUtils {
-	public static final String LANG_RO = "ro";
 	public static final String CONTACT_EMAIL = "contact@shoebox.ro";
 	public static final String CONTACT_EMAIL_SUBJECT = "ShoeBox Android";
 
@@ -90,21 +85,6 @@ public class UIUtils {
 		}
 	}
 
-	public static String getDeviceData(Context context) {
-		return "ShoeBox " + getAppVersionName(context) + " on "
-				+ Build.MANUFACTURER + " " + Build.MODEL + " (" + Build.VERSION.RELEASE + ")\n";
-	}
-
-	private static String getAppVersionName(Context context) {
-		try {
-			PackageInfo pinfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-			return pinfo.versionName;
-		} catch (PackageManager.NameNotFoundException e) {
-			Timber.e(e, "getAppVersionName: Version name not found");
-		}
-		return "";
-	}
-
 	public static void showMessageWithAction(@NonNull BaseActivity activity, @StringRes int messageResId, @Snackbar
 			.Duration int duration, @StringRes int btnResId, @NonNull View.OnClickListener onClickListener) {
 		showMessageWithAction(activity, activity.getString(messageResId), duration, btnResId, onClickListener, null);
@@ -136,12 +116,6 @@ public class UIUtils {
 			Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
 			activity.startActivity(intent);
 		}
-	}
-
-	public static boolean useRomanianLanguage(Context context) {
-		String phoneLocale = context.getResources().getConfiguration().locale.getLanguage();
-		Timber.d("useRomanianLanguage: phoneLocale=%s", phoneLocale);
-		return UIUtils.LANG_RO.equals(phoneLocale);
 	}
 
 }
