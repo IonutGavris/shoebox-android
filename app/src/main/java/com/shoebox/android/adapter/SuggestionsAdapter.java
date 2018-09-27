@@ -120,7 +120,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 			if (oldItem.first != newItem.first) {
 				return false;
 			} else if (oldItem.first == ItemType.SUGGESTION) {
-				return ((Suggestion) oldItem.second).key.equals(((Suggestion) newItem.second).key);
+				return ((Suggestion) oldItem.second).getKey().equals(((Suggestion) newItem.second).getKey());
 			}
 			return false;
 		}
@@ -148,8 +148,8 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 		}
 
 		public void setData(Suggestion suggestion) {
-			suggestionTitle.setText(suggestion.name);
-			suggestionDescription.setText(suggestion.description);
+			suggestionTitle.setText(suggestion.getName());
+			suggestionDescription.setText(suggestion.getDescription());
 		}
 	}
 
