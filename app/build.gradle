@@ -151,6 +151,8 @@ dependencies {
 
 	// Fastlane screengrab dependency - take screenshots in Espresso tests
 	androidTestImplementation 'tools.fastlane:screengrab:0.5.2'
+
+	androidTestImplementation 'com.agoda.kakao:kakao:1.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

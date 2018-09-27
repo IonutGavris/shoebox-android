@@ -19,7 +19,7 @@ public class MainActivityTest {
 	public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
 	@Test
-	public void takeScreenshots() {
+	public void checkComponents() {
 		onView(withId(R.id.boxContentBtn)).check(matches(isDisplayed()));
 		onView(withId(R.id.dropLocationsBtn)).check(matches(isDisplayed()));
 	}
