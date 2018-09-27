@@ -26,7 +26,7 @@ public class ScreengrabTest {
 	public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
 	@Test
-	public void takeScreenshots() throws InterruptedException {
+	public void takeScreenshots() {
 		Screengrab.screenshot("main_screen");
 		onView(withId(R.id.boxContentBtn)).perform(click()).check(doesNotExist());
 		Screengrab.screenshot("box_content_screen");
