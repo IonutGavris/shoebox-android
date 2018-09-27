@@ -109,18 +109,18 @@ public class GenderAgePickerActivity extends BaseActivity {
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onAgeSelectedEvent(AgeSelectedEvent event) {
-		if (event.ageInterval.custom) {
+		if (event.getAgeInterval().custom) {
 			CustomAgeDialog dialog = new CustomAgeDialog();
 			Bundle bundle = new Bundle();
-			bundle.putInt(CustomAgeDialog.DEFAULT_AGE, event.ageInterval.maxAge == INITIAL_CUSTOM_AGE ? DEFAULT_CUSTOM_AGE : event.ageInterval.maxAge);
+			bundle.putInt(CustomAgeDialog.DEFAULT_AGE, event.getAgeInterval().maxAge == INITIAL_CUSTOM_AGE ? DEFAULT_CUSTOM_AGE : event.getAgeInterval().maxAge);
 			dialog.setArguments(bundle);
 			dialog.show(getSupportFragmentManager(), "");
 		}
 		for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
 			RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
 			if (holder instanceof AgePickerAdapter.AgeHolder) {
-				if (((AgePickerAdapter.AgeHolder) holder).setChecked(event.ageInterval)) {
-					selectedAgeInterval = event.ageInterval;
+				if (((AgePickerAdapter.AgeHolder) holder).setChecked(event.getAgeInterval())) {
+					selectedAgeInterval = event.getAgeInterval();
 				}
 			}
 		}
@@ -134,8 +134,8 @@ public class GenderAgePickerActivity extends BaseActivity {
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onCustomAgePickedEvent(CustomAgePickedEvent event) {
-		fillAdapter(event.age);
-		selectedAgeInterval = new AgeInterval(event.age);
+		fillAdapter(event.getAge());
+		selectedAgeInterval = new AgeInterval(event.getAge());
 	}
 
 	private void fillAdapter(int customValue) {

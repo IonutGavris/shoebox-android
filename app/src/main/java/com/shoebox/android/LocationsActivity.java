@@ -169,7 +169,7 @@ public class LocationsActivity extends BaseActivity {
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onLocationClicked(LocationClickedEvent event) {
-		startActivity(LocationDetailsActivity.getLaunchingIntent(this, event.location));
+		startActivity(LocationDetailsActivity.getLaunchingIntent(this, event.getLocation()));
 	}
 
 	@OnClick(R.id.fab)

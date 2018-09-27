@@ -142,12 +142,12 @@ public class LocationDetailsActivity extends BaseActivity {
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onDistanceCalculated(DistanceCalculatedEvent event) {
-		detailsRecyclerAdapter.setDistance(event.distance);
+		detailsRecyclerAdapter.setDistance(event.getDistance());
 	}
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onContactCallClicked(ContactCallClickedEvent event) {
 		firebaseAnalytics.logEvent(ShoeBoxAnalytics.Action.CALL_CONTACT, null);
-		UIUtils.launchDial(this, event.phoneNumber);
+		UIUtils.launchDial(this, event.getPhoneNumber());
 	}
 }

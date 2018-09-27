@@ -8,10 +8,12 @@ buildscript {
 	}
 }
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 
 repositories {
 	maven { url 'https://maven.fabric.io/public' }
+	mavenCentral()
 }
 
 
@@ -146,6 +148,7 @@ dependencies {
 
 	// Fastlane screengrab dependency - take screenshots in Espresso tests
 	androidTestImplementation 'tools.fastlane:screengrab:0.5.2'
+	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 apply plugin: 'com.google.gms.google-services'
