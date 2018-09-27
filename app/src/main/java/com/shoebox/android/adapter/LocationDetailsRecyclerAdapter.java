@@ -183,10 +183,10 @@ class LocationContactHolder extends RecyclerView.ViewHolder {
 	}
 
 	public void setData(final LocationContact locationContact) {
-		contactName.setText(locationContact.hasName() ? locationContact.name : null);
+		contactName.setText(locationContact.hasName() ? locationContact.getName() : null);
 		contactName.setVisibility(locationContact.hasName() ? View.VISIBLE : View.GONE);
 
-		contactDetail.setText(locationContact.hasPhoneNumber() ? locationContact.phoneNumber : null);
+		contactDetail.setText(locationContact.hasPhoneNumber() ? locationContact.getPhoneNumber() : null);
 		contactDetail.setVisibility(locationContact.hasPhoneNumber() ? View.VISIBLE : View.GONE);
 
 		if (locationContact.hasPhoneNumber()) {
@@ -194,7 +194,7 @@ class LocationContactHolder extends RecyclerView.ViewHolder {
 			itemView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					EventBus.getDefault().post(new ContactCallClickedEvent(locationContact.phoneNumber));
+					EventBus.getDefault().post(new ContactCallClickedEvent(locationContact.getPhoneNumber()));
 				}
 			});
 		} else {
