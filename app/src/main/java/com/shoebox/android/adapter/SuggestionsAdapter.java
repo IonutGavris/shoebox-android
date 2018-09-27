@@ -167,7 +167,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 			Context context = itemView.getContext();
 			String sex = context.getString(isMale ? R.string.btn_boy : R.string.btn_girl);
 			String age = ageInterval.getAgeInterval();
-			suggestionTitle.setText(context.getResources().getQuantityString(R.plurals.header_suggestions, ageInterval.maxAge, age, sex));
+			suggestionTitle.setText(context.getResources().getQuantityString(R.plurals.header_suggestions, ageInterval.getMaxAge(), age, sex));
 		}
 	}
 

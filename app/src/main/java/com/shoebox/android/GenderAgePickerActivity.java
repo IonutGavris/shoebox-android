@@ -109,10 +109,10 @@ public class GenderAgePickerActivity extends BaseActivity {
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onAgeSelectedEvent(AgeSelectedEvent event) {
-		if (event.getAgeInterval().custom) {
+		if (event.getAgeInterval().getCustom()) {
 			CustomAgeDialog dialog = new CustomAgeDialog();
 			Bundle bundle = new Bundle();
-			bundle.putInt(CustomAgeDialog.DEFAULT_AGE, event.getAgeInterval().maxAge == INITIAL_CUSTOM_AGE ? DEFAULT_CUSTOM_AGE : event.getAgeInterval().maxAge);
+			bundle.putInt(CustomAgeDialog.DEFAULT_AGE, event.getAgeInterval().getMaxAge() == INITIAL_CUSTOM_AGE ? DEFAULT_CUSTOM_AGE : event.getAgeInterval().getMaxAge());
 			dialog.setArguments(bundle);
 			dialog.show(getSupportFragmentManager(), "");
 		}

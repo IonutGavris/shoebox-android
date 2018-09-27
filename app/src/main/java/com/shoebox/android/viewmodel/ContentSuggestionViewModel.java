@@ -71,7 +71,7 @@ public class ContentSuggestionViewModel extends ViewModel {
 		List<Suggestion> validSuggestions = new ArrayList<>();
 		if (suggestions != null && suggestions.size() > 0) {
 			for (Suggestion suggestion : suggestions) {
-				if (suggestion.isValid(isMale, ageInterval.minAge, ageInterval.maxAge)) {
+				if (suggestion.isValid(isMale, ageInterval.getMinAge(), ageInterval.getMaxAge())) {
 					validSuggestions.add(suggestion);
 				}
 			}
