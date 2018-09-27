@@ -9,6 +9,7 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 repositories {
@@ -94,10 +95,10 @@ dependencies {
 	// Architecture components
 	implementation "android.arch.lifecycle:runtime:$lifecycle_version"
 	implementation "android.arch.lifecycle:extensions:$lifecycle_version"
-	annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
+	kapt "android.arch.lifecycle:compiler:$lifecycle_version"
 
 	implementation 'com.jakewharton:butterknife:8.8.1'
-	annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+	kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
 	implementation 'org.greenrobot:eventbus:3.0.0'
 
@@ -110,13 +111,15 @@ dependencies {
 
 	// Dagger dependencies
 	implementation "com.google.dagger:dagger:$daggerVersion"
-	annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+	kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 	api 'javax.annotation:jsr250-api:1.0'
 	// Dagger Android dependencies
 	implementation "com.google.dagger:dagger-android:$daggerVersion"
 	implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-	annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+	kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+	
 	// Dependencies for UI Automation Testing
 	configurations.all {
 		resolutionStrategy.force "com.android.support:support-annotations:$support_version"
@@ -148,7 +151,6 @@ dependencies {
 
 	// Fastlane screengrab dependency - take screenshots in Espresso tests
 	androidTestImplementation 'tools.fastlane:screengrab:0.5.2'
-	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 apply plugin: 'com.google.gms.google-services'
